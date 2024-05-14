@@ -1,5 +1,8 @@
 package geometries;
 
+import primitives.Point;
+import primitives.Vector;
+
 import java.util.List;
 
 import static primitives.Util.isZero;
@@ -10,7 +13,7 @@ import static primitives.Util.isZero;
  *
  * @author Dan
  */
-public class Polygon extends Geometry {
+public class Polygon implements Geometry {
     /**
      * List of polygon's vertices
      */
@@ -58,7 +61,7 @@ public class Polygon extends Geometry {
         plane = new Plane(vertices[0], vertices[1], vertices[2]);
         if (size == 3) return; // no need for more tests for a Triangle
 
-        Vector n = plane.getNormal();
+        Vector n = plane.getNormal(vertices[0]);
         // Subtracting any subsequent points will throw an IllegalArgumentException
         // because of Zero Vector if they are in the same point
         Vector edge1 = vertices[vertices.length - 1].subtract(vertices[vertices.length - 2]);
@@ -86,8 +89,9 @@ public class Polygon extends Geometry {
 
     @Override
     public Vector getNormal(Point point) {
-        return plane.getNormal();
+        return plane.getNormal(point);
     }
+
 
 }
 

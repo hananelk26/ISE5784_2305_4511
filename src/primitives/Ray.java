@@ -1,8 +1,8 @@
 package primitives;
 
 public class Ray {
-    private Point head;
-    private Vector direction;
+    final private Point head;
+    final private Vector direction;
 
     Ray(Point head, Vector direction) {
         this.head = head;

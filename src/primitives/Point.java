@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Point {
     final protected Double3 xyz;
-    final public Point ZERO = new Point(0, 0, 0);
+    final public static Point ZERO = new Point(0, 0, 0);
 
     public Point(double x, double y, double z) {
         this.xyz = new Double3(x, y, z);

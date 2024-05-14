@@ -4,11 +4,13 @@ import primitives.Point;
 import primitives.Vector;
 
 public class Plane implements Geometry{
-    private Point p;
-    private Vector normal;
+    final private Point p;
+    final private Vector normal;
 
     public Plane(Point p1,Point p2,Point p3) {
-        this.normal = null;
+        Vector vector1 = p2.subtract(p1);
+        Vector vector2 = p3.subtract(p2);
+        this.normal = vector1.crossProduct(vector2).normalize();
         this.p = p1;
     }
 
@@ -19,7 +21,7 @@ public class Plane implements Geometry{
 
     @Override
     public Vector getNormal(Point point) {
-        return null;
+        return normal;
     }
 
 

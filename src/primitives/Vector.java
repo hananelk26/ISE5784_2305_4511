@@ -2,7 +2,7 @@ package primitives;
 
 public class Vector extends Point {
 
-    public Vector(Double x, Double y, Double z) {
+    public Vector(double x, double y, double z) {
         super(x, y, z);
         if (xyz.equals(Double3.ZERO)) {
             throw new IllegalArgumentException("The vector can't be zero vector");
