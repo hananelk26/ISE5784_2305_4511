@@ -44,12 +44,6 @@ public class Plane implements Geometry {
         this.p = p;
     }
 
-    /**
-     * Returns the normal vector to the plane at the given point.
-     *
-     * @param point the point on the plane
-     * @return the normal vector to the plane
-     */
     @Override
     public Vector getNormal(Point point) {
         return normal;

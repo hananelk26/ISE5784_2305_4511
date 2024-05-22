@@ -77,9 +77,10 @@ public class Point {
         if (other == null) {
             throw new NullPointerException("other cannot be null");
         }
-        return (xyz.d1 - other.xyz.d1) * (xyz.d1 - other.xyz.d1) +
-                (xyz.d2 - other.xyz.d2) * (xyz.d2 - other.xyz.d2) +
-                (xyz.d3 - other.xyz.d3) * (xyz.d3 - other.xyz.d3);
+        double x = xyz.d1 - other.xyz.d1;
+        double y = xyz.d2 - other.xyz.d2;
+        double z = xyz.d3 - other.xyz.d3;
+        return x * x + y * y + z * z;
     }
 
     /**
