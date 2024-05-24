@@ -25,15 +25,6 @@ public class Tube extends RadialGeometry {
         this.axis = axis;
     }
 
-    /**
-     * Computes the normal vector to the tube at a given point.
-     * <p>
-     * Note: This method currently returns null, which indicates that
-     * the implementation is not yet completed.
-     *
-     * @param point the point on the surface of the tube
-     * @return the normal vector to the tube at the given point (currently null)
-     */
     @Override
     public Vector getNormal(Point point) {
         return null; // Placeholder implementation

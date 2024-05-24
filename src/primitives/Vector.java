@@ -113,6 +113,6 @@ public class Vector extends Point {
 
     @Override
     public String toString() {
-        return "v" + super.toString();
+        return super.toString();
     }
 }
