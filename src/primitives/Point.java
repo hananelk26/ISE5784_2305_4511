@@ -32,9 +32,6 @@ public class Point {
      * @throws NullPointerException if double3 is null
      */
     public Point(Double3 double3) {
-        if (double3 == null) {
-            throw new NullPointerException("double3 cannot be null");
-        }
         this.xyz = double3;
     }
 
@@ -46,9 +43,6 @@ public class Point {
      * @throws NullPointerException if vec is null
      */
     public Point add(Vector vec) {
-        if (vec == null) {
-            throw new NullPointerException("vec cannot be null");
-        }
         return new Point(this.xyz.add(vec.xyz));
     }
 
@@ -60,9 +54,6 @@ public class Point {
      * @throws NullPointerException if other is null
      */
     public Vector subtract(Point other) {
-        if (other == null) {
-            throw new NullPointerException("other cannot be null");
-        }
         return new Vector(xyz.subtract(other.xyz));
     }
 
@@ -74,9 +65,6 @@ public class Point {
      * @throws NullPointerException if other is null
      */
     public double distanceSquared(Point other) {
-        if (other == null) {
-            throw new NullPointerException("other cannot be null");
-        }
         double x = xyz.d1 - other.xyz.d1;
         double y = xyz.d2 - other.xyz.d2;
         double z = xyz.d3 - other.xyz.d3;
@@ -91,9 +79,6 @@ public class Point {
      * @throws NullPointerException if other is null
      */
     public double distance(Point other) {
-        if (other == null) {
-            throw new NullPointerException("other cannot be null");
-        }
         return Math.sqrt(distanceSquared(other));
     }
 
@@ -106,6 +91,6 @@ public class Point {
 
     @Override
     public String toString() {
-        return "Point" + xyz.toString();
+        return "Point" + xyz;
     }
 }

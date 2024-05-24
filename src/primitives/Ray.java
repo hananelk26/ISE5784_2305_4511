@@ -24,9 +24,6 @@ public class Ray {
      * @throws NullPointerException if either head or direction is null
      */
     public Ray(Point head, Vector direction) {
-        if (head == null || direction == null) {
-            throw new NullPointerException("head and direction cannot be null");
-        }
         this.head = head;
         this.direction = direction.normalize();
     }
@@ -41,9 +38,6 @@ public class Ray {
 
     @Override
     public String toString() {
-        return "Ray{" +
-                "head=" + head +
-                ", direction=" + direction +
-                '}';
+        return "head" + "->" + direction;
     }
 }

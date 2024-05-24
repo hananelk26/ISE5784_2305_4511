@@ -113,14 +113,9 @@ public class Vector extends Point {
         if (this == obj) return true;
         return (obj instanceof Vector) && (super.equals(obj));
     }
-//    public static void main(String[] args) {
-//        Point v=new Point(1,2,3);
-//        Vector v1=new Vector(1,2,3);
-//        out.println(v.equals(v1));
-//    }
 
     @Override
     public String toString() {
-        return super.toString();
+        return 'v' + super.toString();
     }
 }
