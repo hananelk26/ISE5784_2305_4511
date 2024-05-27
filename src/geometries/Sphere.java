@@ -21,11 +21,15 @@ public class Sphere extends RadialGeometry {
      */
     public Sphere(double radius, Point center) {
         super(radius);
-        this.center = center;   
+        this.center = center;
     }
 
     @Override
     public Vector getNormal(Point point) {
+        if (point.distance(center) < radius)
+            throw new IllegalArgumentException("the point inside sphere");
+        if (point.distance(center) > radius)
+            throw new IllegalArgumentException("the point outside sphere");
         return (point.subtract(center)).normalize();// Returns a vector whose beginning is the center point of the sphere and its end is the point for which you want a normal vector.
     }
 }
