@@ -1,23 +1,44 @@
 package primitives;
 
+import primitives.Point;
+import primitives.Vector;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 class PointTest {
 
     @Test
-    void add() {
+    public void testAdd() {
+        // TC01: add vector to point and check if it added correctly
+        Point p = new Point(1, 2, 3);
+        assertEquals(new Point(2, 3, 4), p.add(new Vector(1, 1, 1)),
+                "ERROR: failed to add vector to point");
     }
 
     @Test
-    void subtract() {
+    public void testSubtract() {
+        // TC02: subtract points and check if it subtracted correctly
+        Point p = new Point(7, 7, 7);
+        assertEquals(new Vector(3, 0, -2), p.subtract(new Point(4, 7, 9)),
+                "ERROR: failed to subtract point from point");
     }
 
     @Test
-    void distanceSquared() {
+    public void testDistanceSquared() {
+        // TC03: check tha the distance squared between 2 points is correct
+        Point p = new Point(5, 0, 6);
+        assertEquals(50,p.distanceSquared(new Point(0,3,2)),
+                "ERROR: distance squared between 2 points is wrong");
     }
 
     @Test
-    void distance() {
+    public void testDistance() {
+        // TC03: check tha the distance between 2 points is correct
+        Point p = new Point(0, 0, 6);
+        assertEquals(5,p.distance(new Point(0,3,2)),
+                "ERROR: distance between 2 points is wrong");
     }
+
 }
