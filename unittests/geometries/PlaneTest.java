@@ -45,7 +45,7 @@ class PlaneTest {
 
         // TC01: check if the func get normal returns the right vector
         Plane p1 = new Plane(new Point(1, 0, 0), new Point(1, 1, 0), new Point(1, 0, 1));
-        assertEquals(new Vector(-1, 0, 0), p1.getNormal(new Point(1, 0, 0)),
+        assertEquals(new Vector(1, 0, 0), p1.getNormal(new Point(1, 0, 0)),
                 "ERROR: getNormal of plane failed");
 
 
