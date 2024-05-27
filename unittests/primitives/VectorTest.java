@@ -18,6 +18,7 @@ public class VectorTest {
     Vector v2 = new Vector(-2, -3, -4);
     Vector unit = new Vector(1, 0, 0);
 
+    /** Test method for {@link primitives.Vector#Vector(double, double, double)}.*/
     @Test
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
@@ -35,6 +36,7 @@ public class VectorTest {
 
     }
 
+    /** Test method for {@link primitives.Vector#add(primitives.Vector)}.*/
     @Test
     public void testAdd() {
 
@@ -54,6 +56,7 @@ public class VectorTest {
         assertThrows(IllegalArgumentException.class, () -> v1.add(v2), "The function return a zero vector.");
     }
 
+    /** Test method for {@link primitives.Vector#scale(double)}.*/
     @Test
     public void testScale() {
         // =============== Equivalence Partitions Tests ==================
@@ -73,7 +76,8 @@ public class VectorTest {
 
     }
 
-        @Test
+    /** Test method for {@link primitives.Vector#subtract(primitives.Point)}.*/
+    @Test
     public void testSubtract() {
         // ============ Equivalence Partitions Tests ==============
 
@@ -90,7 +94,7 @@ public class VectorTest {
         assertThrows(IllegalArgumentException.class, () -> v1.add(v2), "The function return a zero vector.");
     }
 
-
+    /** Test method for {@link primitives.Vector#dotProduct(primitives.Vector)}.*/
     @Test
     public void dotProduct() {
 
@@ -109,6 +113,7 @@ public class VectorTest {
         assertEquals(2,unit.dotProduct(v1),"Failed making dot product between vector to a unit vector");
     }
 
+    /** Test method for {@link primitives.Vector#crossProduct(primitives.Vector)}.*/
     @Test
     public void crossProduct() {
         // ============ Equivalence Partitions Tests ==============
@@ -131,6 +136,8 @@ public class VectorTest {
         assertThrows(IllegalArgumentException.class,()-> v1.crossProduct(v1),"Not failed making cross product between two two equal vectors");
     }
 
+
+    /** Test method for {@link primitives.Vector#lengthSquared()}.*/
     @Test
     public void testLengthSquared() {
 
@@ -141,6 +148,7 @@ public class VectorTest {
 
     }
 
+    /** Test method for {@link primitives.Vector#length()}.*/
     @Test
     public void Testlength() {
 
@@ -151,6 +159,7 @@ public class VectorTest {
         assertEquals(5,vec.length(),"Failed making length on vector.");
     }
 
+    /** Test method for {@link primitives.Vector#normalize()}.*/
     @Test
     public void TestNormalize() {
 
