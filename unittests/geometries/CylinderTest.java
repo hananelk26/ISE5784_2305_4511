@@ -45,6 +45,15 @@ public class CylinderTest {
         // TC03: get normal with point inside the cylinder
         assertThrows(IllegalArgumentException.class, ()->cyl.getNormal(new Point(1,0,3)),
                 "ERROR: Failed to throw error point inside the cylinder");
+
+        //TC04: The point you want to calculate its normal is at the bottom base
+        assertEquals(axis.getDirection(),cyl.getNormal(new Point(3,0,0)));
+
+        //TC05: The point you want to calculate its normal is at the upper base
+        assertEquals(axis.getDirection(),cyl.getNormal(new Point(3,0,10)));
+
+        //TC06: The point you want to calculate the normal is in the seam between the lower base and the height of the cylinder
+        assertEquals(axis.getDirection(),cyl.getNormal(new Point(4,0,0)));
     }
 
 }

@@ -44,7 +44,7 @@ class TubeTest {
 
         // =============== Boundary Values Tests ==================
 
-        //TC04:
+        //TC04: checks when (point - head ) orthogonal to direction.
         assertEquals(new Vector(1,0,0),tube.getNormal(new Point(4,0,0)),
                 "ERROR: get normal of tube failed");
 
