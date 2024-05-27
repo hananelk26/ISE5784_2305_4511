@@ -1,6 +1,8 @@
 package geometries;
 
+import primitives.Point;
 import primitives.Ray;
+import primitives.Vector;
 
 /**
  * Represents a cylinder in a 3D space.
@@ -24,5 +26,10 @@ public class Cylinder extends Tube {
         if(height<0)
             throw new IllegalArgumentException("A height can't be <= 0");
         this.height = height;
+    }
+
+    @Override
+    public Vector getNormal(Point point) {
+
     }
 }
