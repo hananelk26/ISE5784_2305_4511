@@ -1,6 +1,5 @@
-package geometries;
 
-import geometries.Polygon;
+import geometries.Triangle;
 
 import org.junit.jupiter.api.Test;
 import primitives.Point;

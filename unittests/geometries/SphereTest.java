@@ -1,4 +1,3 @@
-package geometries;
 import geometries.Sphere;
 import primitives.Ray;
 import primitives.Vector;

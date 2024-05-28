@@ -54,7 +54,7 @@ public class Vector extends Point {
      * @param scalar the scalar to scale by
      * @return a new Vector resulting from the scaling
      */
-    public Vector scale(Double scalar) {
+    public Vector scale(double scalar) {
         return new Vector(xyz.scale(scalar));
     }
 
@@ -104,7 +104,7 @@ public class Vector extends Point {
      * @return a new Vector that is the normalized version of this vector
      */
     public Vector normalize() {
-        Double length = length();
+        double length = length();
         return new Vector(xyz.d1 / length, xyz.d2 / length, xyz.d3 / length);
     }
 

@@ -1,4 +1,3 @@
-package geometries;
 
 import geometries.Cylinder;
 import geometries.Tube;
@@ -35,7 +34,7 @@ public class CylinderTest {
         // TC01: get normal with the right values
         Ray axis = new Ray(new Point(0, 0, 0), new Vector(0, 0, 1));
         Cylinder cyl=new Cylinder(4, axis,10);
-        assertEquals(new Vector(1,0,0),cyl.getNormal(new Point(4,0,0)),
+        assertEquals(new Vector(1,0,0),cyl.getNormal(new Point(4,0,1)),
                 "ERROR: get normal of tube failed");
 
         // TC02: get normal with point outside the Cylinder

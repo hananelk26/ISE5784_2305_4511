@@ -1,5 +1,3 @@
-package geometries;
-
 import geometries.Plane;
 import primitives.Vector;
 
