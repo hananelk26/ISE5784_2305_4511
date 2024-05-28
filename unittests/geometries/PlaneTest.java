@@ -24,7 +24,7 @@ class PlaneTest {
                 "ERROR: constructor of plane with correct values failed");
 
         // TC02: second constructor with regular values
-        assertDoesNotThrow(() -> new Plane(p1,new Vector(1,2,0)),
+        assertDoesNotThrow(() -> new Plane(p1, new Vector(1, 2, 0)),
                 "ERROR: constructor of plane with correct values failed");
 
 
@@ -34,7 +34,7 @@ class PlaneTest {
                 "ERROR: Failed to throw error cylinder with same points");
 
         // TC05: constructor with points on the same line
-        assertThrows(IllegalArgumentException.class, () -> new Plane(p1, p2, new Point(1,0.5,0)),
+        assertThrows(IllegalArgumentException.class, () -> new Plane(p1, p2, new Point(1, 0.5, 0)),
                 "ERROR: Failed to throw error cylinder with points on the same line");
 
     }
@@ -45,9 +45,7 @@ class PlaneTest {
 
         // TC01: check if the func get normal returns the right vector
         Plane p1 = new Plane(new Point(1, 0, 0), new Point(1, 1, 0), new Point(1, 0, 1));
-        assertEquals(new Vector(1, 0, 0), p1.getNormal(new Point(1, 0, 0)),
+        assertEquals(new Vector(1, 0, 0), p1.getNormal(new Point(0, 3, 0)),
                 "ERROR: getNormal of plane failed");
-
-
     }
 }
