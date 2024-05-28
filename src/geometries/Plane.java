@@ -25,6 +25,7 @@ public class Plane implements Geometry {
      * @param p1 the first point on the plane
      * @param p2 the second point on the plane
      * @param p3 the third point on the plane
+     * @throws IllegalArgumentException when the points are convergent or co-linear
      */
     public Plane(Point p1, Point p2, Point p3) {
         Vector vector1 = p2.subtract(p1);

@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static primitives.Util.isZero;
+
 /**
  * Represents a tube in a 3D space.
  * A tube is defined by a radius and a central axis ray.
@@ -15,7 +17,6 @@ public class Tube extends RadialGeometry {
      * assertEquals
      */
     private final double DELTA = 0.000001;
-
 
 
     /**
@@ -36,33 +37,15 @@ public class Tube extends RadialGeometry {
 
     @Override
     public Vector getNormal(Point point) {
-
-
-
-        // Declare a variable to hold the projection point on the cylinder's axis
-        Point o;
+        Point p0 = axis.getHead();
+        Vector v = axis.getDirection();
 
         // Calculate the projection of the point on the cylinder's axis direction
-        double t = (point.subtract(axis.getHead())).dotProduct(axis.getDirection());
+        double t = (point.subtract(p0)).dotProduct(v);
 
-        if (t != 0) {
-            // If the projection distance is not zero, find the projection point on the axis
-            o = axis.getHead().add(axis.getDirection().scale(t));
-        } else {
-            // If the projection distance is zero, the projection point is the head of the axis
-            o = axis.getHead();
-        }
-
-        // Calculate the distance from the point to the projection point on the axis
-        double distance = point.distance(o);
-
-        // Check if the distance is equal to the radius
-        if (Math.abs(distance - getRadius()) > DELTA) {
-            throw new IllegalArgumentException("Point is not on the surface of the tube");
-        }
-
-        // Subtract the projection point from the given point to get the vector
-        // from the axis to the given point, then normalize it to get the normal vector
+        // If the projection distance is zero, the projection point is the head of the axis
+        // If the projection distance is not zero, find the projection point on the axis
+        Point o = isZero(t) ? p0 : p0.add(v.scale(t));
         return point.subtract(o).normalize();
     }
 }

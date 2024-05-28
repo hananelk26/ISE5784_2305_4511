@@ -1,7 +1,10 @@
 package geometries;
+
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
+import static primitives.Util.isZero;
 
 /**
  * Represents a cylinder in a 3D space.
@@ -22,28 +25,25 @@ public class Cylinder extends Tube {
      */
     public Cylinder(double radius, Ray axis, double height) {
         super(radius, axis);
-        if(height<=0)
+        if (height <= 0)
             throw new IllegalArgumentException("A height can't be <= 0");
         this.height = height;
     }
 
     @Override
-
     public Vector getNormal(Point point) {
+        Point p0 = axis.getHead();
+        Vector v = axis.getDirection();
+
+        // check whether the point is the center of the lower base
+        if (point.equals(p0)) return v;
 
         // Calculate the projection of the point on the cylinder's axis direction
-        double t = (point.subtract(axis.getHead())).dotProduct(axis.getDirection());
-        if(t<0||t>height)
-            throw new IllegalArgumentException("Point is not on the surface of the cylinder");
+        double t = (point.subtract(p0)).dotProduct(v);
+        // Check where the point is on one of the bases
+        if (isZero(t) || isZero(t - height)) return v;
 
-        // If the projection distance = zero or = height of the cylinder, that means the point is at the bottom of the cylinder
-        Point temp = axis.getHead().add(axis.getDirection().scale(height));
-        Vector v = point.subtract(temp);
-        if (t == 0 && radius >= point.distance(axis.getHead())
-                || v.dotProduct(axis.getDirection()) == 0)
-            return axis.getDirection();
-
-        return super.getNormal(point);
+        return point.subtract(p0.add(v.scale(t))).normalize();
     }
 
 }

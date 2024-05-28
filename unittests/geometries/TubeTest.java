@@ -29,22 +29,14 @@ class TubeTest {
         // ============ Equivalence Partitions Tests ==============
         // TC01: get normal with the right values
         Ray axis = new Ray(new Point(0, 0, 0), new Vector(0, 0, 1));
-        Tube tube=new Tube(4, axis);
-        assertEquals(new Vector(1,0,0),tube.getNormal(new Point(4,0,3)),
+        Tube tube = new Tube(4, axis);
+        assertEquals(new Vector(1, 0, 0), tube.getNormal(new Point(4, 0, 3)),
                 "ERROR: get normal of tube failed");
-
-        // TC02: get normal with point outside the tube
-        assertThrows(IllegalArgumentException.class, ()->tube.getNormal(new Point(6,0,0)),
-                "ERROR: Failed to throw error point outside the tube");
-
-        // TC03: get normal with point inside the tube
-        assertThrows(IllegalArgumentException.class, ()->tube.getNormal(new Point(3,0,0)),
-                "ERROR: Failed to throw error point inside the tube");
 
         // =============== Boundary Values Tests ==================
 
-        //TC04: checks when (point - head ) orthogonal to direction.
-        assertEquals(new Vector(1,0,0),tube.getNormal(new Point(4,0,0)),
+        //TC02: checks when (point - head ) orthogonal to direction.
+        assertEquals(new Vector(1, 0, 0), tube.getNormal(new Point(4, 0, 0)),
                 "ERROR: get normal of tube failed");
 
     }

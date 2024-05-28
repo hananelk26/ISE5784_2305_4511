@@ -30,6 +30,7 @@ public class Ray {
 
     /**
      * get function
+     *
      * @return head field
      */
     public Point getHead() {
@@ -38,6 +39,7 @@ public class Ray {
 
     /**
      * get function
+     *
      * @return direction field
      */
     public Vector getDirection() {

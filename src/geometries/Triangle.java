@@ -10,8 +10,9 @@ public class Triangle extends Polygon {
     /**
      * Constructs a Triangle with all the points of the triangle.
      *
-     *
-     * @throws IllegalArgumentException if the number of vertices is not equal to 3
+     * @param p1 first vertex
+     * @param p2 second vertex
+     * @param p3 third vertex
      */
     public Triangle(Point p1, Point p2, Point p3) {
         super(p1, p2, p3);

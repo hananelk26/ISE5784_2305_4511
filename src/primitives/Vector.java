@@ -64,7 +64,7 @@ public class Vector extends Point {
      * @param other the other vector
      * @return the dot product of the two vectors
      */
-    public Double dotProduct(Vector other) {
+    public double dotProduct(Vector other) {
         return xyz.d1 * other.xyz.d1 + xyz.d2 * other.xyz.d2 + xyz.d3 * other.xyz.d3;
     }
 
@@ -75,9 +75,9 @@ public class Vector extends Point {
      * @return a new Vector resulting from the cross product
      */
     public Vector crossProduct(Vector other) {
-        return new Vector( other.xyz.d3 * xyz.d2 - other.xyz.d2 * xyz.d3,
+        return new Vector(other.xyz.d3 * xyz.d2 - other.xyz.d2 * xyz.d3,
                 other.xyz.d1 * xyz.d3 - other.xyz.d3 * xyz.d1,
-                other.xyz.d2 * xyz.d1 - other.xyz.d1 * xyz.d2 );
+                other.xyz.d2 * xyz.d1 - other.xyz.d1 * xyz.d2);
     }
 
     /**
@@ -85,7 +85,7 @@ public class Vector extends Point {
      *
      * @return the squared length of the vector
      */
-    public Double lengthSquared() {
+    public double lengthSquared() {
         return dotProduct(this);
     }
 
@@ -94,7 +94,7 @@ public class Vector extends Point {
      *
      * @return the length of the vector
      */
-    public Double length() {
+    public double length() {
         return Math.sqrt(lengthSquared());
     }
 
@@ -104,8 +104,7 @@ public class Vector extends Point {
      * @return a new Vector that is the normalized version of this vector
      */
     public Vector normalize() {
-        double length = length();
-        return new Vector(xyz.d1 / length, xyz.d2 / length, xyz.d3 / length);
+        return scale(1 / length());
     }
 
     @Override
