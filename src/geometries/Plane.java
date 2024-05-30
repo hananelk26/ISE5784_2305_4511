@@ -1,7 +1,9 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+import java.util.List;
 
 /**
  * Represents a plane in a 3D space.
@@ -48,5 +50,9 @@ public class Plane implements Geometry {
     @Override
     public Vector getNormal(Point point) {
         return normal;
+    }
+
+    public List<Point> findIntsersections(Ray ray){
+        return null;
     }
 }
