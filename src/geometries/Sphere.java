@@ -32,7 +32,7 @@ public class Sphere extends RadialGeometry {
         return (point.subtract(center)).normalize();// Returns a vector whose beginning is the center point of the sphere and its end is the point for which you want a normal vector.
     }
 
-    public List<Point> findIntsersections(Ray ray){
+    public List<Point> findIntersections(Ray ray){
         return null;
     }
 }
