@@ -87,7 +87,7 @@ class PlaneTest {
         assertNull(plane.findIntersections(ray6),"The function findIntersections returns an incorrect breakpoint.");
 
         //TC13: We are checking a case where the ray line is perpendicular to the plane and starts at a point in the plane (0 points)
-        Ray ray7 =  new Ray(new Point(2,1,0),new Vector(-24,54,-15));
+        Ray ray7 =  new Ray(new Point(-1,0,0),new Vector(-24,54,-15));
         assertNull(plane.findIntersections(ray7),"The function returns an intersection point even though the ray line starts from the plane");
 
         // **** Group: The beam line is neither perpendicular nor parallel to the plane
