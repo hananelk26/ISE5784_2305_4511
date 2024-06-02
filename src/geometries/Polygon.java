@@ -1,6 +1,7 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 import java.util.List;
@@ -93,5 +94,9 @@ public class Polygon implements Geometry {
     }
 
 
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        return null;
+    }
 }
 

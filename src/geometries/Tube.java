@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 import static primitives.Util.isZero;
 
 /**
@@ -47,5 +49,10 @@ public class Tube extends RadialGeometry {
         // If the projection distance is not zero, find the projection point on the axis
         Point o = isZero(t) ? p0 : p0.add(v.scale(t));
         return point.subtract(o).normalize();
+    }
+
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        return null;
     }
 }

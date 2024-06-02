@@ -3,7 +3,12 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 /**
  * Represents a plane in a 3D space.
@@ -53,6 +58,19 @@ public class Plane implements Geometry {
     }
 
     public List<Point> findIntsersections(Ray ray){
-        return null;
+        List<Point> points = new ArrayList<>();
+        Vector direction = ray.getDirection();
+        Point p0 = ray.getHead();
+        double nv = normal.dotProduct(direction);
+        if (isZero(nv)){return null;}
+        double npMinusP0 = normal.dotProduct(p.subtract(p0));
+        double t = alignZero(npMinusP0 / nv);
+        if (t > 0){
+            points.add(p0.add(direction.scale(t)));
+            return points;
+        }
+        else{
+            return null;
+        }
     }
 }
