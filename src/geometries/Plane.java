@@ -3,8 +3,6 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static primitives.Util.alignZero;
@@ -57,8 +55,9 @@ public class Plane implements Geometry {
         return normal;
     }
 
-    public List<Point> findIntsersections(Ray ray){
-        List<Point> points = new ArrayList<>();
+    public List<Point> findIntersections(Ray ray){
+        List<Point> points = new List<Point>() {
+        };
         Vector direction = ray.getDirection();
         Point p0 = ray.getHead();
         double nv = normal.dotProduct(direction);
@@ -73,4 +72,5 @@ public class Plane implements Geometry {
             return null;
         }
     }
+
 }
