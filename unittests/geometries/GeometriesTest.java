@@ -34,10 +34,11 @@ class GeometriesTest {
 
         Geometries geometries = new Geometries();
 
+
         // ============ Equivalence Partitions Tests ==============
 
         //TC01: Some shapes (but not all) are cut.
-        assertEquals(2, geometries.findIntersections(ray4),"The function not return the correct number of points.");
+        assertEquals(2, geometries.findIntersections(ray4).size(),"The function not return the correct number of points.");
 
 
         // =============== Boundary Values Tests ==================
@@ -50,10 +51,10 @@ class GeometriesTest {
         assertNull(geometries.findIntersections(ray2),"The function returns intersection points even though No shape is cut");
 
         //TC04: Only one shape is cut
-        assertEquals(1, geometries.findIntersections(ray3),"The function not return one point even though Only one shape is cut ");
+        assertEquals(1, geometries.findIntersections(ray3).size(),"The function not return one point even though Only one shape is cut ");
 
         //TC05: All shapes are cut.
-        assertEquals(4,geometries.findIntersections(ray5),"The ray cat all the shapes but dont return the correct number of points");
+        assertEquals(4,geometries.findIntersections(ray5).size(),"The ray cat all the shapes but dont return the correct number of points");
 
 
     }
