@@ -90,7 +90,7 @@ class TriangleTest {
         assertNull(triangle.findIntersections(new Ray(p300, v001)),
                 "Fail ray's line at the vertex of the triangle (0 points TC04)");
 
-        // TC05: Ray's line is on thr edge of the triangle (0 points)
+        // TC05: Ray's line is on the edge of the triangle (0 points)
         assertNull(triangle.findIntersections(new Ray(new Point(2, 0, -2), v001)),
                 "Fail ray's line on the edge of the triangle (0 points TC05)");
 

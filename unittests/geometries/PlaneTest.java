@@ -80,7 +80,7 @@ class PlaneTest {
 
         //TC11: We are checking a case where the ray line is perpendicular to the plane and starts before the plane (1 point)
         Ray ray5 =  new Ray(new Point(24,-53,17),new Vector(-24,54,-15));
-        assertEquals(List.of(new Vector(0,1,2)),plane.findIntersections(ray5),"The function findIntsersections returns an incorrect breakpoint.");
+        assertEquals(List.of(new Point(0,1,2)),plane.findIntersections(ray5),"The function findIntsersections returns an incorrect breakpoint.");
 
         //TC12: We check a case where the ray line is perpendicular to the plane and starts after the plane (0 points)
         Ray ray6 =  new Ray(new Point(-24,55,-13),new Vector(-24,54,-15));
