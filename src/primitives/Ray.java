@@ -58,4 +58,10 @@ public class Ray {
     public String toString() {
         return "head" + "->" + direction;
     }
+
+    public Point getPoint(double t){
+        if(t==0)
+            return this.head;
+        return this.head.add(direction.scale(t));
+    }
 }
