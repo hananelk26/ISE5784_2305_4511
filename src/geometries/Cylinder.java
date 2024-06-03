@@ -43,7 +43,7 @@ public class Cylinder extends Tube {
         // Check where the point is on one of the bases
         if (isZero(t) || isZero(t - height)) return v;
 
-        return point.subtract(p0.add(v.scale(t))).normalize();
+        return point.subtract(axis.getPoint(t)).normalize();
     }
 
 }

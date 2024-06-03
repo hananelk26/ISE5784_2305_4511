@@ -3,8 +3,10 @@ import primitives.Ray;
 import primitives.Vector;
 import primitives.Point;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
 import java.util.Comparator;
+
 import static java.lang.Math.sqrt;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -113,7 +115,7 @@ class SphereTest {
                 "Fail Ray starts inside (1 point TC15)");
 
         // TC16: Ray starts at the center (1 point)
-                assertEquals(List.of(p002), sphere.findIntersections(new Ray(p001, v001)),
+        assertEquals(List.of(p002), sphere.findIntersections(new Ray(p001, v001)),
                 "Fail ray starts at the center (1 point TC16)");
 
         // TC17: Ray starts at sphere and goes outside (0 points)
@@ -140,7 +142,7 @@ class SphereTest {
 
         // **** Group: Special cases
         // TC22: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
-        assertNull(sphere.findIntersections(new Ray(new Point(2,0,1),v001)),
+        assertNull(sphere.findIntersections(new Ray(new Point(2, 0, 1), v001)),
                 "Fail ray's line is outside, ray is orthogonal to ray start to sphere's center line (0 points TC22)");
     }
 }

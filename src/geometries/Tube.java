@@ -44,11 +44,9 @@ public class Tube extends RadialGeometry {
 
         // Calculate the projection of the point on the cylinder's axis direction
         double t = (point.subtract(p0)).dotProduct(v);
-
         // If the projection distance is zero, the projection point is the head of the axis
         // If the projection distance is not zero, find the projection point on the axis
-        Point o = isZero(t) ? p0 : axis.getPoint(t);
-        return point.subtract(o).normalize();
+        return point.subtract(axis.getPoint(t)).normalize();
     }
 
     @Override
