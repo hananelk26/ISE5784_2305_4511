@@ -25,6 +25,18 @@ public class Geometries implements Intersectable{
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        List<Point> listOfPoint = null;
+        List<Point> temp;
+
+        for (var body : geometries) {
+            temp = body.findIntersections(ray);
+            if (temp != null) {
+                if (listOfPoint == null)
+                    listOfPoint = new ArrayList<>(temp);
+                else
+                    listOfPoint.addAll(temp);
+            }
+        }
+        return listOfPoint;
     }
 }
