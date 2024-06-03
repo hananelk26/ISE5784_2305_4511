@@ -58,6 +58,7 @@ class SphereTest {
         final Vector v_111 = new Vector(-1, 1, 1);
         final Vector v110 = new Vector(1, 1, 0);
         final Point p_100 = new Point(-1, 0, 0);
+        final Vector v100 = new Vector(1, 0, 0);
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Ray's line is outside the sphere (0 points)
@@ -76,7 +77,7 @@ class SphereTest {
                 "Fail ray starts inside the sphere (1 point TC03)");
 
         // TC04: Ray starts after the sphere (0 points)
-        assertNull(sphere.findIntersections(new Ray(p100, v110)),
+        assertNull(sphere.findIntersections(new Ray(p100, v100)),
                 "Fail ray starts after the sphere (0 points TC04)");
 
         // =============== Boundary Values Tests ==================
@@ -85,7 +86,7 @@ class SphereTest {
         Point p101 = new Point(1, 0, 1);
         Point p000 = new Point(0, 0, 0);
         Point p002 = new Point(0, 0, 2);
-        Vector v100 = new Vector(1, 0, 0);
+
 
         // TC11: Ray starts at sphere and goes inside (1 point)
         assertEquals(List.of(p0_11), sphere.findIntersections(new Ray(p101, new Vector(-1, -1, 0))),
