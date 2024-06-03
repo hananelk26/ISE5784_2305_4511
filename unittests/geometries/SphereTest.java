@@ -2,12 +2,9 @@ import geometries.Sphere;
 import primitives.Ray;
 import primitives.Vector;
 import primitives.Point;
-
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
 import java.util.Comparator;
-
 import static java.lang.Math.sqrt;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,7 +71,7 @@ class SphereTest {
         assertEquals(exp, result1, "Fail ray starts before and crosses the sphere (2 points TC02)");
 
         // TC03: Ray starts inside the sphere (1 point)
-        assertEquals(List.of(new Point(0, sqrt(0.75), 1)), sphere.findIntersections
+        assertEquals(List.of(new Point(0, sqrt(0.75), 0.5)), sphere.findIntersections
                         (new Ray(new Point(0, 0, 0.5), new Vector(0, 1, 0))),
                 "Fail ray starts inside the sphere (1 point TC03)");
 
@@ -91,11 +88,11 @@ class SphereTest {
         Vector v100 = new Vector(1, 0, 0);
 
         // TC11: Ray starts at sphere and goes inside (1 point)
-        assertEquals(List.of(p0_11), sphere.findIntersections(new Ray(p101, new Vector(1, 1, 0))),
+        assertEquals(List.of(p0_11), sphere.findIntersections(new Ray(p101, new Vector(-1, -1, 0))),
                 "Fail ray starts at sphere and goes inside (1 point TC11)");
 
         // TC12: Ray starts at sphere and goes outside (0 points)
-        assertNull(sphere.findIntersections(new Ray(p101, new Vector(-1, -1, 0))),
+        assertNull(sphere.findIntersections(new Ray(p101, new Vector(1, 1, 0))),
                 "Fail ray starts at sphere and goes outside (0 points TC12)");
 
         // **** Group: Ray's line goes through the center
@@ -144,6 +141,5 @@ class SphereTest {
         // TC22: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
         assertNull(sphere.findIntersections(new Ray(new Point(2,0,1),v001)),
                 "Fail ray's line is outside, ray is orthogonal to ray start to sphere's center line (0 points TC22)");
-
     }
 }
