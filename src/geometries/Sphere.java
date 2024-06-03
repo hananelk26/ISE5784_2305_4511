@@ -4,7 +4,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.sqrt;
@@ -35,21 +34,20 @@ public class Sphere extends RadialGeometry {
         return (point.subtract(center)).normalize();// Returns a vector whose beginning is the center point of the sphere and its end is the point for which you want a normal vector.
     }
 
-    public List<Point> findIntersections(Ray ray){
+    public List<Point> findIntersections(Ray ray) {
         Point p0 = ray.getHead();
         Vector v = ray.getDirection();
-        if (center.equals(p0)){
-
-        }
+        if (center.equals(p0))
+            return List.of(center.add(v.scale(radius)));
         Vector u = center.subtract(p0);
         double tm = v.dotProduct(u);
-        double d = sqrt(u.lengthSquared() - tm*tm);
+        double d = sqrt(u.lengthSquared() - tm * tm);
         if (d >= radius) return null;
-        double th = sqrt(radius*radius - d*d);
+        double th = sqrt(radius * radius - d * d);
         double t1 = tm - th;
         double t2 = tm + th;
-        if (t1 <= 0 && t2<= 0) return null;
-        List<Point> intersectionsPoints = new ArrayList<>();
+        if (t1 <= 0 && t2 <= 0) return null;
+        List<Point> intersectionsPoints = new java.util.ArrayList<>(List.of());
         if (t1 > 0) intersectionsPoints.add(p0.add(v.scale(t1)));
         if (t2 > 0) intersectionsPoints.add(p0.add(v.scale(t2)));
         return intersectionsPoints;

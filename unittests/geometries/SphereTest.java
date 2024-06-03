@@ -2,12 +2,9 @@ import geometries.Sphere;
 import primitives.Ray;
 import primitives.Vector;
 import primitives.Point;
-
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
 import java.util.Comparator;
-
 import static java.lang.Math.sqrt;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -68,7 +65,8 @@ class SphereTest {
                 "Fail ray's line is outside the sphere (0 points TC01)");
 
         // TC02: Ray starts before and crosses the sphere (2 points)
-        final var result1 = sphere.findIntersections(new Ray(p100, v_111));
+        final var result1 = sphere.findIntersections(new Ray(p100, v_111))
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p100))).toList();
         assertEquals(2, result1.size(), "Wrong number of points");
         assertEquals(exp, result1, "Fail ray starts before and crosses the sphere (2 points TC02)");
 
@@ -143,6 +141,5 @@ class SphereTest {
         // TC22: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
         assertNull(sphere.findIntersections(new Ray(new Point(2,0,1),v001)),
                 "Fail ray's line is outside, ray is orthogonal to ray start to sphere's center line (0 points TC22)");
-
     }
 }
