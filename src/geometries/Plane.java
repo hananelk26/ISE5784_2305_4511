@@ -69,7 +69,7 @@ public class Plane implements Geometry {
         if (t <= 0)
             return null;// if t<0 then the ray not cut the plane and if t == 0 then the ray lie start on the plane.        if (t > 0){
         else {
-            return List.of(p0.add(direction.scale(t)));
+            return List.of(ray.getPoint(t));
         }
 
     }

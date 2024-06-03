@@ -55,7 +55,9 @@ class PlaneTest {
     public void testFindIntersections(){
         // ============ Equivalence Partitions Tests ==============
 
-        Plane plane = new Plane(new Point(3,4,8),new Vector(-24,54,-15));
+        Point p348 = new Point(3, 4, 8);
+        Vector n = new Vector(-24, 54, -15);
+        Plane plane = new Plane(p348,n);
         //TC01: checks a ray that cuts a plane return 1 point.
         Ray ray1 = new Ray(new Point(-1,-1,-1),new Vector(1,2,3));
         assertEquals(List.of(new Point(0,1,2)),plane.findIntersections(ray1),"The function findIntsersections returns an incorrect breakpoint.");
@@ -69,7 +71,7 @@ class PlaneTest {
         // **** Group: Ray's line parallel to a plane
 
         //TC03: check the case that the rsy is parallel to the plane and lies in the plane (0 points)
-        Ray ray3 = new Ray(new Point(3,4,8),new Vector(3,3,6));
+        Ray ray3 = new Ray(p348,new Vector(3,3,6));
         assertNull(plane.findIntersections(ray3),"Returns intersection points even though the line is contained in the plane");
 
         //TC04: check the case that the ray is parallel to the plane but is not in the plane (0 points)

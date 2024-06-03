@@ -53,8 +53,8 @@ public class Sphere extends RadialGeometry {
         List<Point> intersectionsPoints = new java.util.ArrayList<>(List.of());
 
         // Add the intersection points to the list if they are in front of the ray start
-        if (t1 > 0) intersectionsPoints.add(p0.add(v.scale(t1)));
-        if (t2 > 0) intersectionsPoints.add(p0.add(v.scale(t2)));
+        if (t1 > 0) intersectionsPoints.add(ray.getPoint(t1));
+        if (t2 > 0) intersectionsPoints.add(ray.getPoint(t2));
         return intersectionsPoints;
 
     }
