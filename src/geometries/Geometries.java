@@ -3,26 +3,39 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Geometries implements Intersectable{
+public class Geometries implements Intersectable {
 
     List<Intersectable> geometries = new LinkedList<>();
 
     public Geometries() {
     }
 
-    public Geometries(Intersectable... geometries){
+    public Geometries(Intersectable... geometries) {
 
     }
 
-    public void add(Intersectable... geometries){
+    public void add(Intersectable... geometries) {
 
     }
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        List<Point> listOfPoint = null;
+        List<Point> temp;
+
+        for (var body : geometries) {
+            temp = body.findIntersections(ray);
+            if (temp != null) {
+                if (listOfPoint == null)
+                    listOfPoint = new ArrayList<>(temp);
+                else
+                    listOfPoint.addAll(temp);
+            }
+        }
+        return listOfPoint;
     }
 }
