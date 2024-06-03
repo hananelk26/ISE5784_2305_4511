@@ -47,7 +47,7 @@ public class Tube extends RadialGeometry {
 
         // If the projection distance is zero, the projection point is the head of the axis
         // If the projection distance is not zero, find the projection point on the axis
-        Point o = isZero(t) ? p0 : p0.add(v.scale(t));
+        Point o = isZero(t) ? p0 : axis.ge;
         return point.subtract(o).normalize();
     }
 

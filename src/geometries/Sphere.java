@@ -39,15 +39,20 @@ public class Sphere extends RadialGeometry {
         Vector v = ray.getDirection();
         if (center.equals(p0))
             return List.of(center.add(v.scale(radius)));
-        Vector u = center.subtract(p0);
-        double tm = v.dotProduct(u);
-        double d = sqrt(u.lengthSquared() - tm * tm);
+        Vector u = center.subtract(p0);  // Vector from ray start to sphere center
+        double tm = v.dotProduct(u); // Projection of u on the ray direction
+        double d = sqrt(u.lengthSquared() - tm * tm); // Square of the distance from the sphere center to the ray
+        // If the distance from the ray to the sphere center is greater than the radius, no intersections
         if (d >= radius) return null;
-        double th = sqrt(radius * radius - d * d);
-        double t1 = tm - th;
-        double t2 = tm + th;
+        double th = sqrt(radius * radius - d * d);// Distance from the intersection points to the point where the ray is closest to the sphere center
+        double t1 = tm - th;// Distance from the ray start to the first intersection point
+        double t2 = tm + th;// Distance from the ray start to the second intersection point
+
+        // If both intersection points are behind the ray start, no intersections
         if (t1 <= 0 && t2 <= 0) return null;
         List<Point> intersectionsPoints = new java.util.ArrayList<>(List.of());
+
+        // Add the intersection points to the list if they are in front of the ray start
         if (t1 > 0) intersectionsPoints.add(p0.add(v.scale(t1)));
         if (t2 > 0) intersectionsPoints.add(p0.add(v.scale(t2)));
         return intersectionsPoints;
