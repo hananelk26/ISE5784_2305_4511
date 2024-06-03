@@ -68,8 +68,7 @@ class SphereTest {
                 "Fail ray's line is outside the sphere (0 points TC01)");
 
         // TC02: Ray starts before and crosses the sphere (2 points)
-        final var result1 = sphere.findIntersections(new Ray(p100, v_111))
-                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p_100))).toList();
+        final var result1 = sphere.findIntersections(new Ray(p100, v_111));
         assertEquals(2, result1.size(), "Wrong number of points");
         assertEquals(exp, result1, "Fail ray starts before and crosses the sphere (2 points TC02)");
 
