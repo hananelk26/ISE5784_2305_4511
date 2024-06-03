@@ -113,7 +113,7 @@ class SphereTest {
                 "Fail Ray starts inside (1 point TC15)");
 
         // TC16: Ray starts at the center (1 point)
-        assertEquals(List.of(p002), sphere.findIntersections(new Ray(p001, v001)),
+                assertEquals(List.of(p002), sphere.findIntersections(new Ray(p001, v001)),
                 "Fail ray starts at the center (1 point TC16)");
 
         // TC17: Ray starts at sphere and goes outside (0 points)
