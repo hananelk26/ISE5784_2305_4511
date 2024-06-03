@@ -82,7 +82,7 @@ class TriangleTest {
                 "Fail ray's line is outside against vertex of the triangle (0 points TC02)");
 
         // TC03: Ray's line is Inside triangle (1 point)
-        assertEquals(List.of(new Point(2, 1, 0)), triangle.findIntersections(new Ray(new Point(2, 1, -1), v001)),
+        assertEquals(List.of(new Point(1.5, 1, 0)), triangle.findIntersections(new Ray(new Point(1.5, 1, -1), v001)),
                 "Fail ray's line is inside triangle (1 point TC03)");
 
         // =============== Boundary Values Tests ==================
