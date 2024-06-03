@@ -2,6 +2,7 @@ import primitives.Vector;
 import primitives.Point;
 import primitives.Double3;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;

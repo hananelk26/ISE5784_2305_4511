@@ -24,7 +24,7 @@ class PointTest {
                 "ERROR: failed to subtract point from point");
 
         //TC02: subtract of point from itself.
-        assertThrows(IllegalArgumentException.class,()->p.subtract(p));
+        assertThrows(IllegalArgumentException.class, () -> p.subtract(p));
     }
 
     @Test
@@ -34,7 +34,7 @@ class PointTest {
         assertEquals(50, p.distanceSquared(new Point(0, 3, 2)),
                 "ERROR: distance squared between 2 points is wrong");
         //TC02: distance of point from itself.
-        assertEquals(0,p.distanceSquared(p));
+        assertEquals(0, p.distanceSquared(p));
     }
 
     @Test
@@ -45,7 +45,7 @@ class PointTest {
                 "ERROR: distance between 2 points is wrong");
 
         //TC02: distance of point from itself.
-        assertEquals(0,p.distance(p));
+        assertEquals(0, p.distance(p));
     }
 
 }
