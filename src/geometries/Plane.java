@@ -59,18 +59,17 @@ public class Plane implements Geometry {
     public List<Point> findIntersections(Ray ray) {
         Vector direction = ray.getDirection();
         Point p0 = ray.getHead();
-        if (p.equals(p0)) return null;// The ray start on the plane (0 points)
+        if (p.equals(p0)) return null; // The ray start on the plane (0 points)
+
         double nv = normal.dotProduct(direction);
-        if (isZero(nv)) {
-            return null;
-        } // the ray is parallel to the plane (0 points)
+        if (isZero(nv)) return null; // the ray is parallel to the plane (0 points)
+
         double npMinusP0 = normal.dotProduct(p.subtract(p0));
         double t = alignZero(npMinusP0 / nv);
-        if (t <= 0)
-            return null;// if t<0 then the ray not cut the plane and if t == 0 then the ray lie start on the plane.        if (t > 0){
-        else {
-            return List.of(ray.getPoint(t));
-        }
+        return t <= 0
+                // if t<0 then the ray not cut the plane and if t == 0 then the ray lie start on the plane.        if (t > 0){
+                ? null
+                : List.of(ray.getPoint(t));
 
     }
 

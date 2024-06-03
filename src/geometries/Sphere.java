@@ -7,6 +7,7 @@ import primitives.Vector;
 import java.util.List;
 
 import static java.lang.Math.sqrt;
+import static primitives.Util.alignZero;
 
 /**
  * Represents a sphere in a 3D space.
@@ -39,23 +40,23 @@ public class Sphere extends RadialGeometry {
         Vector v = ray.getDirection();
         if (center.equals(p0))
             return List.of(center.add(v.scale(radius)));
+
         Vector u = center.subtract(p0);  // Vector from ray start to sphere center
         double tm = v.dotProduct(u); // Projection of u on the ray direction
-        double d = sqrt(u.lengthSquared() - tm * tm); // Square of the distance from the sphere center to the ray
+        // Square of the distance from the sphere center to the ray
+        double dSquared = u.lengthSquared() - tm * tm;
+        double thSquared = radiusSquared - dSquared;
         // If the distance from the ray to the sphere center is greater than the radius, no intersections
-        if (d >= radius) return null;
-        double th = sqrt(radius * radius - d * d);// Distance from the intersection points to the point where the ray is closest to the sphere center
-        double t1 = tm - th;// Distance from the ray start to the first intersection point
+        if (alignZero(thSquared) <= 0) return null;
+
+        double th = sqrt(thSquared);// Distance from the intersection points to the point where the ray is closest to the sphere center
+
         double t2 = tm + th;// Distance from the ray start to the second intersection point
+        if (alignZero(t2) <= 0) return null; // t1 < t2 <= 0
 
-        // If both intersection points are behind the ray start, no intersections
-        if (t1 <= 0 && t2 <= 0) return null;
-        List<Point> intersectionsPoints = new java.util.ArrayList<>(List.of());
-
-        // Add the intersection points to the list if they are in front of the ray start
-        if (t1 > 0) intersectionsPoints.add(ray.getPoint(t1));
-        if (t2 > 0) intersectionsPoints.add(ray.getPoint(t2));
-        return intersectionsPoints;
-
+        double t1 = tm - th;// Distance from the ray start to the first intersection point
+        return alignZero(t1) <= 0
+                ? List.of(ray.getPoint(t2))
+                : List.of(ray.getPoint(t1), ray.getPoint(t2));
     }
 }

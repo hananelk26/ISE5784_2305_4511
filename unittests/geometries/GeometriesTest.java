@@ -11,11 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GeometriesTest {
 
-    private final Point p001 = new Point(0, 0, 1);
-
-    @Test
-    void add() {
-    }
+    private static final Point p001 = new Point(0, 0, 1);
 
     @Test
     void findIntersections() {
