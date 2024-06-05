@@ -10,6 +10,9 @@ import java.util.Comparator;
 import static java.lang.Math.sqrt;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Testing Sphere
+ */
 class SphereTest {
 
     /**

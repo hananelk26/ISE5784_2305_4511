@@ -5,6 +5,9 @@ import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Testing Ray
+ */
 class RayTest {
 
     /**

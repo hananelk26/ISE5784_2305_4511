@@ -9,6 +9,9 @@ import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Testing Geometries
+ */
 class GeometriesTest {
 
     private static final Point p001 = new Point(0, 0, 1);

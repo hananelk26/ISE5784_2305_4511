@@ -8,7 +8,6 @@ import primitives.Vector;
 
 /**
  * Testing Polygons
- *
  * @author Dan
  */
 public class PolygonTests {

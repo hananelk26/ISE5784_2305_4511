@@ -7,6 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Testing Vector
+ */
 public class VectorTest {
 
     /**

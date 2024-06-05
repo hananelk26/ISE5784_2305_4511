@@ -6,8 +6,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Testing Point
+ */
 class PointTest {
 
+    /**
+     * Test method for {@link primitives.Point#add(Vector)}.
+     */
     @Test
     public void testAdd() {
         // TC01: add vector to point and check if it added correctly
@@ -16,6 +22,9 @@ class PointTest {
                 "ERROR: failed to add vector to point");
     }
 
+    /**
+     * Test method for {@link primitives.Point#subtract(Point)} .
+     */
     @Test
     public void testSubtract() {
         // TC01: subtract points and check if it subtracted correctly
@@ -27,6 +36,9 @@ class PointTest {
         assertThrows(IllegalArgumentException.class, () -> p.subtract(p));
     }
 
+    /**
+     * Test method for {@link primitives.Point#distanceSquared(Point)}.
+     */
     @Test
     public void testDistanceSquared() {
         // TC01: check tha the distance squared between 2 points is correct
@@ -37,6 +49,9 @@ class PointTest {
         assertEquals(0, p.distanceSquared(p));
     }
 
+    /**
+     * Test method for {@link primitives.Point#distance(Point)}.
+     */
     @Test
     public void testDistance() {
         // TC01: check tha the distance between 2 points is correct

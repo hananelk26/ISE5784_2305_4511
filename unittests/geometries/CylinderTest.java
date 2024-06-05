@@ -8,8 +8,14 @@ import primitives.Point;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Testing Cylinder
+ */
 public class CylinderTest {
 
+    /**
+     * Test method for {@link geometries.Cylinder#Cylinder(double,primitives.Ray,double)}.
+     */
     @Test
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
@@ -29,6 +35,9 @@ public class CylinderTest {
                 "ERROR: Failed constructor with negative height");
     }
 
+    /**
+     * Test method for {@link geometries.Cylinder#getNormal(primitives.Point)}.
+     */
     @Test
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============

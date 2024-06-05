@@ -2,19 +2,20 @@
 import geometries.Plane;
 import primitives.Ray;
 import primitives.Vector;
-
-
 import org.junit.jupiter.api.Test;
 import primitives.Point;
-import primitives.Vector;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+/**
+ * Testing Plane
+ */
 class PlaneTest {
 
+    /**
+     * Test method for {@link geometries.Plane#Plane(Point, Point, Point)}.
+     */
     @Test
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
@@ -41,6 +42,9 @@ class PlaneTest {
 
     }
 
+    /**
+     * Test method for {@link geometries.Plane#getNormal(primitives.Point)}.
+     */
     @Test
     void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
@@ -51,6 +55,9 @@ class PlaneTest {
                 "ERROR: getNormal of plane failed");
     }
 
+    /**
+     * Test method for {@link geometries.Plane#findIntersections(primitives.Ray)}.
+     */
     @Test
     public void testFindIntersections() {
         // ============ Equivalence Partitions Tests ==============

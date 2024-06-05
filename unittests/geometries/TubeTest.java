@@ -8,8 +8,14 @@ import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Testing Tube
+ */
 class TubeTest {
 
+    /**
+     * Test method for {@link geometries.Tube#Tube(double, primitives.Ray)}.
+     */
     @Test
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
@@ -24,6 +30,9 @@ class TubeTest {
                 "ERROR: Failed to throw error cylinder with negative radius");
     }
 
+    /**
+     * Test method for {@link geometries.Tube#getNormal(primitives.Point)}.
+     */
     @Test
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============

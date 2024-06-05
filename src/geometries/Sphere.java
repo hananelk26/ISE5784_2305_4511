@@ -1,11 +1,8 @@
 package geometries;
-
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
 import java.util.List;
-
 import static java.lang.Math.sqrt;
 import static primitives.Util.alignZero;
 
@@ -35,6 +32,12 @@ public class Sphere extends RadialGeometry {
         return (point.subtract(center)).normalize();// Returns a vector whose beginning is the center point of the sphere and its end is the point for which you want a normal vector.
     }
 
+    /**
+     * Finds the intersections of a ray with a sphere.
+     *
+     * @param ray the ray to check for intersections with the sphere
+     * @return a list containing the intersection points if they exist, otherwise null
+     */
     public List<Point> findIntersections(Ray ray) {
         Point p0 = ray.getHead();
         Vector v = ray.getDirection();

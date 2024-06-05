@@ -10,6 +10,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Testing Triangle
+ */
 class TriangleTest {
 
     /**
@@ -18,6 +21,9 @@ class TriangleTest {
      */
     private final double DELTA = 0.000001;
 
+    /**
+     * Test method for {@link geometries.Triangle#Triangle(Point, Point, Point)}.
+     */
     @Test
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
@@ -40,6 +46,9 @@ class TriangleTest {
                 "ERROR:  Failed to throw error in constructor with 3 points on the same line");
     }
 
+    /**
+     * Test method for {@link geometries.Triangle#getNormal(primitives.Point)}.
+     */
     @Test
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
