@@ -52,6 +52,8 @@ public class Triangle extends Polygon {
         Vector v3 = vertices.get(2).subtract(p0);
         Vector n2 = v2.crossProduct(v3).normalize();
         double vn2 = alignZero(v.dotProduct(n2));
+
+        // If the ray crosses between the normals (n1 and n2) in different directions, it doesn't intersect the triangle
         if (vn1 * vn2 <= 0) return null;
 
         Vector n3 = v3.crossProduct(v1).normalize();

@@ -6,6 +6,7 @@ import primitives.Vector;
 
 import java.util.List;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 /**
@@ -94,11 +95,39 @@ public class Polygon implements Geometry {
     }
 
 
-    @Override
+    /**
+     * Finds the intersections of a ray with a polygon.
+     *
+     * @param ray the ray to check for intersections with the polygon
+     * @return a list containing the intersection points if they exist, otherwise null
+     */
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        // Find intersections of the ray with the plane of the triangle
+        final var intersectionsPoints = plane.findIntersections(ray);
+        //intersectionsPoints is null that means that there are no cut points
+        if (intersectionsPoints == null) return null;
+
+        // Get the origin point and direction vector of the ray
+        Point p0 = ray.getHead();
+        Vector v = ray.getDirection();
+        int verSize = vertices.size();
+
+        for (int i = 0; i < verSize; i++) {
+            Vector v1 = vertices.get(i).subtract(p0);
+            Vector v2 = vertices.get((i + 1) % verSize).subtract(p0);
+            Vector n1 = v1.crossProduct(v2).normalize();
+            double vn1 = alignZero(v.dotProduct(n1));
+            if (vn1 == 0) return null;
+
+            Vector v3 = vertices.get((i + 2) % verSize).subtract(p0);
+            Vector n2 = v2.crossProduct(v3).normalize();
+            double vn2 = alignZero(v.dotProduct(n2));
+            // If the ray crosses between the normals (n1 and n2) in different directions, it doesn't intersect the triangle
+            if (vn1 * vn2 <= 0) return null;
+
+        }
+
+        return intersectionsPoints;
     }
 
-
 }
-
