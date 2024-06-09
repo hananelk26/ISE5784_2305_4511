@@ -4,6 +4,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 import static primitives.Util.isZero;
+import java.util.MissingResourceException;
 
 public class Camera implements Cloneable {
     Point p0;
@@ -24,10 +25,10 @@ public class Camera implements Cloneable {
 
         public Builder setDirection(Vector vTo, Vector vUp) {
             if(!isZero(vTo.dotProduct(vUp))) {
-                throw new IllegalArgumentException("Vectors must be ortogonall");
+                throw new IllegalArgumentException("Vectors must be orthogonal");
             }
-            camera.vTo = vTo;
-            camera.vUp = vUp;
+            camera.vTo = vTo.normalize();
+            camera.vUp = vUp.normalize();
             return this;
         }
 
@@ -44,7 +45,7 @@ public class Camera implements Cloneable {
         }
 
         public Builder setVpDistance(double distance) {
-            if(isZero(distance) || distance < 0.0)   {
+            if(distance < 0.0 || isZero(distance))   {
                 throw new IllegalArgumentException("Distance must be greater than 0");
             }
             camera.distance = distance;
@@ -52,21 +53,28 @@ public class Camera implements Cloneable {
         }
 
         public Camera build() {
-            if (this.camera.location.equals(new Point(0, 0, 0))) throw new MissingResourceException("Missing rendering data", Camera.class.getName(), "location");
-            if (this.camera.vTo.equals(new Vector(0, 0, 0))) throw new MissingResourceException("Missing rendering data", Camera.class.getName(), "vTo");
-            if (this.camera.vUp.equals(new Vector(0, 0, 0))) throw new MissingResourceException("Missing rendering data", Camera.class.getName(), "vUp");
-            if (this.camera.viewPlaneWidth == 0) throw new MissingResourceException("Missing rendering data", Camera.class.getName(), "viewPlaneWidth");
-            if (this.camera.viewPlaneHeight == 0) throw new MissingResourceException("Missing rendering data", Camera.class.getName(), "viewPlaneHeight");
-            if (this.camera.viewPlaneDistance == 0) throw new MissingResourceException("Missing rendering data", Camera.class.getName(), "viewPlaneDistance");
+            if (this.camera.p0 == null) throw new MissingResourceException("Missing rendering data", "Camera", "location");
+            if (this.camera.vTo == null) throw new MissingResourceException("Missing rendering data", "Camera", "vTo");
+            if (this.camera.vUp == null) throw new MissingResourceException("Missing rendering data", "Camera", "vUp");
+            if (this.camera.width == 0.0) throw new MissingResourceException("Missing rendering data", "Camera", "width");
+            if (this.camera.height == 0.0) throw new MissingResourceException("Missing rendering data", "Camera", "height");
+            if (this.camera.distance == 0) throw new MissingResourceException("Missing rendering data", "Camera", "distance");
+            this.camera.vRight = this.camera.vTo.crossProduct(this.camera.vUp).normalize();
 
-            return this.camera.clone();
+            try {
+                return (Camera) this.camera.clone();
+            }
+            catch(CloneNotSupportedException e)
+            {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     private Camera() {
     }
 
-    public Builder getBuilder() {
+    public static Builder getBuilder() {
         return new Builder();
     }
 
