@@ -14,6 +14,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Integration tests for camera rays and geometric intersections.
+ */
 public class IntegrationTest {
 
     /**
@@ -25,6 +28,11 @@ public class IntegrationTest {
             .setVpDistance(1);
     Camera camera = cameraBuilder.setVpSize(3, 3).build();
 
+    /**
+     * Constructs rays for all pixels in the view plane.
+     *
+     * @return a linked list of rays for all pixels.
+     */
     private LinkedList<Ray> constructRayOnAllPixels() {
         final var listOfRays = new LinkedList<Ray>();
         for (int i = 0; i < 3; i++) {
@@ -37,6 +45,12 @@ public class IntegrationTest {
 
     final private LinkedList<Ray> listOfRays = constructRayOnAllPixels();
 
+    /**
+     * Counts the number of intersection points between the given geometry and the rays.
+     *
+     * @param body the geometric body to check intersections with.
+     * @return the total number of intersection points.
+     */
     private int countIntersectionSphere(Intersectable body) {
         int sum = 0;
         for (Ray ray : listOfRays) {
@@ -47,9 +61,12 @@ public class IntegrationTest {
         return sum;
     }
 
+    /**
+     * Tests intersection points of rays with spheres.
+     */
     @Test
     void testSphereIntegration() {
-        //TC for in intersection points of sphere and view plane
+        //TC's for in intersection points of sphere and view plane
         Point p00_2 = new Point(0, 0, -2);
 
         // TC01: Verify that the method returns 2 intersection points for a sphere with radius 1 located in front of the center pixel.
@@ -78,7 +95,7 @@ public class IntegrationTest {
         assertEquals(0, countIntersectionSphere(sphere5),
                 "Failed to return 0 intersection points when the sphere is located behind the view plane (TC05)");
 
-        // TC for intersection points of plane and view plane
+        // TC's for intersection points of plane and view plane
         Point p00_4 = new Point(0, 0, -4);
         Point p10_4 = new Point(1, 0, -4);
         Point p01_4 = new Point(0, 1, -4);
@@ -98,7 +115,7 @@ public class IntegrationTest {
         assertEquals(6, countIntersectionSphere(plane3),
                 "Failed to return 6 intersection points when the plane is not parallel to the view plane and intersects it in 6 points (TC08)");
 
-        //TC for intersection points of triangle and view plane
+        //TC's for intersection points of triangle and view plane
         Point p1_1_2 = new Point(1, -1, -2);
         Point p_1_1_2 = new Point(-1, -1, -2);
         Point p01_2 = new Point(0, 1, -2);
@@ -112,8 +129,7 @@ public class IntegrationTest {
         Triangle triangle2 = new Triangle(new Point(0, 20, -2), p1_1_2, p_1_1_2);
         assertEquals(2, countIntersectionSphere(triangle2),
                 "Failed to return 2 intersection points when the triangle is parallel to the view plane and intersects it in 2 points (TC10)");
-        
-    }
 
+    }
 
 }
