@@ -13,6 +13,9 @@ import java.util.List;
  */
 public class Geometries implements Intersectable {
 
+    /**
+     * list of geometries bodies
+     */
     private final List<Intersectable> geometries = new LinkedList<>();//collection of geometries
 
     /**

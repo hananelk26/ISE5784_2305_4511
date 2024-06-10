@@ -1,3 +1,4 @@
+package geometries;
 
 import geometries.Cylinder;
 import geometries.Tube;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CylinderTest {
 
     /**
-     * Test method for {@link geometries.Cylinder#Cylinder(double,primitives.Ray,double)}.
+     * Test method for {@link geometries.Cylinder#Cylinder(double, primitives.Ray, double)}.
      */
     @Test
     public void testConstructor() {

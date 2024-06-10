@@ -3,25 +3,58 @@ package renderer;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
+
 import java.util.MissingResourceException;
 
 /**
  * Represents a Camera with position, direction, and view plane parameters.
  */
 public class Camera implements Cloneable {
-    Point p0;
-    Vector vTo;
-    Vector vUp;
-    Vector vRight;
-    double height = 0.0;
-    double width = 0.0;
-    double distance = 0.0;
+    /**
+     * The position of the camera in 3D space.
+     */
+    private Point p0;
+
+    /**
+     * The forward direction vector of the camera.
+     */
+    private Vector vTo;
+
+    /**
+     * The upward direction vector of the camera.
+     */
+    private Vector vUp;
+
+    /**
+     * The rightward direction vector of the camera.
+     */
+    private Vector vRight;
+
+    /**
+     * The height of the view plane.
+     */
+    private double height = 0.0;
+
+    /**
+     * The width of the view plane.
+     */
+    private double width = 0.0;
+
+    /**
+     * The distance from the camera to the view plane.
+     */
+    private double distance = 0.0;
 
     /**
      * Builder class for constructing a Camera object.
      */
     public static class Builder {
+        /**
+         * The object of Camera class
+         */
         private final Camera camera = new Camera();
 
         /**
@@ -45,9 +78,6 @@ public class Camera implements Cloneable {
          * @throws IllegalArgumentException if the vectors are not orthogonal
          */
         public Builder setDirection(Vector vTo, Vector vUp) {
-            if(!isZero(vTo.dotProduct(vUp))) {
-                throw new IllegalArgumentException("Vectors must be orthogonal");
-            }
             camera.vTo = vTo.normalize();
             camera.vUp = vUp.normalize();
             return this;
@@ -57,15 +87,15 @@ public class Camera implements Cloneable {
          * Sets the size of the view plane.
          *
          * @param height the height of the view plane
-         * @param width the width of the view plane
+         * @param width  the width of the view plane
          * @return the Builder instance
          * @throws IllegalArgumentException if height or width are not greater than 0
          */
         public Builder setVpSize(double height, double width) {
-            if(height < 0.0 || isZero(height))   {
+            if (alignZero(height) <= 0.0) {
                 throw new IllegalArgumentException("Height must be greater than 0");
             }
-            if(width < 0.0 || isZero(width)) {
+            if (width < 0.0 || isZero(width)) {
                 throw new IllegalArgumentException("Width must be greater than 0");
             }
             camera.height = height;
@@ -81,7 +111,7 @@ public class Camera implements Cloneable {
          * @throws IllegalArgumentException if distance is not greater than 0
          */
         public Builder setVpDistance(double distance) {
-            if(distance < 0.0 || isZero(distance))   {
+            if (distance < 0.0 || isZero(distance)) {
                 throw new IllegalArgumentException("Distance must be greater than 0");
             }
             camera.distance = distance;
@@ -95,19 +125,24 @@ public class Camera implements Cloneable {
          * @throws MissingResourceException if any required fields are missing
          */
         public Camera build() {
-            if (this.camera.p0 == null) throw new MissingResourceException("Missing rendering data", "Camera", "location");
+            if (this.camera.p0 == null)
+                throw new MissingResourceException("Missing rendering data", "Camera", "location");
             if (this.camera.vTo == null) throw new MissingResourceException("Missing rendering data", "Camera", "vTo");
             if (this.camera.vUp == null) throw new MissingResourceException("Missing rendering data", "Camera", "vUp");
-            if (isZero(this.camera.width)) throw new MissingResourceException("Missing rendering data", "Camera", "width");
-            if (isZero(this.camera.height)) throw new MissingResourceException("Missing rendering data", "Camera", "height");
-            if (isZero(this.camera.distance)) throw new MissingResourceException("Missing rendering data", "Camera", "distance");
+            if (isZero(this.camera.width))
+                throw new MissingResourceException("Missing rendering data", "Camera", "width");
+            if (isZero(this.camera.height))
+                throw new MissingResourceException("Missing rendering data", "Camera", "height");
+            if (isZero(this.camera.distance))
+                throw new MissingResourceException("Missing rendering data", "Camera", "distance");
             this.camera.vRight = this.camera.vUp.crossProduct(this.camera.vTo).normalize();
+            if (!isZero(this.camera.vTo.dotProduct(this.camera.vUp))) {
+                throw new IllegalArgumentException("Vectors must be orthogonal");
+            }
 
             try {
                 return (Camera) this.camera.clone();
-            }
-            catch(CloneNotSupportedException e)
-            {
+            } catch (CloneNotSupportedException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -150,8 +185,6 @@ public class Camera implements Cloneable {
             pIJ = pIJ.add(vUp.scale(yI));
         return new Ray(p0, pIJ.subtract(p0));
     }
-
-
 
 
 }

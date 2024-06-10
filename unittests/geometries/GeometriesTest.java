@@ -1,3 +1,5 @@
+package geometries;
+
 import geometries.Geometries;
 import geometries.Plane;
 import geometries.Sphere;
@@ -14,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class GeometriesTest {
 
+    /**
+     * point for test
+     */
     private static final Point p001 = new Point(0, 0, 1);
 
     /**

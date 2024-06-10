@@ -43,6 +43,9 @@ public class IntegrationTest {
         return listOfRays;
     }
 
+    /**
+     * List of rays constructed through all pixels on the view plane.
+     */
     private LinkedList<Ray> listOfRays = constructRayOnAllPixels();
 
     /**
@@ -112,7 +115,7 @@ public class IntegrationTest {
         Vector v001 = new Vector(0, 0, 1);
 
         // TC06: Verify that the method returns 9 intersection points when the plane is parallel to the view plane and in front of it.
-        Plane plane1 = new Plane(p00_4,v001);
+        Plane plane1 = new Plane(p00_4, v001);
         assertEquals(9, countIntersectionSphere(plane1),
                 "Failed to return 9 intersection points when the plane is parallel to the view plane and in front of it (TC06)");
 

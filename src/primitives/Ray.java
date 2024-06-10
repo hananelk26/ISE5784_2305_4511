@@ -61,10 +61,12 @@ public class Ray {
         return "head" + "->" + direction;
     }
 
-
     /**
      * The function returns a point which is a point and another vector times a number
-     * @param t      The number of times we will multiply the vector
+     *
+     * @param t The number of times we will multiply the vector
+     *
+     * @return point = Point + Vector * t
      */
     public Point getPoint(double t) {
         return isZero(t) ? this.head : this.head.add(direction.scale(t));
