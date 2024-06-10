@@ -136,7 +136,16 @@ public class Camera implements Cloneable {
      * @return a Ray object passing through the specified pixel
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
-        return null;
+        Point pIJ = p0.add(vTo.scale(distance));
+        // Calculate distance on x,y axes to the designated point
+        double yI = (((nY - 1) / 2.0) - i) * (height / nY);
+        double xJ = (((nX - 1) / 2.0) - j) * (width / nX);
+        // Avoiding creation of zero vector (which is unnecessary anyway)
+        if (!isZero(xJ))
+            pIJ = pIJ.add(vRight.scale(xJ));
+        if (!isZero(yI))
+            pIJ = pIJ.add(vUp.scale(yI));
+        return new Ray(p0, pIJ.subtract(p0));
     }
 
 

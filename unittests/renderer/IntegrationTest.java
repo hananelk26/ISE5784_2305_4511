@@ -43,7 +43,7 @@ public class IntegrationTest {
         return listOfRays;
     }
 
-    final private LinkedList<Ray> listOfRays = constructRayOnAllPixels();
+    private LinkedList<Ray> listOfRays = constructRayOnAllPixels();
 
     /**
      * Counts the number of intersection points between the given geometry and the rays.
@@ -62,12 +62,19 @@ public class IntegrationTest {
     }
 
     /**
-     * Tests intersection points of rays with spheres.
+     * Tests intersection points of rays with geometries body .
+     */
+
+    /**
+     * Test method for
+     * {@link renderer.Camera#constructRay(int, int, int, int)}.
      */
     @Test
-    void testSphereIntegration() {
+    void testIntegration() {
         //TC's for in intersection points of sphere and view plane
         Point p00_2 = new Point(0, 0, -2);
+
+        // group tests of construct rays and intersections with sphere:
 
         // TC01: Verify that the method returns 2 intersection points for a sphere with radius 1 located in front of the center pixel.
         Sphere sphere1 = new Sphere(1, new Point(0, 0, -3));
@@ -76,6 +83,7 @@ public class IntegrationTest {
 
         // TC02: Verify that the method returns 18 intersection points for a sphere that matches the size of the view plane.
         camera = cameraBuilder.setLocation(new Point(0, 0, 0.5)).build();
+        listOfRays = constructRayOnAllPixels();
         Sphere sphere2 = new Sphere(2.5, new Point(0, 0, -2.5));
         assertEquals(18, countIntersectionSphere(sphere2),
                 "Failed to return 18 intersection points for a sphere that matches the size of the view plane (TC02)");
@@ -86,7 +94,7 @@ public class IntegrationTest {
                 "Failed to return 10 intersection points for a sphere with a size almost equal to the view plane (TC03)");
 
         // TC04: Verify that the method returns 9 intersection points when the view plane is inside the sphere.
-        Sphere sphere4 = new Sphere(4, p00_2);
+        Sphere sphere4 = new Sphere(4, new Point(0, 0, -0.5));
         assertEquals(9, countIntersectionSphere(sphere4),
                 "Failed to return 9 intersection points when the view plane is inside the sphere (TC04)");
 
@@ -95,13 +103,16 @@ public class IntegrationTest {
         assertEquals(0, countIntersectionSphere(sphere5),
                 "Failed to return 0 intersection points when the sphere is located behind the view plane (TC05)");
 
+        // group tests of construct rays and intersections with plane:
+
         // TC's for intersection points of plane and view plane
         Point p00_4 = new Point(0, 0, -4);
         Point p10_4 = new Point(1, 0, -4);
         Point p01_4 = new Point(0, 1, -4);
+        Vector v001 = new Vector(0, 0, 1);
 
         // TC06: Verify that the method returns 9 intersection points when the plane is parallel to the view plane and in front of it.
-        Plane plane1 = new Plane(p00_4, p10_4, p01_4);
+        Plane plane1 = new Plane(p00_4,v001);
         assertEquals(9, countIntersectionSphere(plane1),
                 "Failed to return 9 intersection points when the plane is parallel to the view plane and in front of it (TC06)");
 
@@ -114,6 +125,8 @@ public class IntegrationTest {
         Plane plane3 = new Plane(p00_4, new Point(1, 0, -1.5), p01_4);
         assertEquals(6, countIntersectionSphere(plane3),
                 "Failed to return 6 intersection points when the plane is not parallel to the view plane and intersects it in 6 points (TC08)");
+
+        // group tests of construct rays and intersections with sphere:
 
         //TC's for intersection points of triangle and view plane
         Point p1_1_2 = new Point(1, -1, -2);

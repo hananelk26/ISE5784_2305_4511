@@ -16,6 +16,10 @@ class GeometriesTest {
 
     private static final Point p001 = new Point(0, 0, 1);
 
+    /**
+     * Test method for
+     * {@link Geometries#findIntersections(Ray)}.
+     */
     @Test
     void findIntersections() {
 
