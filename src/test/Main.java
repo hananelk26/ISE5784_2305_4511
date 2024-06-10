@@ -26,14 +26,38 @@ public final class Main {
      * @param args irrelevant here
      */
     public static void main(String[] args) {
+        /**
+         * point for test
+         */
         Point p1 = new Point(1, 2, 3);
+        /**
+         * point for test
+         */
         Point p2 = new Point(2, 4, 6);
+        /**
+         * point for test
+         */
         Point p3 = new Point(2, 4, 5);
 
+        /**
+         * vector for test
+         */
         Vector v1 = new Vector(1, 2, 3);
+        /**
+         * vector for test
+         */
         Vector v1Opposite = new Vector(-1, -2, -3);
+        /**
+         * vector for test
+         */
         Vector v2 = new Vector(-2, -4, -6);
+        /**
+         * vector for test
+         */
         Vector v3 = new Vector(0, 3, -2);
+        /**
+         * vector for test
+         */
         Vector v4 = new Vector(1, 2, 2);
 
         // test zero vector =====================================================

@@ -78,6 +78,8 @@ public class Camera implements Cloneable {
          * @throws IllegalArgumentException if the vectors are not orthogonal
          */
         public Builder setDirection(Vector vTo, Vector vUp) {
+            if (!isZero(vTo.dotProduct(vUp)))
+                throw new IllegalArgumentException("vTo dotProduct must be orthogonal");
             camera.vTo = vTo.normalize();
             camera.vUp = vUp.normalize();
             return this;
@@ -95,7 +97,7 @@ public class Camera implements Cloneable {
             if (alignZero(height) <= 0.0) {
                 throw new IllegalArgumentException("Height must be greater than 0");
             }
-            if (width < 0.0 || isZero(width)) {
+            if (alignZero(width) <= 0.0) {
                 throw new IllegalArgumentException("Width must be greater than 0");
             }
             camera.height = height;
@@ -150,7 +152,9 @@ public class Camera implements Cloneable {
 
 
     /**
-     * private constructor of Camera .
+     * A private default constructor for the Camera class.
+     * This constructor is private to prevent instantiation without parameters.
+     * Use the parameterized constructor to create a Camera instance.
      */
     private Camera() {
     }

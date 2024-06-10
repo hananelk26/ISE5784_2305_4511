@@ -23,6 +23,9 @@ class SphereTest {
     @Test
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
+        /**
+         * point for test
+         */
         Point p = new Point(1, 2, 1);
 
         // TC01: constructor with regular values
@@ -71,18 +74,18 @@ class SphereTest {
         final Point gp1 = new Point(2.0 / 3, 1.0 / 3, 1.0 / 3);
         final Point gp2 = new Point(0, 1, 1);
         final var exp = List.of(gp1, gp2);
-        final Vector v_111 = new Vector(-1, 1, 1);
+        final Vector vM111 = new Vector(-1, 1, 1);
         final Vector v110 = new Vector(1, 1, 0);
-        final Point p_100 = new Point(-1, 0, 0);
+        final Point pM100 = new Point(-1, 0, 0);
         final Vector v100 = new Vector(1, 0, 0);
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Ray's line is outside the sphere (0 points)
-        assertNull(sphere.findIntersections(new Ray(p_100, v110)),
+        assertNull(sphere.findIntersections(new Ray(pM100, v110)),
                 "Fail ray's line is outside the sphere (0 points TC01)");
 
         // TC02: Ray starts before and crosses the sphere (2 points)
-        final var result1 = sphere.findIntersections(new Ray(p100, v_111))
+        final var result1 = sphere.findIntersections(new Ray(p100, vM111))
                 .stream().sorted(Comparator.comparingDouble(p -> p.distance(p100))).toList();
         assertEquals(2, result1.size(), "Wrong number of points");
         assertEquals(exp, result1, "Fail ray starts before and crosses the sphere (2 points TC02)");
@@ -98,14 +101,26 @@ class SphereTest {
 
         // =============== Boundary Values Tests ==================
         // **** Group: Ray's line crosses the sphere (but not the center)
-        Point p0_11 = new Point(0, -1, 1);
+        /**
+         * point for test
+         */
+        Point p0m11 = new Point(0, -1, 1);
+        /**
+         * point for test
+         */
         Point p101 = new Point(1, 0, 1);
+        /**
+         * point for test
+         */
         Point p000 = new Point(0, 0, 0);
+        /**
+         * point for test
+         */
         Point p002 = new Point(0, 0, 2);
 
 
         // TC11: Ray starts at sphere and goes inside (1 point)
-        assertEquals(List.of(p0_11), sphere.findIntersections(new Ray(p101, new Vector(-1, -1, 0))),
+        assertEquals(List.of(p0m11), sphere.findIntersections(new Ray(p101, new Vector(-1, -1, 0))),
                 "Fail ray starts at sphere and goes inside (1 point TC11)");
 
         // TC12: Ray starts at sphere and goes outside (0 points)
@@ -115,7 +130,7 @@ class SphereTest {
         // **** Group: Ray's line goes through the center
         // TC13: Ray starts before the sphere (2 points)
         final var result2 = sphere.findIntersections(new Ray(new Point(0, 0, -1), v001))
-                .stream().sorted(Comparator.comparingDouble(p -> p.distance(p_100))).toList();
+                .stream().sorted(Comparator.comparingDouble(p -> p.distance(pM100))).toList();
         assertEquals(2, result2.size(), "Wrong number of points");
         assertEquals(List.of(p000, p002), result2,
                 "Fail ray starts before the sphere (2 points TC13)");
@@ -143,7 +158,7 @@ class SphereTest {
         // **** Group: Ray's line is tangent to the sphere (all tests 0 points)
 
         // TC19: Ray starts before the tangent point
-        assertNull(sphere.findIntersections(new Ray(p_100, v100)),
+        assertNull(sphere.findIntersections(new Ray(pM100, v100)),
                 "Fail ray starts before the tangent point (0 points TC19)");
 
         // TC20: Ray starts at the tangent point
@@ -151,7 +166,7 @@ class SphereTest {
                 "Fail ray starts at the tangent point (0 points TC20)");
 
         // TC21: Ray starts after the tangent point
-        assertNull(sphere.findIntersections(new Ray(p_100, new Vector(-1, 0, 0))),
+        assertNull(sphere.findIntersections(new Ray(pM100, new Vector(-1, 0, 0))),
                 "Fail ray starts after the tangent point (0 points TC21)");
 
         // **** Group: Special cases

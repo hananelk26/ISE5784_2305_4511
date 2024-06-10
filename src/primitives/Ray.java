@@ -62,11 +62,12 @@ public class Ray {
     }
 
     /**
-     * The function returns a point which is a point and another vector times a number
+     * Calculates a point along the ray at a given distance.
      *
-     * @param t The number of times we will multiply the vector
-     *
-     * @return point = Point + Vector * t
+     * @param t the distance from the ray's origin to the desired point.
+     *          If the distance is zero, the origin point of the ray is returned.
+     * @return the point along the ray at the given distance.
+     *         If the distance is zero, the origin point of the ray.
      */
     public Point getPoint(double t) {
         return isZero(t) ? this.head : this.head.add(direction.scale(t));

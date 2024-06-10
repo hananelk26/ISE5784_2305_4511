@@ -34,10 +34,10 @@ class GeometriesTest {
         Ray ray4 = new Ray(new Point(0, 0, 3), new Vector(1, 0, 0));
         Ray ray5 = new Ray(new Point(-2, 0, 1), new Vector(1, 0, 0));
         Sphere sphere = new Sphere(1d, p001);
-        Point p2_10 = new Point(2, -1, 0);
+        Point p2m10 = new Point(2, -1, 0);
         Point p210 = new Point(2, 1, 0);
         Point p204 = new Point(2, 0, 4);
-        Triangle triangle = new Triangle(p2_10, p210, p204);
+        Triangle triangle = new Triangle(p2m10, p210, p204);
         Plane plane = new Plane(new Point(3, 0, 0), new Vector(1, 0, 0));
 
         Geometries geometries1 = new Geometries();

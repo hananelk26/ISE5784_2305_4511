@@ -1,3 +1,5 @@
+package primitives;
+
 import primitives.Vector;
 import primitives.Point;
 import primitives.Double3;
@@ -18,8 +20,17 @@ public class VectorTest {
      */
     private final double DELTA = 0.000001;
 
+    /**
+     * vector for test
+     */
     Vector v1 = new Vector(2, 3, 4);
+    /**
+     * vector for test
+     */
     Vector v2 = new Vector(-2, -3, -4);
+    /**
+     * vector for test
+     */
     Vector unit = new Vector(1, 0, 0);
 
     /**
@@ -51,10 +62,16 @@ public class VectorTest {
         // ============ Equivalence Partitions Tests ==============
 
         //TC01: Checks that a vector can be added to another vector
+        /**
+         * vector for test
+         */
         Vector v3 = new Vector(4, 5, 7);
         assertDoesNotThrow(() -> v1.add(v3), "Failed adding a vector to a other vector");
 
         //TC02: checks that a negative vector can be added to positive vector
+        /**
+         * vector for test
+         */
         Vector minusVec = new Vector(-1, -1, -1);
         assertEquals(new Vector(1, 2, 3), v1.add(minusVec), "Failed adding a negative vector to a positive vector");
 
@@ -72,10 +89,16 @@ public class VectorTest {
         // =============== Equivalence Partitions Tests ==================
 
         // TC01: Checking that the vector is indeed multiplied by the positive scalar as it should be
+        /**
+         * vector for test
+         */
         Vector newVector = v1.scale(2.0);
         assertEquals(new Vector(4, 6, 8), newVector, "Failed to multiply vector by positive scalar on x component");
 
         // TC02: Checking that the vector is indeed multiplied by the negative scalar as it should be
+        /**
+         * vector for test
+         */
         newVector = v1.scale(-2.0);
         assertEquals(new Vector(-4, -6, -8), newVector, "Failed to multiply vector by negative scalar on x component");
 
@@ -94,6 +117,9 @@ public class VectorTest {
         // ============ Equivalence Partitions Tests ==============
 
         //TC01: Checks that a vector can be subtracted to another vector
+        /**
+         * vector for test
+         */
         Vector newVector = new Vector(1, 2, 3);
         assertEquals(newVector, v1.subtract(new Point(1, 1, 1)), "Failed subtracting a vector to a other vector");
 
@@ -120,6 +146,9 @@ public class VectorTest {
         // =============== Boundary Values Tests ==================
 
         //TC02: checks when the result of dot product is 0.
+        /**
+         * vector for test
+         */
         Vector v3 = new Vector(-3, 2, 0);
         assertEquals(0, v1.dotProduct(v3), DELTA, "Failed making dot product between vector to a negative vector");
 
@@ -135,13 +164,22 @@ public class VectorTest {
         // ============ Equivalence Partitions Tests ==============
 
         //TC01: checks cross product between two vectors.
+        /**
+         * vector for test
+         */
         Vector v3 = new Vector(1, 8, -3);
+        /**
+         * vector for test
+         */
         Vector result = new Vector(-41, 10, 13);
         assertEquals(result, v1.crossProduct(v3), "Failed making cross product between vector to an other vector");
 
         // =============== Boundary Values Tests ==================
 
         //TC02: Tests a cross product of two vectors in the same direction
+        /**
+         * vector for test
+         */
         Vector v4 = new Vector(4.0, 6.0, 8.0);
         assertThrows(IllegalArgumentException.class, () -> v1.crossProduct(v4), "Not failed making cross product between two vectors in same direction");
 
@@ -175,6 +213,9 @@ public class VectorTest {
         // ============ Equivalence Partitions Tests ==============
 
         //TC01: checks length on vector.
+        /**
+         * vector for test
+         */
         Vector vec = new Vector(5, 0, 0);
         assertEquals(5, vec.length(), "Failed making length on vector.");
     }
@@ -188,7 +229,13 @@ public class VectorTest {
         // ============ Equivalence Partitions Tests ==============
 
         //TC01: checks normalize on vector.
+        /**
+         * vector for test
+         */
         Vector vec = new Vector(5, 0, 0);
+        /**
+         * vector for test
+         */
         Vector result = new Vector(1, 0, 0);
         assertEquals(result, vec.normalize(), "Failed making a normalize vector.");
 

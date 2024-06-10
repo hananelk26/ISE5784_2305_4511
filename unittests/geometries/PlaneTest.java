@@ -22,8 +22,17 @@ class PlaneTest {
     @Test
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
+        /**
+         * point for test
+         */
         Point p1 = new Point(1, 0, 0);
+        /**
+         * point for test
+         */
         Point p2 = new Point(1, 1, 0);
+        /**
+         * point for test
+         */
         Point p3 = new Point(1, 1, 1);
         // TC01: constructor with regular values
         assertDoesNotThrow(() -> new Plane(p1, p2, p3),
