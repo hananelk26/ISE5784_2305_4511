@@ -98,10 +98,10 @@ public class Camera implements Cloneable {
             if (this.camera.p0 == null) throw new MissingResourceException("Missing rendering data", "Camera", "location");
             if (this.camera.vTo == null) throw new MissingResourceException("Missing rendering data", "Camera", "vTo");
             if (this.camera.vUp == null) throw new MissingResourceException("Missing rendering data", "Camera", "vUp");
-            if (this.camera.width == 0.0) throw new MissingResourceException("Missing rendering data", "Camera", "width");
-            if (this.camera.height == 0.0) throw new MissingResourceException("Missing rendering data", "Camera", "height");
-            if (this.camera.distance == 0) throw new MissingResourceException("Missing rendering data", "Camera", "distance");
-            this.camera.vRight = this.camera.vTo.crossProduct(this.camera.vUp).normalize();
+            if (isZero(this.camera.width)) throw new MissingResourceException("Missing rendering data", "Camera", "width");
+            if (isZero(this.camera.height)) throw new MissingResourceException("Missing rendering data", "Camera", "height");
+            if (isZero(this.camera.distance)) throw new MissingResourceException("Missing rendering data", "Camera", "distance");
+            this.camera.vRight = this.camera.vUp.crossProduct(this.camera.vTo).normalize();
 
             try {
                 return (Camera) this.camera.clone();
@@ -114,6 +114,9 @@ public class Camera implements Cloneable {
     }
 
 
+    /**
+     * private constructor of Camera .
+     */
     private Camera() {
     }
 
