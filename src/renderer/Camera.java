@@ -243,5 +243,6 @@ public class Camera implements Cloneable {
 
     private void castRay(int i, int j) {
 
+
     }
 }
