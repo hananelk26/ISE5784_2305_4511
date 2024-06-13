@@ -6,7 +6,7 @@ import primitives.Double3;
 public class AmbientLight {
     final private Color intensity;
 
-    AmbientLight(Color intensity, Double3 kA) {
+    public AmbientLight(Color intensity, Double3 kA) {
         this.intensity = intensity.scale(kA);
     }
 

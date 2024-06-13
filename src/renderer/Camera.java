@@ -207,18 +207,25 @@ public class Camera implements Cloneable {
         return new Ray(p0, pIJ.subtract(p0));
     }
 
-    public void renderImage() {
+    public Camera renderImage() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 castRay(i, j);
             }
         }
+        return this;
     }
 
-    public void printGrid(int interval, Color color) {
+    private void castRay(int nX, int nY, int j, int i) {
+        Ray rayConstruct = this.constructRay(nX, nY, j, i);
+        Color pixelColor = rayTracer.traceRay(rayConstruct);
+        imageWriter.writePixel(j, i, pixelColor);
+    }
+
+    public Camera printGrid(int interval, Color color) {
         for (int i = 0; i < width; i += interval) {
             for (int j = 0; j < height; j += 1) {
-                imageWriter.writePixel(i, j, new Color(color.getColor()));
+                imageWriter.writePixel(i, j, color);
             }
         }
 
@@ -227,6 +234,7 @@ public class Camera implements Cloneable {
                 imageWriter.writePixel(i, j, new Color(color.getColor()));
             }
         }
+        return this;
     }
 
     public void writeToImage() {
