@@ -20,20 +20,6 @@ public class ImageWriterTest {
             }
         }
 
-//        for (int i = 0; i < width; i+=50) {
-//            for (int j = 0; j < height; j+=1) {
-//                imageWriter.writePixel(i,j,new Color(java.awt.Color.YELLOW));
-//            }
-//        }
-//
-//        for (int i = 0; i < width; i+=1) {
-//            for (int j = 0; j < height; j+=50) {
-//                imageWriter.writePixel(i,j,new Color(java.awt.Color.YELLOW));
-//            }
-//        }
-
-
-
         imageWriter.writeToImage();
     }
 }
