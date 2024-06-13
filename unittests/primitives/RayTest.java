@@ -53,7 +53,9 @@ class RayTest {
         assertEquals(p555, ray1.findClosestPoint(points),
                 "Failed: findClosestPoint (TC01)");
 
-        // ============ Equivalence Partitions Tests ==============
+        // =============== Boundary Values Tests ==================
+
+
         //TC02:
         assertNull(ray1.findClosestPoint(new LinkedList<Point>()),
                 "Failed: findClosestPoint (TC02)");

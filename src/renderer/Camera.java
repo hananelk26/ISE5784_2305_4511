@@ -1,5 +1,6 @@
 package renderer;
 
+import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -47,6 +48,10 @@ public class Camera implements Cloneable {
      * The distance from the camera to the view plane.
      */
     private double distance = 0.0;
+
+    private ImageWriter imageWriter;
+
+    private RayTracerBase rayTracer;
 
     /**
      * Builder class for constructing a Camera object.
@@ -120,6 +125,16 @@ public class Camera implements Cloneable {
             return this;
         }
 
+        public Builder setImageWriter(ImageWriter imageWriter) {
+            this.camera.imageWriter = imageWriter;
+            return this;
+        }
+
+        public Builder setRayTracer(RayTracerBase rayTracer) {
+            this.camera.rayTracer = rayTracer;
+            return this;
+        }
+
         /**
          * Builds the Camera object after validating all necessary fields are set.
          *
@@ -138,10 +153,12 @@ public class Camera implements Cloneable {
             if (isZero(this.camera.distance))
                 throw new MissingResourceException("Missing rendering data", "Camera", "distance");
             this.camera.vRight = this.camera.vUp.crossProduct(this.camera.vTo).normalize();
-            if (!isZero(this.camera.vTo.dotProduct(this.camera.vUp))) {
+            if (!isZero(this.camera.vTo.dotProduct(this.camera.vUp)))
                 throw new IllegalArgumentException("Vectors must be orthogonal");
-            }
-
+            if (this.camera.imageWriter == null)
+                throw new MissingResourceException("Missing rendering data", "Camera", "imageWriter");
+            if (this.camera.rayTracer == null)
+                throw new MissingResourceException("Missing rendering data", "Camera", "rayTracer");
             try {
                 return (Camera) this.camera.clone();
             } catch (CloneNotSupportedException e) {
@@ -190,5 +207,33 @@ public class Camera implements Cloneable {
         return new Ray(p0, pIJ.subtract(p0));
     }
 
+    public void renderImage() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                castRay(i, j);
+            }
+        }
+    }
 
+    public void printGrid(int interval, Color color) {
+        for (int i = 0; i < width; i += interval) {
+            for (int j = 0; j < height; j += 1) {
+                imageWriter.writePixel(i, j, new Color(color.getColor()));
+            }
+        }
+
+        for (int i = 0; i < width; i += 1) {
+            for (int j = 0; j < height; j += interval) {
+                imageWriter.writePixel(i, j, new Color(color.getColor()));
+            }
+        }
+    }
+
+    public void writeToImage() {
+        imageWriter.writeToImage();
+    }
+
+    private void castRay(int i, int j) {
+
+    }
 }
