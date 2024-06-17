@@ -11,8 +11,17 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 
+/**
+ * A class to build a scene from an XML file.
+ */
 public class SceneBuilder {
 
+    /**
+     * Builds a Scene object from an XML file.
+     *
+     * @param fileName the name of the XML file
+     * @return the built Scene object
+     */
     public static Scene buildSceneFromXml(String fileName) {
         try {
             File inputFile = new File(fileName);
@@ -55,11 +64,23 @@ public class SceneBuilder {
         }
     }
 
+    /**
+     * Parses a color string in the format "R G B" and returns a Color object.
+     *
+     * @param colorStr the color string
+     * @return the parsed Color object
+     */
     private static Color parseColor(String colorStr) {
         String[] rgb = colorStr.split(" ");
         return new Color(Double.parseDouble(rgb[0]), Double.parseDouble(rgb[1]), Double.parseDouble(rgb[2]));
     }
 
+    /**
+     * Parses a geometry element and returns the corresponding Geometry object.
+     *
+     * @param geometryElement the geometry element
+     * @return the parsed Geometry object
+     */
     private static Geometry parseGeometry(Element geometryElement) {
         String type = geometryElement.getTagName();
         switch (type) {
@@ -78,6 +99,12 @@ public class SceneBuilder {
         }
     }
 
+    /**
+     * Parses a point string in the format "X Y Z" and returns a Point object.
+     *
+     * @param pointStr the point string
+     * @return the parsed Point object
+     */
     private static Point parsePoint(String pointStr) {
         String[] xyz = pointStr.split(" ");
         return new Point(Double.parseDouble(xyz[0]), Double.parseDouble(xyz[1]), Double.parseDouble(xyz[2]));

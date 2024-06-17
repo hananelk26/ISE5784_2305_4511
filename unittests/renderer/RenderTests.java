@@ -48,6 +48,7 @@ public class RenderTests {
 
         // right
         camera
+                .setRayTracer(new SimpleRayTracer(scene))
                 .setImageWriter(new ImageWriter("base render test", 1000, 1000))
                 .build()
                 .renderImage()
@@ -60,10 +61,17 @@ public class RenderTests {
      */
     @Test
     public void basicRenderXml() {
+        /**
+         * Directory path for the image file generation - relative to the user
+         * directory
+         */
+        final String FOLDER_PATH = System.getProperty("user.dir") + "/renderTestTwoColors";
+
         // Build scene from XML
-        Scene scene = SceneBuilder.buildSceneFromXml("C:\\Users\\USER\\Desktop\\MiniP software engineering\\renderTestTwoColors.xml");
+          Scene scene = SceneBuilder.buildSceneFromXml(FOLDER_PATH + ".xml");
 
         camera
+                .setRayTracer(new SimpleRayTracer(scene))
                 .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
                 .build()
                 .renderImage()
