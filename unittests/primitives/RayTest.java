@@ -16,12 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class RayTest {
 
     /**
-     * Test method for {@link primitives.Ray#getPoint(double)} (primitives.Ray)}.
+     * Test method for {@link primitives.Ray#getPoint(double)}.
      */
     @Test
     void getPoint() {
         // ============ Equivalence Partitions Tests ==============
-        //TC01: regular test that the function works well
+        // TC01: Regular test that the function works well
         Ray ray = new Ray(new Point(1, 0, 0), new Vector(0, 1, 0));
         assertEquals(new Point(1, 4, 0), ray.getPoint(4),
                 "Fail getPoint doesn't return the correct point t positive");
@@ -30,12 +30,14 @@ class RayTest {
                 "Fail getPoint doesn't return the correct point t negative");
 
         // =============== Boundary Values Tests ==================
-        //tc02:
+        // TC02: Test with t=0
         assertEquals(new Point(1, 0, 0), ray.getPoint(0),
                 "Fail getPoint with t=0");
-
     }
 
+    /**
+     * Test method for {@link primitives.Ray#findClosestPoint(java.util.List)}.
+     */
     @Test
     void findClosestPointTest() {
         Point p123 = new Point(1, 2, 3);
@@ -48,28 +50,23 @@ class RayTest {
         points.add(p123);
         points.add(p555);
         points.add(pm1m70);
+
         // ============ Equivalence Partitions Tests ==============
-        //TC01:
+        // TC01: Regular test to find the closest point
         assertEquals(p555, ray1.findClosestPoint(points),
                 "Failed: findClosestPoint (TC01)");
 
         // =============== Boundary Values Tests ==================
-
-
-        //TC02:
+        // TC02: Test with an empty list
         assertNull(ray1.findClosestPoint(new LinkedList<Point>()),
                 "Failed: findClosestPoint (TC02)");
 
-        //TC03:
+        // TC03: Test with the first point being the closest
         assertEquals(p123, new Ray(new Point(1, 2, 4), v100).findClosestPoint(points),
                 "Failed: findClosestPoint (TC03)");
 
-        //TC04:
+        // TC04: Test with the last point being the closest
         assertEquals(pm1m70, new Ray(new Point(-1, -7, -1), v100).findClosestPoint(points),
                 "Failed: findClosestPoint (TC04)");
-
-
     }
-
-
 }

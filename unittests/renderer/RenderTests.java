@@ -9,6 +9,7 @@ import lighting.AmbientLight;
 import primitives.*;
 import renderer.*;
 import scene.Scene;
+import scene.SceneBuilder;
 
 /**
  * Test rendering a basic image
@@ -25,7 +26,7 @@ public class RenderTests {
      */
     private final Camera.Builder camera = Camera.getBuilder()
             .setRayTracer(new SimpleRayTracer(scene))
-            .setLocation(new Vector(0,0,-1)).setDirection(new Vector(0, 0, -1),new  Vector(0,1,0))
+            .setLocation(new Vector(0, 0, -1)).setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
             .setVpDistance(100)
             .setVpSize(500, 500);
 
@@ -54,21 +55,22 @@ public class RenderTests {
                 .writeToImage();
     }
 
-//    /** Test for XML based scene - for bonus */
-//    @Test
-//    public void basicRenderXml() {
-//        // enter XML file name and parse from XML file into scene object
-//        // using the code you added in appropriate packages
-//        // ...
-//        // NB: unit tests is not the correct place to put XML parsing code
-//
-//        camera
-//                .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
-//                .build()
-//                .renderImage()
-//                .printGrid(100, new Color(YELLOW))
-//                .writeToImage();
-//    }
+    /**
+     * Test for XML based scene - for bonus
+     */
+    @Test
+    public void basicRenderXml() {
+        // Build scene from XML
+        Scene scene = SceneBuilder.buildSceneFromXml("C:\\Users\\USER\\Desktop\\MiniP software engineering\\renderTestTwoColors.xml");
+
+        camera
+                .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
+                .build()
+                .renderImage()
+                .printGrid(100, new Color(java.awt.Color.YELLOW))
+                .writeToImage();
+    }
+
 }
 
 

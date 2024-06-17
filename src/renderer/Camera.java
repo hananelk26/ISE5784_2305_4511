@@ -49,8 +49,14 @@ public class Camera implements Cloneable {
      */
     private double distance = 0.0;
 
+    /**
+     * ImageWriter field
+     */
     private ImageWriter imageWriter;
 
+    /**
+     * RayTracerBase field
+     */
     private RayTracerBase rayTracer;
 
     /**
@@ -125,11 +131,23 @@ public class Camera implements Cloneable {
             return this;
         }
 
+        /**
+         * Sets the ImageWriter for the Camera.
+         *
+         * @param imageWriter the ImageWriter to set
+         * @return the Builder instance for chaining
+         */
         public Builder setImageWriter(ImageWriter imageWriter) {
             this.camera.imageWriter = imageWriter;
             return this;
         }
 
+        /**
+         * Sets the RayTracer for the Camera.
+         *
+         * @param rayTracer the RayTracerBase to set
+         * @return the Builder instance for chaining
+         */
         public Builder setRayTracer(RayTracerBase rayTracer) {
             this.camera.rayTracer = rayTracer;
             return this;
@@ -207,21 +225,42 @@ public class Camera implements Cloneable {
         return new Ray(p0, pIJ.subtract(p0));
     }
 
+    /**
+     * Renders the image by casting rays for each pixel.
+     *
+     * @return The current Camera instance (for method chaining).
+     */
     public Camera renderImage() {
         for (int i = 0; i < imageWriter.getNx(); i++) {
             for (int j = 0; j < imageWriter.getNy(); j++) {
-                castRay(imageWriter.getNx(),imageWriter.getNy(),i,j);
+                castRay(imageWriter.getNx(), imageWriter.getNy(), i, j);
             }
         }
         return this;
     }
 
+    /**
+     * Casts a ray for a specific pixel and writes the color to the image.
+     *
+     * @param nX The number of pixels in the x-direction.
+     * @param nY The number of pixels in the y-direction.
+     * @param j  The x-coordinate of the pixel.
+     * @param i  The y-coordinate of the pixel.
+     */
     private void castRay(int nX, int nY, int j, int i) {
         Ray rayConstruct = this.constructRay(nX, nY, j, i);
         Color pixelColor = rayTracer.traceRay(rayConstruct);
         imageWriter.writePixel(j, i, pixelColor);
     }
 
+
+    /**
+     * Prints a grid on the image with the specified interval and color.
+     *
+     * @param interval The interval between grid lines.
+     * @param color    The color of the grid lines.
+     * @return The current Camera instance (for method chaining).
+     */
     public Camera printGrid(int interval, Color color) {
         for (int i = 0; i < imageWriter.getNx(); i += interval) {
             for (int j = 0; j < imageWriter.getNy(); j += 1) {
@@ -237,6 +276,9 @@ public class Camera implements Cloneable {
         return this;
     }
 
+    /**
+     * Writes the image to the file system.
+     */
     public void writeToImage() {
         imageWriter.writeToImage();
     }
