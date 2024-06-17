@@ -68,7 +68,7 @@ public class RenderTests {
         final String FOLDER_PATH = System.getProperty("user.dir") + "/renderTestTwoColors";
 
         // Build scene from XML
-          Scene scene = SceneBuilder.buildSceneFromXml(FOLDER_PATH + ".xml");
+        Scene scene = SceneBuilder.buildSceneFromXml(FOLDER_PATH + ".xml");
 
         camera
                 .setRayTracer(new SimpleRayTracer(scene))

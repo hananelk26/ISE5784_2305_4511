@@ -270,7 +270,7 @@ public class Camera implements Cloneable {
 
         for (int i = 0; i < imageWriter.getNx(); i += 1) {
             for (int j = 0; j < imageWriter.getNy(); j += interval) {
-                imageWriter.writePixel(i, j,color);
+                imageWriter.writePixel(i, j, color);
             }
         }
         return this;
