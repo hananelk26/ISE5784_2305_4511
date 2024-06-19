@@ -27,8 +27,7 @@ public class SimpleRayTracer extends RayTracerBase {
     @Override
     public Color traceRay(Ray ray) {
         List<Point> points = scene.geometries.findIntersections(ray);
-        if (points == null) return scene.background;
-        return calcColor(ray.findClosestPoint(points));
+        return points == null ? scene.background : calcColor(ray.findClosestPoint(points));
     }
 
     /**

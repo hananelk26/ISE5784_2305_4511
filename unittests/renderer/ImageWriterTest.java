@@ -3,6 +3,8 @@ package renderer;
 import org.junit.jupiter.api.Test;
 import primitives.Color;
 
+import static java.awt.Color.*;
+
 /**
  * Test class for ImageWriter.
  * This test writes a test image with a grid pattern where the grid lines are red
@@ -16,21 +18,20 @@ public class ImageWriterTest {
      */
     @Test
     public void writeToImageTest() {
-        int height = 500;
-        int width = 800;
-        ImageWriter imageWriter = new ImageWriter("testImage", width, height);
+        final int height = 501;
+        final int width = 801;
+        final ImageWriter imageWriter = new ImageWriter("testImage", width, height);
+        final int interval = 50;
+        final Color color1 = new Color(RED);
+        final Color color2 = new Color(BLUE);
 
         // Loop through all pixels and set their colors based on their position.
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 // Draw red lines every 50 pixels
-                if (i % 50 == 0 || j % 50 == 0) {
-                    imageWriter.writePixel(i, j, new Color(java.awt.Color.RED));
-                }
                 // Fill the rest with blue
-                else {
-                    imageWriter.writePixel(i, j, new Color(java.awt.Color.BLUE));
-                }
+                imageWriter.writePixel(i, j,
+                        i % interval == 0 || j % interval == 0 ? color1 : color2);
             }
         }
 

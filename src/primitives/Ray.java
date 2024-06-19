@@ -75,7 +75,6 @@ public class Ray {
         return isZero(t) ? this.head : this.head.add(direction.scale(t));
     }
 
-
     /**
      * calculate the closest point to the head of the ray
      *
@@ -83,21 +82,20 @@ public class Ray {
      * @return the closest point
      */
     public Point findClosestPoint(List<Point> listOfPoints) {
-        if (listOfPoints.isEmpty()) return null;
+        if (listOfPoints == null || listOfPoints.isEmpty()) return null;
 
-        Point headOfRay = getHead();
-        Point closetPoint = listOfPoints.getFirst();
-        double smallest = closetPoint.distanceSquared(headOfRay);
+        Point closetPoint = null;
+        double smallest = Double.POSITIVE_INFINITY;
+
         for (Point point : listOfPoints) {
-            double distance = point.distanceSquared(headOfRay);
+            double distance = point.distanceSquared(head);
             if (distance < smallest) {
                 closetPoint = point;
                 smallest = distance;
             }
-
         }
-        return closetPoint;
 
+        return closetPoint;
     }
 
 

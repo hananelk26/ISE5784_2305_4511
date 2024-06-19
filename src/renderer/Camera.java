@@ -162,25 +162,29 @@ public class Camera implements Cloneable {
         public Camera build() {
             if (this.camera.p0 == null)
                 throw new MissingResourceException("Missing rendering data", "Camera", "location");
-            if (this.camera.vTo == null) throw new MissingResourceException("Missing rendering data", "Camera", "vTo");
-            if (this.camera.vUp == null) throw new MissingResourceException("Missing rendering data", "Camera", "vUp");
+
             if (isZero(this.camera.width))
                 throw new MissingResourceException("Missing rendering data", "Camera", "width");
             if (isZero(this.camera.height))
                 throw new MissingResourceException("Missing rendering data", "Camera", "height");
             if (isZero(this.camera.distance))
                 throw new MissingResourceException("Missing rendering data", "Camera", "distance");
-            this.camera.vRight = this.camera.vUp.crossProduct(this.camera.vTo).normalize();
+
+            if (this.camera.vTo == null) throw new MissingResourceException("Missing rendering data", "Camera", "vTo");
+            if (this.camera.vUp == null) throw new MissingResourceException("Missing rendering data", "Camera", "vUp");
             if (!isZero(this.camera.vTo.dotProduct(this.camera.vUp)))
                 throw new IllegalArgumentException("Vectors must be orthogonal");
+            this.camera.vRight = this.camera.vUp.crossProduct(this.camera.vTo).normalize();
+
             if (this.camera.imageWriter == null)
                 throw new MissingResourceException("Missing rendering data", "Camera", "imageWriter");
             if (this.camera.rayTracer == null)
                 throw new MissingResourceException("Missing rendering data", "Camera", "rayTracer");
             try {
+
                 return (Camera) this.camera.clone();
             } catch (CloneNotSupportedException e) {
-                throw new RuntimeException(e);
+                throw new AssertionError(e);
             }
         }
     }
@@ -231,9 +235,11 @@ public class Camera implements Cloneable {
      * @return The current Camera instance (for method chaining).
      */
     public Camera renderImage() {
-        for (int i = 0; i < imageWriter.getNx(); i++) {
-            for (int j = 0; j < imageWriter.getNy(); j++) {
-                castRay(imageWriter.getNx(), imageWriter.getNy(), i, j);
+        int Nx = imageWriter.getNx();
+        int Ny = imageWriter.getNy();
+        for (int i = 0; i < Nx; i++) {
+            for (int j = 0; j < Ny; j++) {
+                castRay(Nx, Ny, i, j);
             }
         }
         return this;
