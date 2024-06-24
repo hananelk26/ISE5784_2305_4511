@@ -10,11 +10,27 @@ import java.util.List;
  */
 public abstract class Intersectable {
 
+    /**
+     * GeoPoint class represents a point on a geometry.
+     * It contains the geometry and the specific point on the geometry.
+     */
     public static class GeoPoint {
+        /**
+         * The geometry of the point.
+         */
         public Geometry geometry;
+        /**
+         * The specific point on the geometry.
+         */
         public Point point;
 
-        public GeoPoint(Geometry geometry, Point point){
+        /**
+         * Constructs a GeoPoint with the specified geometry and point.
+         *
+         * @param geometry the geometry of the point
+         * @param point the specific point on the geometry
+         */
+        public GeoPoint(Geometry geometry, Point point) {
             this.geometry = geometry;
             this.point = point;
         }
@@ -43,12 +59,27 @@ public abstract class Intersectable {
      * @param ray The ray to intersect with the geometric object.
      * @return A list of intersection points, or null if there are no intersections.
      */
-    public final List<Point> findIntersections(Ray ray);
+    public List<Point> findIntersections(Ray ray) {
+        var geoList = findGeoIntersections(ray);
+        return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
+    }
 
-    public final List<GeoPoint> findGeoIntersections(Ray ray)
-    {
+    /**
+     * Finds the geometric intersections of the given ray with the geometry.
+     *
+     * @param ray the ray to find intersections with
+     * @return a list of intersection points, or null if there are no intersections
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray) {
         return findGeoIntersectionsHelper(ray);
     }
 
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    /**
+     * Helper method to find geometric intersections of the given ray.
+     * This method is meant to be implemented by subclasses.
+     *
+     * @param ray the ray to find intersections with
+     * @return a list of intersection points, or null if there are no intersections
+     */
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
 }

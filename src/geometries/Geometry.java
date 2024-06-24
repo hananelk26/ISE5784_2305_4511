@@ -11,13 +11,27 @@ import primitives.Vector;
  */
 public abstract class Geometry extends Intersectable {
 
+    /**
+     * The emission color of the geometry.
+     */
     protected Color emission = Color.BLACK;
 
-    public Color getEmission(){
+    /**
+     * Returns the emission color of the geometry.
+     *
+     * @return the emission color
+     */
+    public Color getEmission() {
         return emission;
     }
 
-    public Geometry setEmission(Color c){
+    /**
+     * Sets the emission color of the geometry.
+     *
+     * @param c the new emission color
+     * @return the geometry itself, for chaining purposes
+     */
+    public Geometry setEmission(Color c) {
         emission = c;
         return this;
     }
