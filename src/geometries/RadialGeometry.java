@@ -6,7 +6,7 @@ import static primitives.Util.alignZero;
  * Represents a radial geometry in a 3D space.
  * Radial geometry is defined by a radius.
  */
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
     /**
      * The radius of the radial geometry.
      */

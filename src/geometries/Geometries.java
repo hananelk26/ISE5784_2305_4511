@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * The Geometries class represents a collection of geometric shapes that can be intersected by a ray.
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
     /**
      * list of geometries bodies
@@ -42,11 +42,26 @@ public class Geometries implements Intersectable {
         this.geometries.addAll(Arrays.asList(geometries));
     }
 
+//    @Override
+//    public List<Point> findIntersections(Ray ray) {
+//        List<Point> listOfPoint = null;
+//        for (var body : geometries) { // pass on collection of geometries
+//            var temp = body.findIntersections(ray);
+//            if (temp != null) { // need to add the points of temp to listOfPoint.
+//                if (listOfPoint == null)
+//                    listOfPoint = new LinkedList<>(temp);
+//                else
+//                    listOfPoint.addAll(temp);
+//            }
+//        }
+//        return listOfPoint;
+//    }
+
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        List<Point> listOfPoint = null;
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+        List<GeoPoint> listOfPoint = null;
         for (var body : geometries) { // pass on collection of geometries
-            var temp = body.findIntersections(ray);
+            var temp = body.findGeoIntersections(ray);
             if (temp != null) { // need to add the points of temp to listOfPoint.
                 if (listOfPoint == null)
                     listOfPoint = new LinkedList<>(temp);

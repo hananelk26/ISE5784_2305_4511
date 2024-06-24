@@ -15,7 +15,7 @@ import static primitives.Util.isZero;
  *
  * @author Dan
  */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
     /**
      * List of polygon's vertices
      */
@@ -95,12 +95,7 @@ public class Polygon implements Geometry {
     }
 
 
-    /**
-     * Finds the intersections of a ray with a polygon.
-     *
-     * @param ray the ray to check for intersections with the polygon
-     * @return a list containing the intersection points if they exist, otherwise null
-     */
+    @Override
     public List<Point> findIntersections(Ray ray) {
         // Find intersections of the ray with the plane of the triangle
         final var intersectionsPoints = plane.findIntersections(ray);

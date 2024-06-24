@@ -235,11 +235,11 @@ public class Camera implements Cloneable {
      * @return The current Camera instance (for method chaining).
      */
     public Camera renderImage() {
-        int Nx = imageWriter.getNx();
-        int Ny = imageWriter.getNy();
-        for (int i = 0; i < Nx; i++) {
-            for (int j = 0; j < Ny; j++) {
-                castRay(Nx, Ny, i, j);
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+        for (int i = 0; i < nX; i++) {
+            for (int j = 0; j < nY; j++) {
+                castRay(nX, nY, i, j);
             }
         }
         return this;
@@ -268,14 +268,16 @@ public class Camera implements Cloneable {
      * @return The current Camera instance (for method chaining).
      */
     public Camera printGrid(int interval, Color color) {
-        for (int i = 0; i < imageWriter.getNx(); i += interval) {
-            for (int j = 0; j < imageWriter.getNy(); j += 1) {
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+        for (int i = 0; i < nX; i += interval) {
+            for (int j = 0; j < nY; j += 1) {
                 imageWriter.writePixel(i, j, color);
             }
         }
 
-        for (int i = 0; i < imageWriter.getNx(); i += 1) {
-            for (int j = 0; j < imageWriter.getNy(); j += interval) {
+        for (int i = 0; i < nX; i += 1) {
+            for (int j = 0; j < nY; j += interval) {
                 imageWriter.writePixel(i, j, color);
             }
         }
