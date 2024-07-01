@@ -288,11 +288,11 @@ public class LightsTests {
     @Test
     public void sphereWithSeveralLightSources(){
         scene1.geometries.add(sphere);
-        scene1.lights.add(new DirectionalLight(sphereLightDirection,sphereLightColor));
-        scene1.lights.add(new PointLight(sphereLightPosition,sphereLightColor)
+        scene1.lights.add(new DirectionalLight(new Vector(1,1,-20),new Color(ORANGE)));
+        scene1.lights.add(new PointLight(new Point(30,40,-20),sphereLightColor)
                 .setKl(0.001).setKq(0.0002));
-        scene1.lights.add(new SpotLight(sphereLightDirection, sphereLightPosition,sphereLightColor)
-                .setKl(0.001).setKq(0.0001));
+        scene1.lights.add(new SpotLight(sphereLightDirection, sphereLightPosition,new Color(white))
+                .setKl(0.0000000001).setKq(0.0000000001));
 
         camera1.setImageWriter(new ImageWriter("sphereWithSeveralLightSources", 500, 500))
                 .build()
