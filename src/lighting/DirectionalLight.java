@@ -5,9 +5,23 @@ import primitives.Point;
 import primitives.Vector;
 import renderer.Camera;
 
+/**
+ * Class representing a directional light source.
+ * A directional light has a specific direction and a uniform intensity across all points.
+ */
 public class DirectionalLight extends Light implements LightSource {
+
+    /**
+     * the direction of the light
+     */
     private Vector direction;
 
+    /**
+     * Constructs a directional light with the specified direction and intensity.
+     *
+     * @param direction the direction of the light
+     * @param intensity the intensity of the light
+     */
     public DirectionalLight(Vector direction, Color intensity){
         super(intensity);
         this.direction=direction.normalize();

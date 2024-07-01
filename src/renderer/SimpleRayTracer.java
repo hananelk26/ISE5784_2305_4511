@@ -41,12 +41,20 @@ public class SimpleRayTracer extends RayTracerBase {
      * Calculates the color at a given intersection point.
      *
      * @param geoPoint The intersection point.
+     * @param ray The intersection ray.
      * @return The color at the intersection point.
      */
     private Color calcColor(GeoPoint geoPoint,Ray ray) {
         return scene.ambientLight.getIntensity().add(calcLocalEffects(geoPoint, ray));
     }
 
+    /**
+     * Calculates the local illumination effects at a given intersection point.
+     *
+     * @param gp The intersection point.
+     * @param ray The ray that intersected with the point.
+     * @return The color contribution from local illumination effects at the intersection point.
+     */
     private Color calcLocalEffects(GeoPoint gp, Ray ray) {
         Vector n = gp.geometry.getNormal(gp.point);
         Vector v = ray.getDirection();
@@ -65,12 +73,29 @@ public class SimpleRayTracer extends RayTracerBase {
         return color;
     }
 
+    /**
+     * Calculates the specular reflection contribution using the Phong model.
+     *
+     * @param material The material of the intersected geometry.
+     * @param n The normal vector at the intersection point.
+     * @param l The direction vector from the light source to the intersection point.
+     * @param nl The dot product of n and l.
+     * @param v The view direction vector.
+     * @return The specular reflection contribution color as Double3 (RGB).
+     */
     private Double3 calcSpecular(Material material,Vector n, Vector l, double nl, Vector v){
         Vector r = l.add(n.scale(-2*nl));
         double mVR = alignZero(v.scale(-1).dotProduct(r));
         return material.kS.scale( pow( (mVR > 0? mVR:0),material.Shininess));
     }
 
+    /**
+     * Calculates the diffuse reflection contribution using the Lambertian model.
+     *
+     * @param material The material of the intersected geometry.
+     * @param nl The dot product of n and l.
+     * @return The diffuse reflection contribution color as Double3 (RGB).
+     */
     private Double3 calcDiffusive(Material material,double nl){
         return material.kD.scale( abs(nl));
     }

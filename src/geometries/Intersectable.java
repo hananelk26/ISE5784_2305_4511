@@ -6,7 +6,7 @@ import primitives.Ray;
 import java.util.List;
 
 /**
- * The Intersectable interface represents geometric objects that can be intersected by a ray.
+ * The Intersectable class represents geometric objects that can be intersected by a ray.
  */
 public abstract class Intersectable {
 

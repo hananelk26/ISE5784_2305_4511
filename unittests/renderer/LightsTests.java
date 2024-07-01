@@ -260,6 +260,11 @@ public class LightsTests {
                 .writeToImage();
     }
 
+    /**
+     * Test case for rendering triangles with several light sources.
+     * Adds triangles to the scene and sets multiple light sources of different types and configurations.
+     * Renders the scene using a specific camera configuration and saves the image.
+     */
     @Test
     public void trianglesWithSeveralLightSources(){
         scene2.geometries.add(triangle1, triangle2);
@@ -275,6 +280,11 @@ public class LightsTests {
                 .writeToImage();
     }
 
+    /**
+     * Test case for rendering a sphere with several light sources.
+     * Adds a sphere to the scene and sets multiple light sources of different types and configurations.
+     * Renders the scene using a specific camera configuration and saves the image.
+     */
     @Test
     public void sphereWithSeveralLightSources(){
         scene1.geometries.add(sphere);

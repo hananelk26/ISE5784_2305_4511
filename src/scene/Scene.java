@@ -32,8 +32,18 @@ public class Scene {
      */
     public Geometries geometries = new Geometries();
 
+    /**
+     * List of light sources present in the scene.
+     */
     public List<LightSource> lights = new LinkedList<>();
 
+    /**
+     * Sets the list of light sources for this scene.
+     * Replaces any existing lights with the new ones provided.
+     *
+     * @param lights the new list of light sources to set
+     * @return the current instance of {@code Scene} with the updated lights
+     */
     public Scene setLights(List<LightSource> lights) {
         this.lights = lights;
         return this;

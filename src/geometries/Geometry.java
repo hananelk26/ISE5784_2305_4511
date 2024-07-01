@@ -6,9 +6,10 @@ import primitives.Point;
 import primitives.Vector;
 
 /**
- * Interface for geometric objects in a 3D space.
+ * Abstract class for geometric objects in a 3D space.
  * Any geometric object should be able to provide the normal vector at a given point on its surface.
- * extends Intersectable class.
+ * Extends the {@code Intersectable} class.
+ * This class provides a foundation for all geometric shapes, ensuring they can be intersected and have a normal vector calculated.
  */
 public abstract class Geometry extends Intersectable {
 
@@ -17,13 +18,26 @@ public abstract class Geometry extends Intersectable {
      */
     protected Color emission = Color.BLACK;
 
-
+    /**
+     * The material of the geometric object.
+     */
     private Material material = new Material();
 
+    /**
+     * Gets the material of the geometric object.
+     *
+     * @return the material of the geometric object
+     */
     public Material getMaterial() {
         return material;
     }
 
+    /**
+     * Sets the material of the geometric object.
+     *
+     * @param material the new material to set
+     * @return the current instance of {@code Geometry} for method chaining
+     */
     public Geometry setMaterial(Material material) {
         this.material = material;
         return this;
