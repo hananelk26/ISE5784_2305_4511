@@ -9,6 +9,7 @@ import lighting.*;
 import primitives.*;
 import renderer.*;
 import scene.Scene;
+//import java.awt.Color;
 
 /**
  * Test rendering a basic image
@@ -254,6 +255,36 @@ public class LightsTests {
         );
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesSpotSharp", 500, 500))
+                .build()
+                .renderImage()
+                .writeToImage();
+    }
+
+    @Test
+    public void trianglesWithSeveralLightSources(){
+        scene2.geometries.add(triangle1, triangle2);
+        scene2.lights.add(new DirectionalLight(new Vector(5,-10,-10),new Color(BLUE)));
+        scene2.lights.add(new PointLight(new Point(70,60,-140),new Color(YELLOW))
+                .setKl(0.001).setKq(0.002));
+        scene2.lights.add(new SpotLight(trianglesLightDirection, new Point(-10,-30,-80),new Color(WHITE))
+                .setKl(0.0000001).setKq(0.0000001));
+
+        camera2.setImageWriter(new ImageWriter("trianglesWithSeveralLightSources", 500, 500))
+                .build()
+                .renderImage()
+                .writeToImage();
+    }
+
+    @Test
+    public void sphereWithSeveralLightSources(){
+        scene1.geometries.add(sphere);
+        scene1.lights.add(new DirectionalLight(sphereLightDirection,sphereLightColor));
+        scene1.lights.add(new PointLight(sphereLightPosition,sphereLightColor)
+                .setKl(0.001).setKq(0.0002));
+        scene1.lights.add(new SpotLight(sphereLightDirection, sphereLightPosition,sphereLightColor)
+                .setKl(0.001).setKq(0.0001));
+
+        camera1.setImageWriter(new ImageWriter("sphereWithSeveralLightSources", 500, 500))
                 .build()
                 .renderImage()
                 .writeToImage();
