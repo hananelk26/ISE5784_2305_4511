@@ -58,7 +58,7 @@ public class Geometries extends Intersectable {
 //    }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         List<GeoPoint> listOfPoint = null;
         for (var body : geometries) { // pass on collection of geometries
             var temp = body.findGeoIntersections(ray);

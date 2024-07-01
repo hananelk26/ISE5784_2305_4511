@@ -39,7 +39,7 @@ public class SpotLight extends PointLight {
      * Constructs a spot light with the specified direction, position, and intensity.
      *
      * @param direction the direction of the spot light's beam
-     * @param position the position of the spot light
+     * @param position  the position of the spot light
      * @param intensity the intensity of the spot light
      */
     public SpotLight(Vector direction, Point position, Color intensity) {
@@ -79,8 +79,8 @@ public class SpotLight extends PointLight {
 
     @Override
     public Color getIntensity(Point p) {
-        double numOfDotProduct = Util.alignZero( super.getL(p).dotProduct(direction));
-        return super.getIntensity(p).scale(numOfDotProduct > 0? (narrowBeam != 1? pow(numOfDotProduct,narrowBeam): numOfDotProduct):0);
+        double numOfDotProduct = Util.alignZero(super.getL(p).dotProduct(direction));
+        return super.getIntensity(p).scale(numOfDotProduct > 0 ? (narrowBeam != 1 ? pow(numOfDotProduct, narrowBeam) : numOfDotProduct) : 0);
     }
 
     @Override

@@ -6,7 +6,7 @@ import primitives.Double3;
 /**
  * Represents ambient light in a scene, contributing uniform light across all objects.
  */
-public class AmbientLight extends Light{
+public class AmbientLight extends Light {
 
 
     /**
@@ -35,4 +35,4 @@ public class AmbientLight extends Light{
     final public static AmbientLight NONE = new AmbientLight(Color.BLACK, 0);
 
 
-   }
+}

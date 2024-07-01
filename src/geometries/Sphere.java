@@ -62,12 +62,11 @@ public class Sphere extends RadialGeometry {
 //    }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray)
-    {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         Point p0 = ray.getHead();
         Vector v = ray.getDirection();
         if (center.equals(p0))
-            return List.of(new GeoPoint(this,center.add(v.scale(radius))));
+            return List.of(new GeoPoint(this, center.add(v.scale(radius))));
 
         Vector u = center.subtract(p0);  // Vector from ray start to sphere center
         double tm = v.dotProduct(u); // Projection of u on the ray direction
@@ -84,7 +83,7 @@ public class Sphere extends RadialGeometry {
 
         double t1 = tm - th;// Distance from the ray start to the first intersection point
         return alignZero(t1) <= 0
-                ? List.of(new GeoPoint(this,ray.getPoint(t2)))
-                : List.of(new GeoPoint(this,ray.getPoint(t1)), new GeoPoint(this,ray.getPoint(t2)));
+                ? List.of(new GeoPoint(this, ray.getPoint(t2)))
+                : List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
     }
 }

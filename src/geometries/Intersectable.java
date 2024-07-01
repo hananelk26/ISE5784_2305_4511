@@ -28,7 +28,7 @@ public abstract class Intersectable {
          * Constructs a GeoPoint with the specified geometry and point.
          *
          * @param geometry the geometry of the point
-         * @param point the specific point on the geometry
+         * @param point    the specific point on the geometry
          */
         public GeoPoint(Geometry geometry, Point point) {
             this.geometry = geometry;
