@@ -94,7 +94,6 @@ public class Polygon extends Geometry {
         return plane.getNormal(point);
     }
 
-
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         // Find intersections of the ray with the plane of the triangle

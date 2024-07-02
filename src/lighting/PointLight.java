@@ -13,7 +13,7 @@ public class PointLight extends Light implements LightSource {
     /**
      * the position of light
      */
-    private Point position;
+    private final Point position;
 
     /**
      * Attenuation coefficients for light sources.
@@ -62,7 +62,7 @@ public class PointLight extends Light implements LightSource {
      * @param kC the constant attenuation coefficient
      * @return the current instance of {@code PointLight} for method chaining
      */
-    public PointLight setKC(double kC) {
+    public PointLight setKc(double kC) {
         this.kC = kC;
         return this;
     }

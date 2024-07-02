@@ -13,18 +13,10 @@ import static primitives.Util.isZero;
  * A tube is defined by a radius and a central axis ray.
  */
 public class Tube extends RadialGeometry {
-
-    /**
-     * Delta value for accuracy when comparing the numbers of type 'double' in
-     * assertEquals
-     */
-    private final double DELTA = 0.000001;
-
-
     /**
      * The central axis of the tube.
      */
-    final protected Ray axis;
+    protected final Ray axis;
 
     /**
      * Constructs a tube with the specified radius and axis ray.
@@ -48,11 +40,6 @@ public class Tube extends RadialGeometry {
         // If the projection distance is not zero, find the projection point on the axis
         return point.subtract(axis.getPoint(t)).normalize();
     }
-
-//    @Override
-//    public List<Point> findIntersections(Ray ray) {
-//        return null;
-//    }
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {

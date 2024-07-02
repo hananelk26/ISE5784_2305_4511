@@ -10,7 +10,7 @@ abstract class Light {
     /**
      * The intensity of the light.
      */
-    protected Color intensity;
+    protected final Color intensity;
 
     /**
      * Constructs a light source with the specified intensity.
@@ -29,6 +29,5 @@ abstract class Light {
     public Color getIntensity() {
         return intensity;
     }
-
 
 }

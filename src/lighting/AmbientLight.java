@@ -8,7 +8,6 @@ import primitives.Double3;
  */
 public class AmbientLight extends Light {
 
-
     /**
      * Constructs an AmbientLight with the given intensity and attenuation factor.
      *

@@ -63,7 +63,6 @@ public abstract class Geometry extends Intersectable {
         return this;
     }
 
-
     /**
      * Returns the normal vector to the geometric object at the given point.
      *

@@ -5,12 +5,6 @@ import primitives.*;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
 
-
-import java.util.Formattable;
-import java.util.LinkedList;
-import java.util.List;
-
-
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 import static primitives.Util.alignZero;
@@ -30,11 +24,10 @@ public class SimpleRayTracer extends RayTracerBase {
         super(scene);
     }
 
-
     @Override
     public Color traceRay(Ray ray) {
-        List<GeoPoint> points = scene.geometries.findGeoIntersections(ray);
-        return points == null ? scene.background : calcColor(ray.findClosestGeoPoint(points), ray);
+        var point = ray.findClosestGeoPoint(scene.geometries.findGeoIntersections(ray));
+        return point == null ? scene.background : calcColor(point, ray);
     }
 
     /**
@@ -61,6 +54,7 @@ public class SimpleRayTracer extends RayTracerBase {
         double nv = alignZero(n.dotProduct(v));
         Color color = gp.geometry.getEmission();
         if (nv == 0) return color;
+
         Material material = gp.geometry.getMaterial();
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(gp.point);
@@ -85,12 +79,12 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 calcSpecular(Material material, Vector n, Vector l, double nl, Vector v) {
         Vector r = l.add(n.scale(-2 * nl));
-        double mVR = alignZero(v.scale(-1).dotProduct(r));
-        return material.kS.scale(pow((mVR > 0 ? mVR : 0), material.Shininess));
+        double mVR = alignZero(-v.dotProduct(r));
+        return mVR <= 0 ? Double3.ZERO : material.kS.scale(pow(mVR, material.Shininess));
     }
 
     /**
-     * Calculates the diffuse reflection contribution using the Lambertian model.
+     * Calculates the diffuse reflection contribution.
      *
      * @param material The material of the intersected geometry.
      * @param nl       The dot product of n and l.
