@@ -8,10 +8,18 @@ package primitives;
 public class Material {
 
     /**
-     * Diffuse reflection coefficient (kD) and specular reflection coefficient (kS) of the material.
-     * Both coefficients are initialized to zero (represented as Double3.ZERO).
+     * The diffuse coefficient of the material.
+     * Represents how much light is scattered when it hits the surface.
+     * Initialized to {@code Double3.ZERO}.
      */
-    public Double3 kD = Double3.ZERO, kS = Double3.ZERO;
+    public Double3 kD = Double3.ZERO;
+
+    /**
+     * The specular coefficient of the material.
+     * Represents the reflection of light in a specific direction.
+     * Initialized to {@code Double3.ZERO}.
+     */
+    public Double3 kS = Double3.ZERO;
 
     /**
      * Shininess parameter affecting the size of the specular highlight.
