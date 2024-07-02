@@ -30,7 +30,6 @@ public class Cylinder extends Tube {
         this.height = height;
     }
 
-
     @Override
     public Vector getNormal(Point point) {
         Point p0 = axis.getHead();

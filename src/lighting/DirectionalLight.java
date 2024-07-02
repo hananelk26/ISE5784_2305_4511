@@ -3,7 +3,6 @@ package lighting;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
-import renderer.Camera;
 
 /**
  * Class representing a directional light source.
@@ -14,7 +13,7 @@ public class DirectionalLight extends Light implements LightSource {
     /**
      * the direction of the light
      */
-    private Vector direction;
+    private final Vector direction;
 
     /**
      * Constructs a directional light with the specified direction and intensity.
@@ -22,9 +21,9 @@ public class DirectionalLight extends Light implements LightSource {
      * @param direction the direction of the light
      * @param intensity the intensity of the light
      */
-    public DirectionalLight(Vector direction, Color intensity){
+    public DirectionalLight(Vector direction, Color intensity) {
         super(intensity);
-        this.direction=direction.normalize();
+        this.direction = direction.normalize();
     }
 
     @Override

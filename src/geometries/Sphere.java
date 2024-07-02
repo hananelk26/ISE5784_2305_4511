@@ -35,39 +35,12 @@ public class Sphere extends RadialGeometry {
         return (point.subtract(center)).normalize();// Returns a vector whose beginning is the center point of the sphere and its end is the point for which you want a normal vector.
     }
 
-//    @Override
-//    public List<Point> findIntersections(Ray ray) {
-//        Point p0 = ray.getHead();
-//        Vector v = ray.getDirection();
-//        if (center.equals(p0))
-//            return List.of(center.add(v.scale(radius)));
-//
-//        Vector u = center.subtract(p0);  // Vector from ray start to sphere center
-//        double tm = v.dotProduct(u); // Projection of u on the ray direction
-//        // Square of the distance from the sphere center to the ray
-//        double dSquared = u.lengthSquared() - tm * tm;
-//        double thSquared = radiusSquared - dSquared;
-//        // If the distance from the ray to the sphere center is greater than the radius, no intersections
-//        if (alignZero(thSquared) <= 0) return null;
-//
-//        double th = sqrt(thSquared);// Distance from the intersection points to the point where the ray is closest to the sphere center
-//
-//        double t2 = tm + th;// Distance from the ray start to the second intersection point
-//        if (alignZero(t2) <= 0) return null; // t1 < t2 <= 0
-//
-//        double t1 = tm - th;// Distance from the ray start to the first intersection point
-//        return alignZero(t1) <= 0
-//                ? List.of(ray.getPoint(t2))
-//                : List.of(ray.getPoint(t1), ray.getPoint(t2));
-//    }
-
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray)
-    {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         Point p0 = ray.getHead();
         Vector v = ray.getDirection();
         if (center.equals(p0))
-            return List.of(new GeoPoint(this,center.add(v.scale(radius))));
+            return List.of(new GeoPoint(this, center.add(v.scale(radius))));
 
         Vector u = center.subtract(p0);  // Vector from ray start to sphere center
         double tm = v.dotProduct(u); // Projection of u on the ray direction
@@ -84,7 +57,7 @@ public class Sphere extends RadialGeometry {
 
         double t1 = tm - th;// Distance from the ray start to the first intersection point
         return alignZero(t1) <= 0
-                ? List.of(new GeoPoint(this,ray.getPoint(t2)))
-                : List.of(new GeoPoint(this,ray.getPoint(t1)), new GeoPoint(this,ray.getPoint(t2)));
+                ? List.of(new GeoPoint(this, ray.getPoint(t2)))
+                : List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
     }
 }

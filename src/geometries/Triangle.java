@@ -26,7 +26,6 @@ public class Triangle extends Polygon {
 
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-
         // Find intersections of the ray with the plane of the triangle
         final var intersectionsPoints = plane.findIntersections(ray);
         //intersectionsPoints is null that means that there are no cut points
@@ -56,6 +55,6 @@ public class Triangle extends Polygon {
         double vn3 = alignZero(v.dotProduct(n3));
         if (vn1 * vn3 <= 0) return null;
 
-        return List.of(new GeoPoint(this,intersectionsPoints.getFirst()) ) ;
+        return List.of(new GeoPoint(this, intersectionsPoints.getFirst()));
     }
 }

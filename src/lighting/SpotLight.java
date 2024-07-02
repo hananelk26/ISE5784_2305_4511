@@ -5,12 +5,11 @@ import primitives.Point;
 import primitives.Vector;
 import primitives.Util;
 
-import static java.lang.Math.max;
 import static java.lang.Math.pow;
 
 /**
- * Class representing a spot light source, which is a type of point light source with a directional beam.
- * A spot light has a specific position, direction, and intensity that diminishes with distance and beam direction.
+ * Class representing a spotlight source, which is a type of point light source with a directional beam.
+ * A spotlight has a specific position, direction, and intensity that diminishes with distance and beam direction.
  */
 public class SpotLight extends PointLight {
 
@@ -20,12 +19,12 @@ public class SpotLight extends PointLight {
     Vector direction;
 
     /**
-     * The narrowness factor of the spot light's beam.
+     * The narrowness factor of the spotlight's beam.
      */
     private double narrowBeam = 1;
 
     /**
-     * Sets the narrowness factor of the spot light's beam.
+     * Sets the narrowness factor of the spotlight's beam.
      *
      * @param narrowBeam the narrowness factor (1 for default, higher values for narrower beams)
      * @return the current instance of {@code SpotLight} for method chaining
@@ -36,11 +35,11 @@ public class SpotLight extends PointLight {
     }
 
     /**
-     * Constructs a spot light with the specified direction, position, and intensity.
+     * Constructs a spotlight with the specified direction, position, and intensity.
      *
-     * @param direction the direction of the spot light's beam
-     * @param position the position of the spot light
-     * @param intensity the intensity of the spot light
+     * @param direction the direction of the spotlight's beam
+     * @param position  the position of the spotlight
+     * @param intensity the intensity of the spotlight
      */
     public SpotLight(Vector direction, Point position, Color intensity) {
         super(position, intensity);
@@ -53,8 +52,9 @@ public class SpotLight extends PointLight {
      * @param kQ the quadratic attenuation coefficient
      * @return the current instance of {@code SpotLight} for method chaining
      */
-    public PointLight setKQ(double kQ) {
-        return super.setKq(kQ);
+    @Override
+    public SpotLight setKq(double kQ) {
+        return (SpotLight) super.setKq(kQ);
     }
 
     /**
@@ -63,8 +63,9 @@ public class SpotLight extends PointLight {
      * @param kL the linear attenuation coefficient
      * @return the current instance of {@code SpotLight} for method chaining
      */
-    public PointLight setKL(double kL) {
-        return super.setKl(kL);
+    @Override
+    public SpotLight setKl(double kL) {
+        return (SpotLight) super.setKl(kL);
     }
 
     /**
@@ -73,18 +74,15 @@ public class SpotLight extends PointLight {
      * @param kC the constant attenuation coefficient
      * @return the current instance of {@code SpotLight} for method chaining
      */
-    public PointLight setKC(double kC) {
-        return super.setKC(kC);
+    @Override
+    public SpotLight setKc(double kC) {
+        return (SpotLight) super.setKc(kC);
     }
 
     @Override
     public Color getIntensity(Point p) {
-        double numOfDotProduct = Util.alignZero( super.getL(p).dotProduct(direction));
-        return super.getIntensity(p).scale(numOfDotProduct > 0? (narrowBeam != 1? pow(numOfDotProduct,narrowBeam): numOfDotProduct):0);
-    }
-
-    @Override
-    public Vector getL(Point p) {
-        return super.getL(p);
+        double cosine = Util.alignZero(super.getL(p).dotProduct(direction));
+        return cosine <= 0 ? Color.BLACK
+                : super.getIntensity(p).scale(narrowBeam != 1 ? pow(cosine, narrowBeam) : cosine);
     }
 }

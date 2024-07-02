@@ -75,7 +75,7 @@ public class Plane extends Geometry {
 //    }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         Vector direction = ray.getDirection();
         Point p0 = ray.getHead();
         if (p.equals(p0)) return null; // The ray start on the plane (0 points)
@@ -88,7 +88,7 @@ public class Plane extends Geometry {
         return t <= 0
                 // if t<0 then the ray not cut the plane and if t == 0 then the ray lie start on the plane.        if (t > 0){
                 ? null
-                : List.of(new GeoPoint(this,ray.getPoint(t)));
+                : List.of(new GeoPoint(this, ray.getPoint(t)));
     }
 
 }
