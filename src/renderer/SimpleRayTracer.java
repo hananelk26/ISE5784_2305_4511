@@ -5,6 +5,8 @@ import primitives.*;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
 
+import java.util.List;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 import static primitives.Util.alignZero;
@@ -14,6 +16,11 @@ import static primitives.Util.alignZero;
  * responsible for tracing rays in a scene and determining the color of the closest intersection point.
  */
 public class SimpleRayTracer extends RayTracerBase {
+
+    /**
+     * filed to move the ray
+     */
+    private static final double DELTA = 0.1;
 
     /**
      * Constructs a SimpleRayTracer with the given scene.
@@ -59,7 +66,7 @@ public class SimpleRayTracer extends RayTracerBase {
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(gp.point);
             double nl = alignZero(n.dotProduct(l));
-            if (nl * nv > 0) {
+            if (nl * nv > 0 && unshaded(gp, l, n, lightSource)) {
                 Color il = lightSource.getIntensity(gp.point);
                 color = color.add(il.scale(calcDiffusive(material, nl).add(calcSpecular(material, n, l, nl, v))));
             }
@@ -93,4 +100,47 @@ public class SimpleRayTracer extends RayTracerBase {
     private Double3 calcDiffusive(Material material, double nl) {
         return material.kD.scale(abs(nl));
     }
+
+    /**
+     * Checks if a given point is unshaded by any geometry in the scene.
+     *
+     * @param gp          the geo-point to check for shading
+     * @param l           the direction vector from the light source to the point
+     * @param n           the normal vector at the geo-point
+     * @param lightSource source of the light
+     * @return true if the point is unshaded, false otherwise
+     */
+    private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource lightSource) {
+        Vector lightDirection = l.scale(-1);  // Direction from the point towards the light source
+        double nl = n.dotProduct(l);          // Dot product of the normal and the light direction
+
+        // Adjust point slightly along the normal to avoid self-shadowing
+        Vector epsVector = n.scale(nl < 0 ? DELTA : -DELTA);
+        Point point = gp.point.add(epsVector);
+
+        // Create a ray from the adjusted point in the direction of the light
+        Ray lightRay = new Ray(point, lightDirection);
+
+        // Find intersections of the light ray with geometries in the scene
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+
+        // Return true if no intersections are found, meaning the point is unshaded
+        if (intersections == null)
+            return true;
+
+        // The distance between lightSource and the point on the body
+        double distance = lightSource.getDistance(gp.point);
+
+        //if one of the intersection point is before the body than return false
+        for (var intersectionPoint : intersections) {
+            if (gp.point.distance(intersectionPoint.point) < distance)
+                return false;
+        }
+
+        // There are no intersection point between the lightSource and the body
+        return true;
+    }
+
 }
+
+

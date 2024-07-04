@@ -24,7 +24,7 @@ public class AmbientLight extends Light {
      * @param intensity The color intensity of the ambient light.
      * @param kA        The attenuation factor for the ambient light as a double.
      */
-    AmbientLight(Color intensity, double kA) {
+    public AmbientLight(Color intensity, double kA) {
         super(intensity.scale(kA));
     }
 
