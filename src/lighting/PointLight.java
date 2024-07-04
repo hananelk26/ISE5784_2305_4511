@@ -16,12 +16,25 @@ public class PointLight extends Light implements LightSource {
     private final Point position;
 
     /**
-     * Attenuation coefficients for light sources.
-     * kQ represents the quadratic attenuation coefficient.
-     * kL represents the linear attenuation coefficient.
-     * kC represents the constant attenuation coefficient.
+     * The quadratic attenuation coefficient (kQ).
+     * This coefficient affects how the intensity of the light decreases over distance squared.
+     * Initialized to 0.
      */
-    private double kQ = 0, kL = 0, kC = 1;
+    private double kQ = 0;
+
+    /**
+     * The linear attenuation coefficient (kL).
+     * This coefficient affects how the intensity of the light decreases linearly over distance.
+     * Initialized to 0.
+     */
+    private double kL = 0;
+
+    /**
+     * The constant attenuation coefficient (kC).
+     * This coefficient provides a base level of attenuation, independent of distance.
+     * Initialized to 1.
+     */
+    private double kC = 1;
 
     /**
      * Constructs a point light with the specified position and intensity.
