@@ -2,7 +2,7 @@ package primitives;
 
 import geometries.Intersectable.GeoPoint;
 
-import java.util.List;
+import java.util.*;
 
 import static primitives.Util.*;
 
@@ -11,6 +11,13 @@ import static primitives.Util.*;
  * A ray is defined by a starting point (head) and a direction vector.
  */
 public class Ray {
+
+    /**
+     * filed to move the ray
+     */
+    private static final double DELTA = 0.1;
+
+
     /**
      * The starting point of the ray.
      */
@@ -32,6 +39,12 @@ public class Ray {
     public Ray(Point head, Vector direction) {
         this.head = head;
         this.direction = direction.normalize();
+    }
+
+    public Ray(Point p,Vector v,Vector n){
+        double res = v.dotProduct(n);
+        head = isZero(res)? p:res>0?p.add(n.scale(DELTA)):p.add(n.scale(-DELTA));
+        this.direction = v.normalize();
     }
 
     /**
