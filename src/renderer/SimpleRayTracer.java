@@ -1,9 +1,12 @@
 package renderer;
+
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
+
 import java.util.List;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 import static primitives.Util.alignZero;
@@ -49,27 +52,26 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
 
-
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
         return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, new Double3(INITIAL_K)).add(scene.ambientLight.getIntensity());
     }
 
     private Color calcColor(GeoPoint geoPoint, Ray ray, int level, Double3 k) {
-        Color color = calcLocalEffects(geoPoint, ray);
+        Color color = calcLocalEffects(geoPoint, ray, k);
         return 1 == level ? color : color.add(calcGlobalEffects(geoPoint, ray, level, k));
     }
 
-    private Color calcGlobalEffect(Ray ray,Double3 kx, int level, Double3 k) {
+    private Color calcGlobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
         Double3 kkx = kx.product(k);
-        if(kkx.lowerThan(MIN_CALC_COLOR_K)) return Color.BLACK;
+        if (kkx.lowerThan(MIN_CALC_COLOR_K)) return Color.BLACK;
         GeoPoint geoPoint = findClosestIntersection(ray);
-        return (geoPoint == null? scene.background:calcColor(geoPoint,ray,level-1,kkx)).scale(kx);
+        return (geoPoint == null ? scene.background : calcColor(geoPoint, ray, level - 1, kkx)).scale(kx);
     }
 
-    private Color calcGlobalEffects(GeoPoint geoPoint,Ray ray, int level, Double3 k) {
+    private Color calcGlobalEffects(GeoPoint geoPoint, Ray ray, int level, Double3 k) {
         Material material = geoPoint.geometry.getMaterial();
-        return calcGlobalEffect(constructRefractedRay(geoPoint,ray.getDirection()),material.kT,level,k)
-                .add(calcGlobalEffect(constructReflectedRay(geoPoint,ray.getDirection()),material.kR,level,k));
+        return calcGlobalEffect(constructRefractedRay(geoPoint, ray.getDirection()), material.kT, level, k)
+                .add(calcGlobalEffect(constructReflectedRay(geoPoint, ray.getDirection()), material.kR, level, k));
     }
 
     /**
@@ -79,7 +81,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param ray The ray that intersected with the point.
      * @return The color contribution from local illumination effects at the intersection point.
      */
-    private Color calcLocalEffects(GeoPoint gp, Ray ray) {
+    private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
         Vector n = gp.geometry.getNormal(gp.point);
         Vector v = ray.getDirection();
         double nv = alignZero(n.dotProduct(v));
@@ -90,9 +92,14 @@ public class SimpleRayTracer extends RayTracerBase {
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(gp.point);
             double nl = alignZero(n.dotProduct(l));
-            if (nl * nv > 0 && unshaded(gp, l, n, lightSource)) {
-                Color il = lightSource.getIntensity(gp.point);
-                color = color.add(il.scale(calcDiffusive(material, nl).add(calcSpecular(material, n, l, nl, v))));
+            if (nl * nv > 0) {
+                Double3 ktr = transparency(gp, lightSource, l, n);
+                if(!ktr.product(k).lowerThan(MIN_CALC_COLOR_K))
+                {
+                    Color il= lightSource.getIntensity(gp.point).scale(ktr);
+                    color = color.add(il.scale(calcDiffusive(material,nl)
+                            .add(calcSpecular(material,n,l,nl,v))));
+                }
             }
         }
         return color;
@@ -125,48 +132,9 @@ public class SimpleRayTracer extends RayTracerBase {
         return material.kD.scale(abs(nl));
     }
 
-    /**
-     * Checks if a given point is unshaded by any geometry in the scene.
-     *
-     * @param gp          the geo-point to check for shading
-     * @param l           the direction vector from the light source to the point
-     * @param n           the normal vector at the geo-point
-     * @param lightSource source of the light
-     * @return true if the point is unshaded, false otherwise
-     */
-    private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource lightSource) {
 
-        Vector lightDirection = l.scale(-1);  // Direction from the point towards the light source
-        double nl = n.dotProduct(l);          // Dot product of the normal and the light direction
 
-        // Adjust point slightly along the normal to avoid self-shadowing
-        Vector epsVector = n.scale(nl < 0 ? DELTA : -DELTA);
-        Point point = gp.point.add(epsVector);
-
-        // Create a ray from the adjusted point in the direction of the light
-        Ray lightRay = new Ray(point, lightDirection);
-
-        // Find intersections of the light ray with geometries in the scene
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
-
-        // Return true if no intersections are found, meaning the point is unshaded
-        if (intersections == null)
-            return true;
-
-        // The distance between lightSource and the point on the body
-        double distance = lightSource.getDistance(gp.point);
-
-        //if one of the intersection point is before the body than return false
-        for (var intersectionPoint : intersections) {
-            if (gp.point.distance(intersectionPoint.point) < distance && intersectionPoint.geometry.getMaterial().kT == Double3.ZERO)
-                return false;
-        }
-
-        // There are no intersection point between the lightSource and the body
-        return true;
-    }
-
-    private GeoPoint findClosestIntersection(Ray ray){
+    private GeoPoint findClosestIntersection(Ray ray) {
         var intersections = scene.geometries.findGeoIntersections(ray);
         if (intersections == null)
             return null;
@@ -182,8 +150,53 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector n = gp.geometry.getNormal(v);
         double nv = n.dotProduct(v);
         if (nv == 0) return null;
-        Vector vec = v.subtract(n.scale(2*nv));
-        return new Ray(gp.point,vec,n);
+        Vector vec = v.subtract(n.scale(2 * nv));
+        return new Ray(gp.point, vec, n);
+    }
+
+    /**
+     * Checks if a given point is unshaded by any geometry in the scene.
+     *
+     * @param geoPoint    the geo-point to check for shading
+     * @param l           the direction vector from the light source to the point
+     * @param n           the normal vector at the geo-point
+     * @param lightSource source of the light
+     * @return white if the point is unshaded, the color otherwise
+     */
+    private Double3 transparency(GeoPoint geoPoint, LightSource lightSource, Vector l, Vector n) {
+        Vector lightDirection = l.scale(-1);  // Direction from the point towards the light source
+        double nl = n.dotProduct(l);          // Dot product of the normal and the light direction
+
+        // Adjust point slightly along the normal to avoid self-shadowing
+        Vector epsVector = n.scale(nl < 0 ? DELTA : -DELTA);
+        Point point = geoPoint.point.add(epsVector);
+
+        // Create a ray from the adjusted point in the direction of the light
+        Ray lightRay = new Ray(point, lightDirection);
+
+        // Find intersections of the light ray with geometries in the scene
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+
+        Double3 ktr = Double3.ONE;
+        if (intersections == null)
+            return ktr;
+
+        // The distance between lightSource and the point on the body
+        double distance = lightSource.getDistance(geoPoint.point);
+
+        // Promotes transparency
+        Double3 kt = geoPoint.geometry.getMaterial().kT;
+
+        //if one of the intersection point is before the body than return false
+        for (var intersectionPoint : intersections) {
+            if (geoPoint.point.distance(intersectionPoint.point) < distance) {
+                ktr = ktr.product(intersectionPoint.geometry.getMaterial().kT);
+                if (ktr.lowerThan(DELTA))
+                    break;
+            }
+        }
+        return ktr;
+
     }
 
 
