@@ -27,6 +27,61 @@ public class Material {
     public int Shininess = 0;
 
     /**
+     * The transmission coefficient of the material.
+     */
+    public Double3 kT = Double3.ZERO;
+
+    /**
+     * The reflection coefficient of the material.
+     */
+    public Double3 kR = Double3.ZERO;
+
+    /**
+     * Sets the transmission coefficient of the material.
+     *
+     * @param kT The new transmission coefficient.
+     * @return The current Material object.
+     */
+    public Material setKT(Double3 kT){
+        this.kT = kT;
+        return this;
+    }
+
+    /**
+     * Sets the reflection coefficient of the material.
+     *
+     * @param kR The new reflection coefficient.
+     * @return The current Material object.
+     */
+    public Material setKR(Double3 kR){
+        this.kR = kR;
+        return this;
+    }
+
+    /**
+     * Sets the transmission coefficient of the material.
+     *
+     * @param kT The new transmission coefficient as a double.
+     * @return The current Material object.
+     */
+    public Material setKT(double kT){
+        this.kT = new Double3(kT);
+        return this;
+    }
+
+    /**
+     * Sets the reflection coefficient of the material.
+     *
+     * @param kR The new reflection coefficient as a double.
+     * @return The current Material object.
+     */
+    public Material setKR(double kR){
+        this.kR = new Double3(kR);
+        return this;
+    }
+
+
+    /**
      * Sets the shininess parameter of the material.
      *
      * @param shininess The shininess value to set.
