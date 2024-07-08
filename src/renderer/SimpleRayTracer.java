@@ -34,6 +34,10 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private static final double MIN_CALC_COLOR_K = 0.001;
 
+    /**
+     * Initial attenuation factor for calculating light intensity.
+     * This constant is used in various lighting calculations to initialize the attenuation factor.
+     */
     private static final double INITIAL_K = 1.0;
 
     /**
@@ -51,16 +55,40 @@ public class SimpleRayTracer extends RayTracerBase {
         return point == null ? scene.background : calcColor(point, ray);
     }
 
-
+    /**
+     * Calculate the color at a specific point considering the ray and the maximum recursion level.
+     *
+     * @param geoPoint the intersection point of the geometry and the ray.
+     * @param ray      the ray that intersects the geometry.
+     * @return the calculated color including ambient light.
+     */
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
         return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, new Double3(INITIAL_K)).add(scene.ambientLight.getIntensity());
     }
 
+    /**
+     * Calculate the color at a specific point considering the ray, recursion level, and attenuation factor.
+     *
+     * @param geoPoint the intersection point of the geometry and the ray.
+     * @param ray      the ray that intersects the geometry.
+     * @param level    the current recursion level.
+     * @param k        the attenuation factor.
+     * @return the calculated color.
+     */
     private Color calcColor(GeoPoint geoPoint, Ray ray, int level, Double3 k) {
         Color color = calcLocalEffects(geoPoint, ray, k);
         return 1 == level ? color : color.add(calcGlobalEffects(geoPoint, ray, level, k));
     }
 
+    /**
+     * Calculate the global effect of a ray considering the attenuation factor and recursion level.
+     *
+     * @param ray    the ray to calculate the global effect for.
+     * @param kx     the material's attenuation factor.
+     * @param level  the current recursion level.
+     * @param k      the accumulated attenuation factor.
+     * @return the calculated color including global effects.
+     */
     private Color calcGlobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
         Double3 kkx = kx.product(k);
         if (kkx.lowerThan(MIN_CALC_COLOR_K)) return Color.BLACK;
@@ -68,6 +96,15 @@ public class SimpleRayTracer extends RayTracerBase {
         return (geoPoint == null ? scene.background : calcColor(geoPoint, ray, level - 1, kkx)).scale(kx);
     }
 
+    /**
+     * Calculate the global effects of reflection and refraction at a specific point.
+     *
+     * @param geoPoint the intersection point of the geometry and the ray.
+     * @param ray      the ray that intersects the geometry.
+     * @param level    the current recursion level.
+     * @param k        the attenuation factor.
+     * @return the calculated color including reflection and refraction effects.
+     */
     private Color calcGlobalEffects(GeoPoint geoPoint, Ray ray, int level, Double3 k) {
         Material material = geoPoint.geometry.getMaterial();
         return calcGlobalEffect(constructRefractedRay(geoPoint, ray.getDirection()), material.kT, level, k)
@@ -79,6 +116,7 @@ public class SimpleRayTracer extends RayTracerBase {
      *
      * @param gp  The intersection point.
      * @param ray The ray that intersected with the point.
+     * @param k double3 for the production
      * @return The color contribution from local illumination effects at the intersection point.
      */
     private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {

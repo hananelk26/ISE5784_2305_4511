@@ -18,7 +18,7 @@ public class MultiObjectImageTests {
      * Scene for the test
      */
     private final Scene scene = new Scene("Multi Object Test Scene")
-            .setAmbientLight(new AmbientLight(new Color(black), new Double3(0.1)));
+            .setAmbientLight(new AmbientLight(new Color(black), new Double3(0.1))).setBackground(new Color(173, 216, 230));
 
     /**
      * Camera builder for the test
@@ -73,6 +73,7 @@ public class MultiObjectImageTests {
             new Point(550, -200, -400),
             new Point(350, -200, -400))
             .setEmission(new Color(0, 128, 0));
+
     private final Polygon grass2 = (Polygon) new Polygon(
             new Point(40, -200, 0),
             new Point(120, -200, 0),
