@@ -60,8 +60,33 @@ public class MultiObjectImageTests {
    private final Polygon rec9= (Polygon) new Polygon(new Point(100,-200,60),new Point(100,-200,65),new Point(80,-180,5),new Point(80,-180,0)).setEmission(new Color(WHITE));
    private final Polygon rec10= (Polygon) new Polygon(new Point(-100,-200,60),new Point(-100,-200,65),new Point(-80,-180,5),new Point(-80,-180,0)).setEmission(new Color(WHITE));
 
-    private final Polygon grass1= (Polygon) new Polygon(new Point(120,-200,0),new Point(150,-200,0),new Point(720,-340,0),new Point(720,-500,0)).setEmission(new Color(0, 128, 0)); // Dark green
+    private final Polygon grass1= (Polygon) new Polygon(new Point(120,-200,0),new Point(150,-200,0),new Point(720,-340,0),new Point(720,-500,0)).setEmission(new Color(0, 128, 0));
     private final Polygon grass2= (Polygon) new Polygon(new Point(120,-200,0),new Point(50,-200,0),new Point(720,-800,0),new Point(720,-500,0)).setEmission(new Color(34, 139, 34)); // Dark green
+    private final Triangle tri1 = (Triangle) new Triangle(new Point(720,-800,0),new Point(720,-500,0),new Point(1200,-700,-350)).setEmission(new Color(34, 139, 34)); // Dark green;
+    private final Polygon grass3 = (Polygon) new Polygon(
+            new Point(50, -200, 0),
+            new Point(-20, -200, 0),
+            new Point(200, -1000, 0),
+            new Point(700, -500, 0)  // Adjusted Z coordinate to be on the same plane
+    ).setEmission(new Color(0, 128, 0));
+
+    private final Polygon grass4 = (Polygon) new Polygon(
+            new Point(700, -500, 0),
+            new Point(800, -800, 0),
+            new Point(600, -1000, 0),
+            new Point(200, -1000, 0)  // Adjusted Z coordinate to be on the same plane
+    ).setEmission(new Color(0, 128, 0));
+
+    private final Triangle tri2 = (Triangle) new Triangle(new Point(470, -580, 20),new Point(200, -1000, 0),new Point(1200,-700,-1500)).setEmission(new Color(0,128,0)); // Dark green;
+
+    private final Triangle tri3 = (Triangle) new Triangle(new Point(445, -580, 20),new Point(1200,-700,-1500),new Point(1200,-700,-350)).setEmission(new Color(0,128,0)); // Dark green;
+
+    private final Polygon grass5= (Polygon) new Polygon(new Point(-120,-200,0),new Point(-150,-200,0),new Point(-720,-340,0),new Point(-720,-500,0)).setEmission(new Color(0, 128, 0));
+
+    private final Polygon grass6= (Polygon) new Polygon(new Point(-120,-200,0),new Point(-50,-200,0),new Point(-720,-800,0),new Point(-1500,-700,0)).setEmission(new Color(34, 139, 34)); // Dark green
+
+    private final Triangle tri4 = (Triangle) new Triangle(new Point(-900,-700,0),new Point(-720,-800,0),new Point(1200,-700,-90000)).setEmission(new Color(34,139,34)); // Dark green;
+
 
     /**
      * Create a multi-object scene with transparency and reflection
@@ -69,7 +94,7 @@ public class MultiObjectImageTests {
     @Test
     public void multiObjectImage() {
         scene.geometries.add(rec1,rec2,rec3,rec4,rec5,rec6,rec7,rec8,rec9,rec10);
-        scene.geometries.add(grass1,grass2);
+        scene.geometries.add(grass1,grass2,tri1,grass3,grass4,tri2,tri3,grass5,grass6,tri4);
         scene.lights.add(new DirectionalLight(new Vector(0,-1,-1),new Color(white)));
         camera.setRayTracer(new SimpleRayTracer(scene)).setImageWriter(new ImageWriter("try",720,850))
                 .build().renderImage().writeToImage();
