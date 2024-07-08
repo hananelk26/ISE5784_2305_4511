@@ -50,9 +50,9 @@ public class Ray {
      * @param v the direction vector of the ray
      * @param n the normal vector to determine the offset direction for the head of the ray
      */
-    public Ray(Point p,Vector v,Vector n){
+    public Ray(Point p, Vector v, Vector n) {
         double res = v.dotProduct(n);
-        head = isZero(res)? p:res>0?p.add(n.scale(DELTA)):p.add(n.scale(-DELTA));
+        head = isZero(res) ? p : res > 0 ? p.add(n.scale(DELTA)) : p.add(n.scale(-DELTA));
         this.direction = v.normalize();
     }
 

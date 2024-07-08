@@ -83,10 +83,10 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Calculate the global effect of a ray considering the attenuation factor and recursion level.
      *
-     * @param ray    the ray to calculate the global effect for.
-     * @param kx     the material's attenuation factor.
-     * @param level  the current recursion level.
-     * @param k      the accumulated attenuation factor.
+     * @param ray   the ray to calculate the global effect for.
+     * @param kx    the material's attenuation factor.
+     * @param level the current recursion level.
+     * @param k     the accumulated attenuation factor.
      * @return the calculated color including global effects.
      */
     private Color calcGlobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
@@ -116,7 +116,7 @@ public class SimpleRayTracer extends RayTracerBase {
      *
      * @param gp  The intersection point.
      * @param ray The ray that intersected with the point.
-     * @param k double3 for the production
+     * @param k   double3 for the production
      * @return The color contribution from local illumination effects at the intersection point.
      */
     private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
@@ -132,11 +132,10 @@ public class SimpleRayTracer extends RayTracerBase {
             double nl = alignZero(n.dotProduct(l));
             if (nl * nv > 0) {
                 Double3 ktr = transparency(gp, lightSource, l, n);
-                if(!ktr.product(k).lowerThan(MIN_CALC_COLOR_K))
-                {
-                    Color il= lightSource.getIntensity(gp.point).scale(ktr);
-                    color = color.add(il.scale(calcDiffusive(material,nl)
-                            .add(calcSpecular(material,n,l,nl,v))));
+                if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
+                    Color il = lightSource.getIntensity(gp.point).scale(ktr);
+                    color = color.add(il.scale(calcDiffusive(material, nl)
+                            .add(calcSpecular(material, n, l, nl, v))));
                 }
             }
         }
@@ -170,8 +169,12 @@ public class SimpleRayTracer extends RayTracerBase {
         return material.kD.scale(abs(nl));
     }
 
-
-
+    /**
+     * Finds the closest intersection point between a ray and the scene's geometries.
+     *
+     * @param ray the ray for which to find the closest intersection
+     * @return the closest GeoPoint intersection, or null if no intersections are found
+     */
     private GeoPoint findClosestIntersection(Ray ray) {
         var intersections = scene.geometries.findGeoIntersections(ray);
         if (intersections == null)
@@ -179,13 +182,27 @@ public class SimpleRayTracer extends RayTracerBase {
         return ray.findClosestGeoPoint(intersections);
     }
 
+    /**
+     * Constructs a refracted ray at the given GeoPoint.
+     *
+     * @param gp the GeoPoint where the ray refracts
+     * @param v the direction of the incoming ray
+     * @return the refracted ray
+     */
     private Ray constructRefractedRay(GeoPoint gp, Vector v) {
         Vector n = gp.geometry.getNormal(gp.point);
         return new Ray(gp.point, v, n);
     }
 
+    /**
+     * Constructs a reflected ray at the given GeoPoint.
+     *
+     * @param gp the GeoPoint where the ray reflects
+     * @param v the direction of the incoming ray
+     * @return the reflected ray, or null if the incoming ray is parallel to the surface
+     */
     private Ray constructReflectedRay(GeoPoint gp, Vector v) {
-        Vector n = gp.geometry.getNormal(v);
+        Vector n = gp.geometry.getNormal(gp.point);
         double nv = n.dotProduct(v);
         if (nv == 0) return null;
         Vector vec = v.subtract(n.scale(2 * nv));

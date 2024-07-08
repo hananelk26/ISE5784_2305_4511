@@ -25,7 +25,7 @@ public class ShadowTests {
      * Camera builder of the tests
      */
     private final Camera.Builder camera = Camera.getBuilder()
-            .setDirection(new Vector(0,0,-1), new Vector(0,1,0))
+            .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
             .setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
             .setVpSize(200, 200)
             .setRayTracer(new SimpleRayTracer(scene));
@@ -39,7 +39,7 @@ public class ShadowTests {
     /**
      * The material of the triangles in the tests
      */
-    private final Material trMaterial = new Material(). setKd(0.5).setKs(0.5).setShininess(30);
+    private final Material trMaterial = new Material().setKd(0.5).setKs(0.5).setShininess(30);
 
     /**
      * Helper function for the tests in this module
@@ -75,7 +75,7 @@ public class ShadowTests {
     @Test
     public void sphereTriangleMove1() {
         sphereTriangleHelper("shadowSphereTriangleMove2", //
-                new Triangle(new Point(-50,-20,0 ),new Point( -20,-50,0),new Point( -48,-48,-4)), //
+                new Triangle(new Point(-50, -20, 0), new Point(-20, -50, 0), new Point(-48, -48, -4)), //
                 new Point(-100, -100, 200));
     }
 
@@ -85,7 +85,7 @@ public class ShadowTests {
     @Test
     public void sphereTriangleMove2() {
         sphereTriangleHelper("shadowSphereTriangleMove1", //
-                new Triangle(new Point( -60,-30,0),new Point( -30,-60,0),new Point( -58,-58,-4)), //
+                new Triangle(new Point(-60, -30, 0), new Point(-30, -60, 0), new Point(-58, -58, -4)), //
                 new Point(-100, -100, 200));
     }
 
@@ -96,7 +96,7 @@ public class ShadowTests {
     public void sphereTriangleSpot1() {
         sphereTriangleHelper("shadowSphereTriangleSpot1", //
                 new Triangle(new Point(-70, -40, 0), new Point(-40, -70, 0), new Point(-68, -68, -4)), //
-                new Point( -90, -90, 130));
+                new Point(-90, -90, 130));
     }
 
     /**
@@ -127,7 +127,7 @@ public class ShadowTests {
         );
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
         scene.lights.add(
-                new SpotLight(new Vector(-1, -1, -4),new Point(40, 40, 115),new Color(700, 400, 400) ) //
+                new SpotLight(new Vector(-1, -1, -4), new Point(40, 40, 115), new Color(700, 400, 400)) //
                         .setKl(4E-4).setKq(2E-5));
 
         camera.setImageWriter(new ImageWriter("shadowTrianglesSphere", 600, 600))

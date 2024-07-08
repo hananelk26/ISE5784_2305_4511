@@ -42,7 +42,7 @@ public class Material {
      * @param kT The new transmission coefficient.
      * @return The current Material object.
      */
-    public Material setKT(Double3 kT){
+    public Material setKT(Double3 kT) {
         this.kT = kT;
         return this;
     }
@@ -53,7 +53,7 @@ public class Material {
      * @param kR The new reflection coefficient.
      * @return The current Material object.
      */
-    public Material setKR(Double3 kR){
+    public Material setKR(Double3 kR) {
         this.kR = kR;
         return this;
     }
@@ -64,7 +64,7 @@ public class Material {
      * @param kT The new transmission coefficient as a double.
      * @return The current Material object.
      */
-    public Material setKT(double kT){
+    public Material setKT(double kT) {
         this.kT = new Double3(kT);
         return this;
     }
@@ -75,7 +75,7 @@ public class Material {
      * @param kR The new reflection coefficient as a double.
      * @return The current Material object.
      */
-    public Material setKR(double kR){
+    public Material setKR(double kR) {
         this.kR = new Double3(kR);
         return this;
     }
