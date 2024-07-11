@@ -186,7 +186,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * Constructs a refracted ray at the given GeoPoint.
      *
      * @param gp the GeoPoint where the ray refracts
-     * @param v the direction of the incoming ray
+     * @param v  the direction of the incoming ray
      * @return the refracted ray
      */
     private Ray constructRefractedRay(GeoPoint gp, Vector v) {
@@ -198,7 +198,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * Constructs a reflected ray at the given GeoPoint.
      *
      * @param gp the GeoPoint where the ray reflects
-     * @param v the direction of the incoming ray
+     * @param v  the direction of the incoming ray
      * @return the reflected ray, or null if the incoming ray is parallel to the surface
      */
     private Ray constructReflectedRay(GeoPoint gp, Vector v) {
