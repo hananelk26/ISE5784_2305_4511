@@ -17,7 +17,6 @@ public class Ray {
      */
     private static final double DELTA = 0.1;
 
-
     /**
      * The starting point of the ray.
      */
@@ -44,16 +43,16 @@ public class Ray {
     /**
      * Constructs a new Ray.
      * If the vector v is not orthogonal to the normal n, the head of the ray is moved slightly along the normal direction
-     * to avoid numerical inaccuracies and ensure the ray originates just outside of the surface it originates from.
+     * to avoid numerical inaccuracies and ensure the ray originates just outside the surface it originates from.
      *
      * @param p the origin point of the ray
-     * @param v the direction vector of the ray
+     * @param v the direction vector of the ray - must be <b><i>normalized</i></b>!
      * @param n the normal vector to determine the offset direction for the head of the ray
      */
     public Ray(Point p, Vector v, Vector n) {
         double res = v.dotProduct(n);
-        head = isZero(res) ? p : res > 0 ? p.add(n.scale(DELTA)) : p.add(n.scale(-DELTA));
-        this.direction = v.normalize();
+        head = res > 0 ? p.add(n.scale(DELTA)) : p.add(n.scale(-DELTA));
+        this.direction = v;
     }
 
     /**

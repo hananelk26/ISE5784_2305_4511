@@ -10,17 +10,13 @@ import java.util.List;
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 /**
  * SimpleRayTracer is a basic implementation of the RayTracerBase class,
  * responsible for tracing rays in a scene and determining the color of the closest intersection point.
  */
 public class SimpleRayTracer extends RayTracerBase {
-
-    /**
-     * filed to move the ray
-     */
-    private static final double DELTA = 0.1;
 
     /**
      * The maximum level of color calculations.
@@ -38,7 +34,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * Initial attenuation factor for calculating light intensity.
      * This constant is used in various lighting calculations to initialize the attenuation factor.
      */
-    private static final double INITIAL_K = 1.0;
+    private static final Double3 INITIAL_K = Double3.ONE;
 
     /**
      * Constructs a SimpleRayTracer with the given scene.
@@ -63,7 +59,8 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the calculated color including ambient light.
      */
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
-        return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, new Double3(INITIAL_K)).add(scene.ambientLight.getIntensity());
+        return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K)
+                .add(scene.ambientLight.getIntensity());
     }
 
     /**
@@ -177,9 +174,7 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private GeoPoint findClosestIntersection(Ray ray) {
         var intersections = scene.geometries.findGeoIntersections(ray);
-        if (intersections == null)
-            return null;
-        return ray.findClosestGeoPoint(intersections);
+        return intersections == null ? null : ray.findClosestGeoPoint(intersections);
     }
 
     /**
@@ -204,7 +199,7 @@ public class SimpleRayTracer extends RayTracerBase {
     private Ray constructReflectedRay(GeoPoint gp, Vector v) {
         Vector n = gp.geometry.getNormal(gp.point);
         double nv = n.dotProduct(v);
-        if (nv == 0) return null;
+        if (isZero(nv)) return null;
         Vector vec = v.subtract(n.scale(2 * nv));
         return new Ray(gp.point, vec, n);
     }
@@ -220,40 +215,26 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 transparency(GeoPoint geoPoint, LightSource lightSource, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1);  // Direction from the point towards the light source
-        double nl = n.dotProduct(l);          // Dot product of the normal and the light direction
-
-        // Adjust point slightly along the normal to avoid self-shadowing
-        Vector epsVector = n.scale(nl < 0 ? DELTA : -DELTA);
-        Point point = geoPoint.point.add(epsVector);
-
         // Create a ray from the adjusted point in the direction of the light
-        Ray lightRay = new Ray(point, lightDirection);
-
-        // Find intersections of the light ray with geometries in the scene
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+        Ray lightRay = new Ray(geoPoint.point, lightDirection, n);
 
         Double3 ktr = Double3.ONE;
-        if (intersections == null)
-            return ktr;
+        // Find intersections of the light ray with geometries in the scene
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+        if (intersections == null) return ktr;
 
         // The distance between lightSource and the point on the body
         double distance = lightSource.getDistance(geoPoint.point);
-
-        // Promotes transparency
-        Double3 kt = geoPoint.geometry.getMaterial().kT;
-
         //if one of the intersection point is before the body than return false
         for (var intersectionPoint : intersections) {
             if (geoPoint.point.distance(intersectionPoint.point) < distance) {
                 ktr = ktr.product(intersectionPoint.geometry.getMaterial().kT);
-                if (ktr.lowerThan(DELTA))
-                    break;
+                if (ktr.lowerThan(MIN_CALC_COLOR_K))
+                    return Double3.ZERO;
             }
         }
         return ktr;
-
     }
-
 
 }
 

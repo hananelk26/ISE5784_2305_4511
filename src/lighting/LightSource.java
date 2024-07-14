@@ -27,6 +27,7 @@ public interface LightSource {
     Vector getL(Point p);
 
     /**
+     * Gets distance between light source to point that we want to know its color.
      * @param point get the point on the geometry body
      * @return the distance from the point to the light source
      */

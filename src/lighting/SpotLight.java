@@ -16,7 +16,7 @@ public class SpotLight extends PointLight {
     /**
      * the direction of the light
      */
-    Vector direction;
+    private final Vector direction;
 
     /**
      * The narrowness factor of the spotlight's beam.
