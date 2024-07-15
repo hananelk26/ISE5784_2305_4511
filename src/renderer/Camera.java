@@ -329,7 +329,7 @@ public class Camera implements Cloneable {
 
         // Primary ray from the camera position to the pixel on the view plane
         Ray primaryRay = new Ray(p0, pIJ.subtract(p0));
-        rays.add(primaryRay);
+        //rays.add(primaryRay);
 
         // Generate additional rays for depth of field effect
         for (int k = 0; k < numOfAdditionalRays; k++) {// Number of additional rays
