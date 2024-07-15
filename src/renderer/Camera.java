@@ -8,6 +8,8 @@ import primitives.Vector;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.MissingResourceException;
 
 /**
@@ -58,6 +60,11 @@ public class Camera implements Cloneable {
      * RayTracerBase field
      */
     private RayTracerBase rayTracer;
+
+    private double apertureSize = 1.0; // גודל ה-Aperture
+
+    private double focalDistance = 10.0; // המרחק למישור המיקוד
+
 
     /**
      * Builder class for constructing a Camera object.
@@ -153,6 +160,16 @@ public class Camera implements Cloneable {
             return this;
         }
 
+        public Builder setApertureSize(double apertureSize){
+            this.camera.apertureSize=apertureSize;
+            return this;
+        }
+
+        public Builder setFocalDistance(double focalDistance){
+            this.camera.focalDistance=focalDistance;
+            return this;
+        }
+
         /**
          * Builds the Camera object after validating all necessary fields are set.
          *
@@ -229,6 +246,7 @@ public class Camera implements Cloneable {
         return new Ray(p0, pIJ.subtract(p0));
     }
 
+
     /**
      * Renders the image by casting rays for each pixel.
      *
@@ -259,6 +277,52 @@ public class Camera implements Cloneable {
         imageWriter.writePixel(j, i, pixelColor);
     }
 
+    public Camera renderImageDOF() {
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+        for (int i = 0; i < nX; i++) {
+            for (int j = 0; j < nY; j++) {
+                castRayDOF(nX, nY, i, j);
+            }
+        }
+        return this;
+    }
+
+    private void castRayDOF(int nX, int nY, int j, int i) {
+        List<Ray> rays = this.constructRays(nX, nY, j, i);
+        Color pixelColor = Color.BLACK;
+        for (Ray ray : rays) {
+            pixelColor = pixelColor.add(rayTracer.traceRay(ray));
+        }
+        pixelColor = pixelColor.reduce(rays.size());
+        imageWriter.writePixel(j, i, pixelColor);
+    }
+
+    public List<Ray> constructRays(int nX, int nY, int j, int i) {
+        List<Ray> rays = new ArrayList<>();
+
+        Point pIJ = p0.add(vTo.scale(distance));
+        double yI = (((nY - 1) / 2.0) - i) * (height / nY);
+        double xJ = (((nX - 1) / 2.0) - j) * (width / nX);
+
+        if (!isZero(xJ))
+            pIJ = pIJ.add(vRight.scale(xJ));
+        if (!isZero(yI))
+            pIJ = pIJ.add(vUp.scale(yI));
+
+        Ray primaryRay = new Ray(p0, pIJ.subtract(p0));
+        rays.add(primaryRay);
+
+        for (int k = 0; k < 10; k++) { // מספר הקרניים שנוספות
+            double randomX = (Math.random() - 0.5) * apertureSize;
+            double randomY = (Math.random() - 0.5) * apertureSize;
+            Point pLens = p0.add(vRight.scale(randomX)).add(vUp.scale(randomY));
+            Vector direction = pIJ.add(vTo.scale(focalDistance)).subtract(pLens);
+            rays.add(new Ray(pLens, direction));
+        }
+
+        return rays;
+    }
 
     /**
      * Prints a grid on the image with the specified interval and color.
