@@ -8,7 +8,7 @@ import primitives.Vector;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.MissingResourceException;
 
@@ -61,10 +61,20 @@ public class Camera implements Cloneable {
      */
     private RayTracerBase rayTracer;
 
-    private double apertureSize = 1.0; // גודל ה-Aperture
+    /**
+     * The level of blur in the image
+     */
+    private double apertureSize = 1.0;
 
-    private double focalDistance = 10.0; // המרחק למישור המיקוד
+    /**
+     * The distance of the focus point
+     */
+    private double focalDistance = 10.0;
 
+    /**
+     * additional rays for the depth of field
+     */
+    private int numOfAdditionalRays = 0; //
 
     /**
      * Builder class for constructing a Camera object.
@@ -160,13 +170,34 @@ public class Camera implements Cloneable {
             return this;
         }
 
-        public Builder setApertureSize(double apertureSize){
-            this.camera.apertureSize=apertureSize;
+        /**
+         * Sets the aperture size for the Camera.
+         *
+         * @param apertureSize the aperture size to set
+         * @return the Builder instance for chaining
+         */
+        public Builder setApertureSize(double apertureSize) {
+            this.camera.apertureSize = apertureSize;
             return this;
         }
-
-        public Builder setFocalDistance(double focalDistance){
-            this.camera.focalDistance=focalDistance;
+        /**
+         * Sets the focal distance for the Camera.
+         *
+         * @param focalDistance the focal distance to set
+         * @return the Builder instance for chaining
+         */
+        public Builder setFocalDistance(double focalDistance) {
+            this.camera.focalDistance = focalDistance;
+            return this;
+        }
+        /**
+         * Sets the number of rays for depth of field effect.
+         *
+         * @param numOfRays the number of rays to set
+         * @return the Builder instance for chaining
+         */
+        public Builder setNumOfRays(int numOfRays) {
+            this.camera.numOfAdditionalRays = numOfRays;
             return this;
         }
 
@@ -255,9 +286,19 @@ public class Camera implements Cloneable {
     public Camera renderImage() {
         int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
-        for (int i = 0; i < nX; i++) {
-            for (int j = 0; j < nY; j++) {
-                castRay(nX, nY, i, j);
+
+        if(numOfAdditionalRays !=0) { //then we calc the depth of field
+            for (int i = 0; i < nX; i++) {
+                for (int j = 0; j < nY; j++) {
+                    castRayDOF(nX, nY, i, j);
+                }
+            }
+        }
+        else {  // continue without depth of field
+            for (int i = 0; i < nX; i++) {
+                for (int j = 0; j < nY; j++) {
+                    castRay(nX, nY, i, j);
+                }
             }
         }
         return this;
@@ -277,17 +318,14 @@ public class Camera implements Cloneable {
         imageWriter.writePixel(j, i, pixelColor);
     }
 
-    public Camera renderImageDOF() {
-        int nX = imageWriter.getNx();
-        int nY = imageWriter.getNy();
-        for (int i = 0; i < nX; i++) {
-            for (int j = 0; j < nY; j++) {
-                castRayDOF(nX, nY, i, j);
-            }
-        }
-        return this;
-    }
-
+    /**
+     * Casts multiple rays for a specific pixel to achieve depth of field and writes the average color to the image.
+     *
+     * @param nX The number of pixels in the x-direction.
+     * @param nY The number of pixels in the y-direction.
+     * @param j  The x-coordinate of the pixel.
+     * @param i  The y-coordinate of the pixel.
+     */
     private void castRayDOF(int nX, int nY, int j, int i) {
         List<Ray> rays = this.constructRays(nX, nY, j, i);
         Color pixelColor = Color.BLACK;
@@ -298,27 +336,40 @@ public class Camera implements Cloneable {
         imageWriter.writePixel(j, i, pixelColor);
     }
 
+    /**
+     * Constructs a list of rays through a given pixel on the view plane for depth of field effect.
+     *
+     * @param nX number of horizontal pixels
+     * @param nY number of vertical pixels
+     * @param j  the column index of the pixel
+     * @param i  the row index of the pixel
+     * @return a list of Ray objects passing through the specified pixel
+     */
     public List<Ray> constructRays(int nX, int nY, int j, int i) {
-        List<Ray> rays = new ArrayList<>();
-
+        List<Ray> rays = new LinkedList<>();
+        // Calculate distance on x,y axes to the designated point
         Point pIJ = p0.add(vTo.scale(distance));
         double yI = (((nY - 1) / 2.0) - i) * (height / nY);
         double xJ = (((nX - 1) / 2.0) - j) * (width / nX);
-
+        // Avoiding creation of zero vector (which is unnecessary anyway)
         if (!isZero(xJ))
             pIJ = pIJ.add(vRight.scale(xJ));
         if (!isZero(yI))
             pIJ = pIJ.add(vUp.scale(yI));
 
+        // Primary ray from the camera position to the pixel on the view plane
         Ray primaryRay = new Ray(p0, pIJ.subtract(p0));
         rays.add(primaryRay);
 
-        for (int k = 0; k < 10; k++) { // מספר הקרניים שנוספות
+        // Generate additional rays for depth of field effect
+        for (int k = 0; k < numOfAdditionalRays; k++) {// Number of additional rays
+            // Generate random points on the lens aperture
             double randomX = (Math.random() - 0.5) * apertureSize;
             double randomY = (Math.random() - 0.5) * apertureSize;
-            Point pLens = p0.add(vRight.scale(randomX)).add(vUp.scale(randomY));
-            Vector direction = pIJ.add(vTo.scale(focalDistance)).subtract(pLens);
-            rays.add(new Ray(pLens, direction));
+            Point pointLens = p0.add(vRight.scale(randomX)).add(vUp.scale(randomY));
+            // Calculate the direction towards the focal plane
+            Vector direction = pIJ.add(vTo.scale(focalDistance)).subtract(pointLens);
+            rays.add(new Ray(pointLens, direction));
         }
 
         return rays;

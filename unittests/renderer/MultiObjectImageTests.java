@@ -26,7 +26,7 @@ public class MultiObjectImageTests {
             .setRayTracer(new SimpleRayTracer(scene))
             .setLocation(new Point(0, 0, -100))  // Move the camera further back
             .setDirection(new Vector(0, -1, 0), new Vector(0, 0, 1))
-            .setVpSize(500, 500).setVpDistance(200);
+            .setVpSize(500, 500).setVpDistance(200).setNumOfRays(10).setApertureSize(30).setFocalDistance(100);
 
     /**
      * points for scene
