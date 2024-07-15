@@ -180,6 +180,7 @@ public class Camera implements Cloneable {
             this.camera.apertureSize = apertureSize;
             return this;
         }
+
         /**
          * Sets the focal distance for the Camera.
          *
@@ -190,6 +191,7 @@ public class Camera implements Cloneable {
             this.camera.focalDistance = focalDistance;
             return this;
         }
+
         /**
          * Sets the number of rays for depth of field effect.
          *
@@ -265,18 +267,8 @@ public class Camera implements Cloneable {
      * @return a Ray object passing through the specified pixel
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
-        Point pIJ = p0.add(vTo.scale(distance));
-        // Calculate distance on x,y axes to the designated point
-        double yI = (((nY - 1) / 2.0) - i) * (height / nY);
-        double xJ = (((nX - 1) / 2.0) - j) * (width / nX);
-        // Avoiding creation of zero vector (which is unnecessary anyway)
-        if (!isZero(xJ))
-            pIJ = pIJ.add(vRight.scale(xJ));
-        if (!isZero(yI))
-            pIJ = pIJ.add(vUp.scale(yI));
-        return new Ray(p0, pIJ.subtract(p0));
+        return constructRays(nX, nY, j, i).getFirst();
     }
-
 
     /**
      * Renders the image by casting rays for each pixel.
@@ -286,36 +278,14 @@ public class Camera implements Cloneable {
     public Camera renderImage() {
         int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
+        for (int i = 0; i < nX; i++) {
+            for (int j = 0; j < nY; j++) {
+                castRay(nX, nY, i, j);
+            }
 
-        if(numOfAdditionalRays !=0) { //then we calc the depth of field
-            for (int i = 0; i < nX; i++) {
-                for (int j = 0; j < nY; j++) {
-                    castRayDOF(nX, nY, i, j);
-                }
-            }
         }
-        else {  // continue without depth of field
-            for (int i = 0; i < nX; i++) {
-                for (int j = 0; j < nY; j++) {
-                    castRay(nX, nY, i, j);
-                }
-            }
-        }
+
         return this;
-    }
-
-    /**
-     * Casts a ray for a specific pixel and writes the color to the image.
-     *
-     * @param nX The number of pixels in the x-direction.
-     * @param nY The number of pixels in the y-direction.
-     * @param j  The x-coordinate of the pixel.
-     * @param i  The y-coordinate of the pixel.
-     */
-    private void castRay(int nX, int nY, int j, int i) {
-        Ray rayConstruct = this.constructRay(nX, nY, j, i);
-        Color pixelColor = rayTracer.traceRay(rayConstruct);
-        imageWriter.writePixel(j, i, pixelColor);
     }
 
     /**
@@ -326,7 +296,7 @@ public class Camera implements Cloneable {
      * @param j  The x-coordinate of the pixel.
      * @param i  The y-coordinate of the pixel.
      */
-    private void castRayDOF(int nX, int nY, int j, int i) {
+    private void castRay(int nX, int nY, int j, int i) {
         List<Ray> rays = this.constructRays(nX, nY, j, i);
         Color pixelColor = Color.BLACK;
         for (Ray ray : rays) {

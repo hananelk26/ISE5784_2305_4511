@@ -55,7 +55,7 @@ public class DepthOfFieldTests {
     public void depthOfFieldImage() {
         scene.geometries.add(spheres[0], spheres[1], spheres[2], spheres[3], spheres[4]);
 
-        scene.lights.add(new DirectionalLight(new Vector(0,0,1), new Color(WHITE)));
+        scene.lights.add(new DirectionalLight(new Vector(0, 0, 1), new Color(WHITE)));
 
         camera.setRayTracer(new SimpleRayTracer(scene)).setImageWriter(new ImageWriter("depthOfField", 1800, 1800))
                 .build().renderImage().writeToImage();
