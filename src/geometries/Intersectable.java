@@ -10,6 +10,8 @@ import java.util.List;
  */
 public abstract class Intersectable {
 
+    protected BoundingBox boundingBox;
+
     /**
      * GeoPoint class represents a point on a geometry.
      * It contains the geometry and the specific point on the geometry.
