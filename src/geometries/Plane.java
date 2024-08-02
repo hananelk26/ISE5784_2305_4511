@@ -56,24 +56,6 @@ public class Plane extends Geometry {
         return normal;
     }
 
-//    @Override
-//    public List<Point> findIntersections(Ray ray) {
-//        Vector direction = ray.getDirection();
-//        Point p0 = ray.getHead();
-//        if (p.equals(p0)) return null; // The ray start on the plane (0 points)
-//
-//        double nv = normal.dotProduct(direction);
-//        if (isZero(nv)) return null; // the ray is parallel to the plane (0 points)
-//
-//        double npMinusP0 = normal.dotProduct(p.subtract(p0));
-//        double t = alignZero(npMinusP0 / nv);
-//        return t <= 0
-//                // if t<0 then the ray not cut the plane and if t == 0 then the ray lie start on the plane.        if (t > 0){
-//                ? null
-//                : List.of(ray.getPoint(t));
-//
-//    }
-
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         Vector direction = ray.getDirection();
