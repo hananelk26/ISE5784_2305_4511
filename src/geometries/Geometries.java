@@ -3,6 +3,7 @@ package geometries;
 import primitives.Ray;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,12 +33,30 @@ public class Geometries extends Intersectable {
     }
 
     /**
+     * Constructor with parameters
+     *
+     * @param geometries list of geometries
+     */
+    public Geometries(List<Intersectable> geometries) {
+        add(geometries);
+    }
+
+    /**
      * Adds one or more geometries to the collection.
      *
      * @param geometries One or more geometries to add to the collection.
      */
     public void add(Intersectable... geometries) {
         this.geometries.addAll(Arrays.asList(geometries));
+    }
+
+    /**
+     * Add geometries to the list
+     *
+     * @param geometries list of geometries
+     */
+    public void add(List<Intersectable> geometries) {
+        this.geometries.addAll(geometries);
     }
 
     @Override
@@ -54,4 +73,66 @@ public class Geometries extends Intersectable {
         }
         return listOfPoint;
     }
+
+
+
+/** Calculate the bounding box for the geometries */
+public void makeCBR() {
+    for (var g : geometries)
+        g.calcBoundingBox();
+}
+
+
+/** Store the geometries as a BVH */
+public void makeBVH() {
+    makeCBR();
+    buildBVH();
+}
+
+/** Build a BVH tree from a list of intersectable geometries */
+public void buildBVH() {
+    if (geometries.size() <= 3) {
+        // if there are 3 or fewer geometries, use them as the bounding box
+        return;
+    }
+
+    // extract infinite geometries into a separate list
+    List<Intersectable> infiniteGeometries = new LinkedList<>();
+    for (int i = 0; i < geometries.size(); i++) {
+        var g = geometries.get(i);
+        if (g.getBoundingBox() == null) {
+            infiniteGeometries.add(g);
+            geometries.remove(i);
+            i--;
+        }
+    }
+
+    // sort geometries based on their bounding box centroids along an axis (e.g., x-axis)
+    geometries.sort(Comparator.comparingDouble(g -> g.getBoundingBox().getCenter().getX()));
+
+    // split the list into two halves
+    int mid = geometries.size() / 2;
+    Geometries leftGeometries = new Geometries(geometries.subList(0, mid));
+    Geometries rightGeometries = new Geometries(geometries.subList(mid, geometries.size()));
+
+    // recursively build the BVH for the two halves
+    leftGeometries.buildBVH();
+    rightGeometries.buildBVH();
+
+    // calculate the bounding box for the two halves
+    leftGeometries.calcBoundingBox();
+    rightGeometries.calcBoundingBox();
+
+    // create a combined bounding box
+    Geometries combined = new Geometries(leftGeometries);
+    combined.add(rightGeometries);
+    combined.calcBoundingBox();
+
+    // return the list of geometries
+    List<Intersectable> result = new LinkedList<>(infiniteGeometries);
+    result.add(combined);
+    geometries.clear();
+    geometries.addAll(result);
+}
+
 }

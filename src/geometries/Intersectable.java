@@ -10,6 +10,9 @@ import java.util.List;
  */
 public abstract class Intersectable {
 
+    /**
+     * The bounding box of the geometry
+     */
     protected BoundingBox boundingBox;
 
     /**
@@ -67,13 +70,26 @@ public abstract class Intersectable {
     }
 
     /**
-     * Finds the geometric intersections of the given ray with the geometry.
+     * Method to find the intersections of a ray with the geometry
      *
-     * @param ray the ray to find intersections with
-     * @return a list of intersection points, or null if there are no intersections
+     * @param ray         the ray to find the intersections with
+     * @param maxDistance the maximum distance to find the intersections in
+     * @return a list of the intersections points
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        if (boundingBox != null && !boundingBox.hasIntersections(ray))
+            return null;
+        return findGeoIntersectionsHelper(ray, maxDistance);
+    }
+
+    /**
+     * Method to find the intersections of a ray with the geometry
+     *
+     * @param ray the ray to find the intersections with
+     * @return a list of the intersections points with the geometry that contains the point
      */
     public final List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
     }
 
     /**
@@ -83,5 +99,20 @@ public abstract class Intersectable {
      * @param ray the ray to find intersections with
      * @return a list of intersection points, or null if there are no intersections
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance);
+
+    /**
+     * Get the bounding box of this intersect
+     *
+     * @return the bounding box of this intersect
+     */
+    public BoundingBox getBoundingBox() {
+        return boundingBox;
+    }
+
+    /**
+     * Calculate the bounding box of this intersect.
+     */
+    public abstract void calcBoundingBox();
+
 }
