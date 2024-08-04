@@ -39,7 +39,7 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         Point p0 = ray.getHead();
         Vector v = ray.getDirection();
         if (center.equals(p0))
@@ -54,13 +54,25 @@ public class Sphere extends RadialGeometry {
         if (alignZero(thSquared) <= 0) return null;
 
         double th = sqrt(thSquared);// Distance from the intersection points to the point where the ray is closest to the sphere center
-
-        double t2 = tm + th;// Distance from the ray start to the second intersection point
-        if (alignZero(t2) <= 0) return null; // t1 < t2 <= 0
-
         double t1 = tm - th;// Distance from the ray start to the first intersection point
-        return alignZero(t1) <= 0
-                ? List.of(new GeoPoint(this, ray.getPoint(t2)))
-                : List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
+        double t2 = tm + th;// Distance from the ray start to the second intersection point
+        if (alignZero(t2) <= 0|| alignZero(maxDistance - t1)<= 0) return null; // t1 < t2 <= 0
+
+        if (t1 <= 0)
+            return alignZero(maxDistance - alignZero(t2)) <= 0
+                    ? null
+                    : List.of(new GeoPoint(this, ray.getPoint(t2)));
+        else
+            return alignZero(maxDistance - alignZero(t2)) <= 0
+                    ? List.of(new GeoPoint(this, ray.getPoint(t1)))
+                    : List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
+    }
+
+    @Override
+    public void calcBoundingBox() {
+        this.boundingBox = new BoundingBox(
+                new Point(center.getX() - radius, center.getY() - radius, center.getZ() - radius),
+                new Point(center.getX() + radius, center.getY() + radius, center.getZ() + radius)
+        );
     }
 }

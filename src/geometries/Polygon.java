@@ -113,9 +113,30 @@ public class Polygon extends Geometry {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    public void calcBoundingBox() {
+        //if(true)return;
+
+        double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY, minZ = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY, maxZ = Double.NEGATIVE_INFINITY;
+        for (Point p : vertices) {
+            if (p.getX() < minX) minX = p.getX();
+            if (p.getY() < minY) minY = p.getY();
+            if (p.getZ() < minZ) minZ = p.getZ();
+            if (p.getX() > maxX) maxX = p.getX();
+            if (p.getY() > maxY) maxY = p.getY();
+            if (p.getZ() > maxZ) maxZ = p.getZ();
+        }
+
+        this.boundingBox = new BoundingBox(
+                new Point(minX, minY, minZ),
+                new Point(maxX, maxY, maxZ)
+        );
+    }
+
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         // Find intersections of the ray with the plane of the triangle
-        final var intersectionsPoints = plane.findIntersections(ray);
+        var intersectionsPoints = plane.findGeoIntersections(ray, maxDistance);
         //intersectionsPoints is null that means that there are no cut points
         if (intersectionsPoints == null) return null;
 

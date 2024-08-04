@@ -28,4 +28,7 @@ public abstract class RadialGeometry extends Geometry {
         this.radius = radius;
         radiusSquared = radius * radius;
     }
+
+    @Override
+    public void calcBoundingBox() {}
 }
