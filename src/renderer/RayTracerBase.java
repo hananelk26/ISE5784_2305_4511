@@ -30,4 +30,9 @@ public abstract class RayTracerBase {
      * @return The color resulting from tracing the ray.
      */
     public abstract Color traceRay(Ray ray);
+
+    /** Make a BVH for the scene */
+    public void makeBVH() { scene.geometries.makeBVH(); }
+    /** Make a CBR for the scene */
+    public void makeCBR() { scene.geometries.makeCBR(); }
 }

@@ -74,7 +74,14 @@ public class Camera implements Cloneable {
     /**
      * additional rays for the depth of field
      */
-    private int numOfAdditionalRays = 0; //
+    private int numOfAdditionalRays = 0;
+
+    /**
+     * Use BVH for rendering
+     */
+    private boolean useBVH = true;
+
+    private boolean useCBR = false;
 
     /**
      * Builder class for constructing a Camera object.
@@ -200,6 +207,22 @@ public class Camera implements Cloneable {
          */
         public Builder setNumOfRays(int numOfRays) {
             this.camera.numOfAdditionalRays = numOfRays;
+            return this;
+        }
+
+        /**
+         * Set the BVH usage
+         *
+         * @param use true to use BVH, false otherwise
+         * @return the camera builder
+         */
+        public Builder useBVH(boolean use) {
+            camera.useBVH = use;
+            return this;
+        }
+
+        public Builder useCBR(boolean use) {
+            camera.useCBR = use;
             return this;
         }
 

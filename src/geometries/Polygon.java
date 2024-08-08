@@ -160,7 +160,7 @@ public class Polygon extends Geometry {
 
         }
 
-        return List.of(new GeoPoint(this, intersectionsPoints.getFirst()));
+        return List.of(new GeoPoint(this, intersectionsPoints.getFirst().point));
     }
 
 }
