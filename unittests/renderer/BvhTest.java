@@ -1,6 +1,8 @@
 package renderer;
 
 import static java.awt.Color.YELLOW;
+
+import geometries.Sphere;
 import org.junit.jupiter.api.Test;
 import geometries.Triangle;
 import lighting.PointLight;
@@ -1564,8 +1566,16 @@ public class BvhTest {
                 new Triangle(pnts[469], pnts[468], pnts[528]).setEmission(color).setMaterial(mat), //
                 new Triangle(pnts[528], pnts[529], pnts[469]).setEmission(color).setMaterial(mat), //
                 new Triangle(pnts[470], pnts[469], pnts[529]).setEmission(color).setMaterial(mat), //
-                new Triangle(pnts[529], pnts[530], pnts[470]).setEmission(color).setMaterial(mat) //
-        );
+                new Triangle(pnts[529], pnts[530], pnts[470]).setEmission(color).setMaterial(mat), //
+
+                // Adding bubbles
+                new Sphere(5,new Point(80, 50, -10)).setEmission(new Color(150, 150, 255)) // Bubble 1
+                        .setMaterial(new Material().setKT(0.9).setKR(0.5).setShininess(30)),
+                new Sphere(4,new Point(70, 55, -5)).setEmission(new Color(150, 150, 255))  // Bubble 3
+                        .setMaterial(new Material().setKT(0.9).setKR(0.5).setShininess(30)),
+            new Sphere(3,new Point(90, 30, -15)).setEmission(new Color(150, 150, 255)) // Bubble 2
+                        .setMaterial(new Material().setKT(0.9).setKR(0.5).setShininess(30))
+                        );
         scene.lights.add(new PointLight(new Point(100, 0, -100),new Color(500, 500, 500)).setKq(0.000001));
 
         camera.setRayTracer(new SimpleRayTracer(scene)).build().renderImage().writeToImage();

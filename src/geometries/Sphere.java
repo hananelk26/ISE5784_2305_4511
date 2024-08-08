@@ -28,9 +28,7 @@ public class Sphere extends RadialGeometry {
     public Sphere(double radius, Point center) {
         super(radius);
         this.center = center;
-        this.boundingBox= new BoundingBox(
-                center.add(new Vector(-radius, -radius, -radius)),
-                center.add(new Vector(radius, radius, radius)));
+        calcBoundingBox();
     }
 
     @Override
@@ -73,6 +71,6 @@ public class Sphere extends RadialGeometry {
         this.boundingBox = new BoundingBox(
                 new Point(center.getX() - radius, center.getY() - radius, center.getZ() - radius),
                 new Point(center.getX() + radius, center.getY() + radius, center.getZ() + radius)
-        );
-    }
+                );
+}
 }

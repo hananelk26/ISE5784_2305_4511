@@ -2,6 +2,9 @@ package geometries;
 
 import primitives.*;
 
+import static java.lang.Math.*;
+
+
 
 /**
  * Class to represent a bounding box
@@ -35,21 +38,29 @@ public class BoundingBox {
      * @return true if the ray intersects the bounding box, false otherwise
      */
     public boolean hasIntersections(Ray ray) {
-        double boxMinX = min.getX(), boxMinY = min.getY(), boxMinZ = min.getZ();
-        double boxMaxX = max.getX(), boxMaxY = max.getY(), boxMaxZ = max.getZ();
+        double boxMinX = min.getX();
+        double boxMinY = min.getY();
+        double boxMinZ = min.getZ();
+        double boxMaxX = max.getX();
+        double boxMaxY = max.getY();
+        double boxMaxZ = max.getZ();
 
         Point head = ray.getHead();
         Vector direction = ray.getDirection();
-        double headX = head.getX(), headY = head.getY(), headZ = head.getZ();
-        double dirX = direction.getX(), dirY = direction.getY(), dirZ = direction.getZ();
+        double headX = head.getX();
+        double headY = head.getY();
+        double headZ = head.getZ();
+        double dirX = direction.getX();
+        double dirY = direction.getY();
+        double dirZ = direction.getZ();
 
         double tMin = Double.NEGATIVE_INFINITY, tMax = Double.POSITIVE_INFINITY;
 
         if (dirX != 0) {
             double t1 = (boxMinX - headX) / dirX;
             double t2 = (boxMaxX - headX) / dirX;
-            tMin = Math.max(tMin, Math.min(t1, t2));
-            tMax = Math.min(tMax, Math.max(t1, t2));
+            tMin = max(tMin, min(t1, t2));
+            tMax = min(tMax, max(t1, t2));
         } else if (headX <= boxMinX || headX >= boxMaxX) {
             return false;
         }
@@ -57,8 +68,8 @@ public class BoundingBox {
         if (dirY != 0) {
             double t1 = (boxMinY - headY) / dirY;
             double t2 = (boxMaxY - headY) / dirY;
-            tMin = Math.max(tMin, Math.min(t1, t2));
-            tMax = Math.min(tMax, Math.max(t1, t2));
+            tMin = max(tMin, min(t1, t2));
+            tMax = min(tMax, max(t1, t2));
         } else if (headY <= boxMinY || headY >= boxMaxY) {
             return false;
         }
@@ -66,8 +77,8 @@ public class BoundingBox {
         if (dirZ != 0) {
             double t1 = (boxMinZ - headZ) / dirZ;
             double t2 = (boxMaxZ - headZ) / dirZ;
-            tMin = Math.max(tMin, Math.min(t1, t2));
-            tMax = Math.min(tMax, Math.max(t1, t2));
+            tMin = max(tMin, min(t1, t2));
+            tMax = min(tMax, max(t1, t2));
         } else if (headZ <= boxMinZ || headZ >= boxMaxZ) {
             return false;
         }
@@ -97,14 +108,14 @@ public class BoundingBox {
     public BoundingBox union(BoundingBox box) {
         return new BoundingBox(
                 new Point(
-                        Math.min(min.getX(), box.min.getX()),
-                        Math.min(min.getY(), box.min.getY()),
-                        Math.min(min.getZ(), box.min.getZ())
+                        min(min.getX(), box.min.getX()),
+                        min(min.getY(), box.min.getY()),
+                        min(min.getZ(), box.min.getZ())
                 ),
                 new Point(
-                        Math.max(max.getX(), box.max.getX()),
-                        Math.max(max.getY(), box.max.getY()),
-                        Math.max(max.getZ(), box.max.getZ())
+                        max(max.getX(), box.max.getX()),
+                        max(max.getY(), box.max.getY()),
+                        max(max.getZ(), box.max.getZ())
                 )
         );
     }

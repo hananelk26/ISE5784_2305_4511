@@ -299,6 +299,9 @@ public class Camera implements Cloneable {
      * @return The current Camera instance (for method chaining).
      */
     public Camera renderImage() {
+        if (useBVH) rayTracer.makeBVH();
+        else if (useCBR) rayTracer.makeCBR();
+
         int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
         for (int i = 0; i < nX; i++) {
