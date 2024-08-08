@@ -60,10 +60,10 @@ public class Geometries extends Intersectable {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         List<GeoPoint> listOfPoint = null;
         for (var body : geometries) { // pass on collection of geometries
-            var temp = body.findGeoIntersections(ray);
+            var temp = body.findGeoIntersections(ray,maxDistance);
             if (temp != null) { // need to add the points of temp to listOfPoint.
                 if (listOfPoint == null)
                     listOfPoint = new LinkedList<>(temp);
@@ -74,7 +74,17 @@ public class Geometries extends Intersectable {
         return listOfPoint;
     }
 
-
+    @Override
+    public void calcBoundingBox() {
+        if (geometries.isEmpty()) {
+            boundingBox = null;
+        } else {
+            boundingBox = geometries.getFirst().getBoundingBox();
+            for (Intersectable g : geometries) {
+                boundingBox = boundingBox.union(g.getBoundingBox());
+            }
+        }
+    }
 
 /** Calculate the bounding box for the geometries */
 public void makeCBR() {
