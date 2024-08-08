@@ -63,7 +63,7 @@ public class Geometries extends Intersectable {
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         List<GeoPoint> listOfPoint = null;
         for (var body : geometries) { // pass on collection of geometries
-            var temp = body.findGeoIntersections(ray,maxDistance);
+            var temp = body.findGeoIntersections(ray, maxDistance);
             if (temp != null) { // need to add the points of temp to listOfPoint.
                 if (listOfPoint == null)
                     listOfPoint = new LinkedList<>(temp);
@@ -86,63 +86,42 @@ public class Geometries extends Intersectable {
         }
     }
 
-/** Calculate the bounding box for the geometries */
-public void makeCBR() {
-    for (var g : geometries)
-        g.calcBoundingBox();
-}
-
-
-/** Store the geometries as a BVH */
-public void makeBVH() {
-    makeCBR();
-    buildBVH();
-}
-
-/** Build a BVH tree from a list of intersectable geometries */
-public void buildBVH() {
-    if (geometries.size() <= 3) {
-        // if there are 3 or fewer geometries, use them as the bounding box
-        return;
+    /**
+     * Calculate the bounding box for the geometries
+     */
+    public void makeCBR() {
+        for (var g : geometries)
+            g.calcBoundingBox();
     }
 
-    // extract infinite geometries into a separate list
-    List<Intersectable> infiniteGeometries = new LinkedList<>();
-    for (int i = 0; i < geometries.size(); i++) {
-        var g = geometries.get(i);
-        if (g.getBoundingBox() == null) {
-            infiniteGeometries.add(g);
-            geometries.remove(i);
-            i--;
-        }
+
+    /**
+     * Store the geometries as a BVH
+     */
+    public void makeBVH() {
+        makeCBR();
+        buildBVH();
     }
 
-    // sort geometries based on their bounding box centroids along an axis (e.g., x-axis)
-    geometries.sort(Comparator.comparingDouble(g -> g.getBoundingBox().getCenter().getX()));
+    /**
+     * Build the geometries as a BVH
+     */
+    private void buildBVH() {
+        // extract infinite geometries into a separate list
+        List<Intersectable> infiniteGeometries = geometries.stream()
+                .filter(g -> g.boundingBox == null)
+                .peek(geometries::remove).toList();
 
-    // split the list into two halves
-    int mid = geometries.size() / 2;
-    Geometries leftGeometries = new Geometries(geometries.subList(0, mid));
-    Geometries rightGeometries = new Geometries(geometries.subList(mid, geometries.size()));
+        // sort geometries based on their bounding box centroids along an axis (e.g. x-axis)
+        geometries.sort(Comparator.comparingDouble(g -> g.boundingBox.getCenter().getX()));
 
-    // recursively build the BVH for the two halves
-    leftGeometries.buildBVH();
-    rightGeometries.buildBVH();
+        // combine each 3 geometries into a bounding box
+        while (geometries.size() >= 3)
+            geometries.add(new Geometries(geometries.removeFirst(),
+                    geometries.removeFirst(), geometries.removeFirst()));
 
-    // calculate the bounding box for the two halves
-    leftGeometries.calcBoundingBox();
-    rightGeometries.calcBoundingBox();
-
-    // create a combined bounding box
-    Geometries combined = new Geometries(leftGeometries);
-    combined.add(rightGeometries);
-    combined.calcBoundingBox();
-
-    // return the list of geometries
-    List<Intersectable> result = new LinkedList<>(infiniteGeometries);
-    result.add(combined);
-    geometries.clear();
-    geometries.addAll(result);
-}
+        geometries.addAll(infiniteGeometries); // combine the infinite geometries back
+        this.calcBoundingBox(); // recalculate the bounding box because the geometries have changed
+    }
 
 }
