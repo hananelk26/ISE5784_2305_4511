@@ -21,6 +21,7 @@ public class Geometries extends Intersectable {
      * Default constructor that creates an empty collection of geometries.
      */
     public Geometries() {
+        calcBoundingBox();
     }
 
     /**
@@ -30,6 +31,7 @@ public class Geometries extends Intersectable {
      */
     public Geometries(Intersectable... geometries) {
         add(geometries);
+        calcBoundingBox();
     }
 
     /**
@@ -80,8 +82,8 @@ public class Geometries extends Intersectable {
             boundingBox = null;
         } else {
             boundingBox = geometries.getFirst().getBoundingBox();
-            for (Intersectable g : geometries) {
-                boundingBox = boundingBox.union(g.getBoundingBox());
+            for (Intersectable body: geometries) {
+                boundingBox = boundingBox.union(body.getBoundingBox());
             }
         }
     }
@@ -90,8 +92,8 @@ public class Geometries extends Intersectable {
      * Calculate the bounding box for the geometries
      */
     public void makeCBR() {
-        for (var g : geometries)
-            g.calcBoundingBox();
+        for (var body : geometries)
+            body.calcBoundingBox();
     }
 
 
@@ -121,7 +123,7 @@ public class Geometries extends Intersectable {
                     geometries.removeFirst(), geometries.removeFirst()));
 
         geometries.addAll(infiniteGeometries); // combine the infinite geometries back
-        this.calcBoundingBox(); // recalculate the bounding box because the geometries have changed
+        //this.calcBoundingBox(); // recalculate the bounding box because the geometries have changed
     }
 
 }

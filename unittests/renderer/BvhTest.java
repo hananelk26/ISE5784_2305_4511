@@ -25,8 +25,8 @@ public class BvhTest {
             .setDirection(new Vector(0, 0, 1), new Vector(0, 1, 0))
             .setVpDistance(1000).setVpSize(200, 200) //
             .setImageWriter(imageWriter)
-            .useBVH(true)
-            .useCBR(true);
+            .useCBR(false)
+            .useBVH(false);
 
 //            .setMultithreading(3)
 //            .setDebugPrint(0.1);
