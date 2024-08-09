@@ -81,7 +81,25 @@ public class Camera implements Cloneable {
      */
     private boolean useBVH = true;
 
+    /**
+     * Use CBR for rendering
+     */
     private boolean useCBR = false;
+
+    /**
+     * Pixel manager for supporting:
+     * <ul>
+     * <li>multi-threading</li>
+     * <li>debug print of progress percentage in Console window/tab</li>
+     * </ul>
+     */
+    private PixelManager pixelManager;
+
+    /**
+     * Number of threads to use for rendering
+     */
+    private int threadsCount = 4;
+
 
     /**
      * Builder class for constructing a Camera object.
@@ -227,6 +245,19 @@ public class Camera implements Cloneable {
         }
 
         /**
+         * Set the number of threads to use for rendering
+         *
+         * @param threadsCount the number of threads to use for rendering
+         * @return the camera builder
+         */
+        public Builder setMultithreading(int threadsCount) {
+
+            camera.threadsCount = threadsCount;
+            return this;
+        }
+
+
+        /**
          * Builds the Camera object after validating all necessary fields are set.
          *
          * @return the constructed Camera object
@@ -304,11 +335,34 @@ public class Camera implements Cloneable {
 
         int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
-        for (int i = 0; i < nX; i++) {
-            for (int j = 0; j < nY; j++) {
-                castRay(nX, nY, i, j);
-            }
 
+        pixelManager = new PixelManager(nY, nX);
+
+
+
+        if (threadsCount == 0)
+            for (int i = 0; i < nX; i++) {
+                for (int j = 0; j < nY; j++) {
+                    castRay(nX, nY, i, j);
+                }
+            }
+        else { // see further... option 2
+            var threads = new LinkedList<Thread>(); // list of threads
+            while (threadsCount-- > 0) // add appropriate number of threads
+                threads.add(new Thread(() -> { // add a thread with its code
+                    PixelManager.Pixel pixel; // current pixel(row,col)
+                    // allocate pixel(row,col) in loop until there are no more pixels
+                    while ((pixel = pixelManager.nextPixel()) != null)
+                        // cast ray through pixel (and color it – inside castRay)
+                        castRay(nX, nY, pixel.col(), pixel.row());
+                }));
+            // start all the threads
+            for (var thread : threads) thread.start();
+            // wait until all the threads have finished
+            try {
+                for (var thread : threads) thread.join();
+            } catch (InterruptedException ignore) {
+            }
         }
 
         return this;
