@@ -38,52 +38,36 @@ public class BoundingBox {
      * @return true if the ray intersects the bounding box, false otherwise
      */
     public boolean hasIntersections(Ray ray) {
-        double boxMinX = min.getX();
-        double boxMinY = min.getY();
-        double boxMinZ = min.getZ();
-        double boxMaxX = max.getX();
-        double boxMaxY = max.getY();
-        double boxMaxZ = max.getZ();
 
         Point head = ray.getHead();
         Vector direction = ray.getDirection();
-        double headX = head.getX();
-        double headY = head.getY();
-        double headZ = head.getZ();
-        double dirX = direction.getX();
-        double dirY = direction.getY();
-        double dirZ = direction.getZ();
 
-        double tMin = Double.NEGATIVE_INFINITY, tMax = Double.POSITIVE_INFINITY;
+        double[] minCut = {Double.NEGATIVE_INFINITY};
+        double[] maxCut = {Double.POSITIVE_INFINITY};
 
-        if (dirX != 0) {
-            double t1 = (boxMinX - headX) / dirX;
-            double t2 = (boxMaxX - headX) / dirX;
-            tMin = max(tMin, min(t1, t2));
-            tMax = min(tMax, max(t1, t2));
-        } else if (headX <= boxMinX || headX >= boxMaxX) {
+        boolean xIntersect = intersectsOneAxis(direction.getX(), min.getX(), max.getX(), head.getX(), minCut, maxCut);
+        if (!xIntersect) return false;
+
+        boolean yIntersect = intersectsOneAxis(direction.getY(), min.getY(), max.getY(), head.getY(), minCut, maxCut);
+        if (!yIntersect) return false;
+
+        boolean zIntersect = intersectsOneAxis(direction.getZ(), min.getZ(), max.getZ(), head.getZ(), minCut, maxCut);
+        if (!zIntersect) return false;
+
+        return maxCut[0] >= minCut[0];
+
+    }
+
+    boolean intersectsOneAxis(double dir, double boxMin, double boxMax, double head, double[] minCut, double[] maxCut) {
+        if (dir != 0) {
+            double entryPoint = (boxMin - head) / dir;
+            double exitPoint = (boxMax - head) / dir;
+            minCut[0] = Math.max(minCut[0], Math.min(entryPoint, exitPoint));
+            maxCut[0] = Math.min(maxCut[0], Math.max(entryPoint, exitPoint));
+        } else if (head <= boxMin || head >= boxMax) {
             return false;
         }
-
-        if (dirY != 0) {
-            double t1 = (boxMinY - headY) / dirY;
-            double t2 = (boxMaxY - headY) / dirY;
-            tMin = max(tMin, min(t1, t2));
-            tMax = min(tMax, max(t1, t2));
-        } else if (headY <= boxMinY || headY >= boxMaxY) {
-            return false;
-        }
-
-        if (dirZ != 0) {
-            double t1 = (boxMinZ - headZ) / dirZ;
-            double t2 = (boxMaxZ - headZ) / dirZ;
-            tMin = max(tMin, min(t1, t2));
-            tMax = min(tMax, max(t1, t2));
-        } else if (headZ <= boxMinZ || headZ >= boxMaxZ) {
-            return false;
-        }
-
-        return tMax >= tMin;
+        return true;
     }
 
     /**
@@ -120,4 +104,3 @@ public class BoundingBox {
         );
     }
 }
-

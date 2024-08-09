@@ -27,8 +27,7 @@ public class BvhTest {
             .setImageWriter(imageWriter)
             .useCBR(false)
             .useBVH(true)
-            .setMultithreading(10)
-            ;
+            .setMultithreading(10);
 
     private final Scene scene = new Scene("Test scene");
 

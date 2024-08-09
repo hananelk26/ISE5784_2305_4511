@@ -79,12 +79,12 @@ public class Camera implements Cloneable {
     /**
      * Use BVH for rendering
      */
-    private boolean useBVH = true;
+    private boolean usingInBVH = true;
 
     /**
      * Use CBR for rendering
      */
-    private boolean useCBR = false;
+    private boolean usingInCBR = false;
 
     /**
      * Pixel manager for supporting:
@@ -235,12 +235,12 @@ public class Camera implements Cloneable {
          * @return the camera builder
          */
         public Builder useBVH(boolean use) {
-            camera.useBVH = use;
+            camera.usingInBVH = use;
             return this;
         }
 
         public Builder useCBR(boolean use) {
-            camera.useCBR = use;
+            camera.usingInCBR = use;
             return this;
         }
 
@@ -330,15 +330,13 @@ public class Camera implements Cloneable {
      * @return The current Camera instance (for method chaining).
      */
     public Camera renderImage() {
-        if (useBVH) rayTracer.scene.geometries.makeBVH();
-        else if (useCBR) rayTracer.scene.geometries.makeCBR();
+        if (usingInBVH) rayTracer.scene.geometries.makeBVH();
+        else if (usingInCBR) rayTracer.scene.geometries.makeCBR();
 
         int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
 
         pixelManager = new PixelManager(nY, nX);
-
-
 
         if (threadsCount == 0)
             for (int i = 0; i < nX; i++) {
