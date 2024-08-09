@@ -26,10 +26,6 @@ class PixelManager {
      * Maximum columns of pixels
      */
     private int maxCols = 0;
-    /**
-     * Total amount of pixels in the generated image
-     */
-    private long totalPixels = 0;
 
     /**
      * Currently processed row of pixels
@@ -39,34 +35,12 @@ class PixelManager {
      * Currently processed column of pixels
      */
     private volatile int cCol = -1;
-    /**
-     * Amount of pixels that have been processed
-     */
-    private volatile long pixels = 0;
-    /**
-     * Last printed progress update percentage
-     */
-    private volatile int lastPrinted = 0;
 
-    /**
-     * Flag of debug printing of progress percentage
-     */
-    private boolean print = false;
-
-    /**
-     * Printing format
-     */
-    private static final String PRINT_FORMAT = "%5.1f%%\r";
     /**
      * Mutual exclusion object for synchronizing next pixel allocation between
      * threads
      */
     private final Object mutexNext = new Object();
-    /**
-     * Mutual exclusion object for printing progress percentage in console window
-     * by different threads
-     */
-    private final Object mutexPixels = new Object();
 
     /**
      * Initialize pixel manager data for multi-threading
@@ -77,9 +51,6 @@ class PixelManager {
     PixelManager(int maxRows, int maxCols) {
         this.maxRows = maxRows;
         this.maxCols = maxCols;
-        totalPixels = (long) maxRows * maxCols;
-
-
     }
 
     /**
@@ -88,7 +59,7 @@ class PixelManager {
      * is the shared data of this critical section.<br/>
      * The function provides next available pixel number each call.
      *
-     * @return the next pixel if next pixel is allocated, null if there are no more pixels
+     @return the next pixel to be processed, or null if all pixels have been allocated.
      */
     Pixel nextPixel() {
         synchronized (mutexNext) {
@@ -105,5 +76,4 @@ class PixelManager {
         }
         return null;
     }
-
 }

@@ -284,6 +284,9 @@ public class Camera implements Cloneable {
                 throw new MissingResourceException("Missing rendering data", "Camera", "imageWriter");
             if (this.camera.rayTracer == null)
                 throw new MissingResourceException("Missing rendering data", "Camera", "rayTracer");
+
+            if (camera.threadsCount < 0)
+                throw new MissingResourceException("threads count can't be smaller than 0", "Camera","threadsCount");
             try {
 
                 return (Camera) this.camera.clone();
@@ -338,9 +341,7 @@ public class Camera implements Cloneable {
 
         pixelManager = new PixelManager(nY, nX);
 
-
-
-        if (threadsCount == 0)
+        if (threadsCount == 0) // if there are no threads
             for (int i = 0; i < nX; i++) {
                 for (int j = 0; j < nY; j++) {
                     castRay(nX, nY, i, j);

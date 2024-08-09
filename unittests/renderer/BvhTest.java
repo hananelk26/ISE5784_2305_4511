@@ -28,9 +28,11 @@ public class BvhTest {
             .useCBR(false)
             .useBVH(true)
             .setMultithreading(10)
-            ;
+            .setFocalDistance(20)  // Distance to the focal plane
+            .setApertureSize(7)    // Aperture size for depth of field effect
+            .setNumOfRays(100);
 
-    private final Scene scene = new Scene("Test scene");
+    private final Scene scene = new Scene("Test scene").setBackground(new Color(34,34,34));
 
     private static final Color color = new Color(200, 0, 0);
     private static final Material mat = new Material().setKd(0.5).setKs(0.5).setShininess(60);
@@ -1568,13 +1570,36 @@ public class BvhTest {
                 new Triangle(pnts[529], pnts[530], pnts[470]).setEmission(color).setMaterial(mat), //
 
                 // Adding bubbles
-                new Sphere(5,new Point(80, 50, -10)).setEmission(new Color(150, 150, 255)) // Bubble 1
-                        .setMaterial(new Material().setKT(0.9).setKR(0.5).setShininess(30)),
-                new Sphere(4,new Point(70, 55, -5)).setEmission(new Color(150, 150, 255))  // Bubble 3
-                        .setMaterial(new Material().setKT(0.9).setKR(0.5).setShininess(30)),
-            new Sphere(3,new Point(90, 30, -15)).setEmission(new Color(150, 150, 255)) // Bubble 2
-                        .setMaterial(new Material().setKT(0.9).setKR(0.5).setShininess(30))
-                        );
+                new Sphere(4.2, new Point(58, 84, 6)) // Bubble 1
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(50).setKT(0.8).setKR(0.2)),
+                new Sphere(4.8, new Point(81, 86, 6)) // Bubble 2
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(50).setKT(0.8).setKR(0.2)),
+                new Sphere(2.9, new Point(70, 82, 7)) // Bubble 3
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(50).setKT(0.8).setKR(0.2)),
+                new Sphere(4.1, new Point(92, 81, 4)) // Bubble 4
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(50).setKT(0.8).setKR(0.2)),
+                new Sphere(3.6, new Point(65, 70, -4)) // Bubble 5
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(100).setKT(0.8).setKR(0.2)),
+                new Sphere(4.3, new Point(79, 68, -1)) // Bubble 6
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(100).setKT(0.8).setKR(0.2)),
+
+                new Sphere(3.4, new Point(89, 69, -6)) // Bubble 7
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(100).setKT(0.8).setKR(0.2)),
+                new Sphere(3.8, new Point(70, 62, -6)) // Bubble 8
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(100).setKT(0.8).setKR(0.2)),
+
+                new Sphere(3.1, new Point(88, 58, -6)) // Bubble 9
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(100).setKT(0.8).setKR(0.2)),
+                new Sphere(4.2, new Point(78, 53, -4)) // Bubble 10
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(100).setKT(0.8).setKR(0.2)),
+                new Sphere(2.8, new Point(85, 46, -11))  // Bubble 11
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(100).setKT(0.8).setKR(0.2)),
+                new Sphere(2.5, new Point(90, 38, -16)) // Bubble 12
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(100).setKT(0.8).setKR(0.2)),
+                new Sphere(2.3, new Point(84, 35, -16)) // Bubble 13
+                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(100).setKT(0.8).setKR(0.2))
+
+        );
         scene.lights.add(new PointLight(new Point(100, 0, -100),new Color(500, 500, 500)).setKq(0.000001));
 
         camera.setRayTracer(new SimpleRayTracer(scene)).build().renderImage().writeToImage();
