@@ -55,9 +55,21 @@ public class BoundingBox {
         if (!zIntersect) return false;
 
         return maxCut[0] >= minCut[0];
-
     }
 
+    /**
+     * Checks if a ray intersects the bounding box along a specific axis (X, Y, or Z).
+     * This method calculates the entry and exit points of the ray for the given axis
+     * and updates the minimum and maximum intersection distances accordingly.
+     *
+     * @param dir The direction component of the ray along the axis being checked.
+     * @param boxMin The minimum coordinate of the bounding box along the axis.
+     * @param boxMax The maximum coordinate of the bounding box along the axis.
+     * @param head The coordinate of the ray's origin (head) along the axis.
+     * @param minCut An array holding the current minimum intersection distance (updated in-place).
+     * @param maxCut An array holding the current maximum intersection distance (updated in-place).
+     * @return true if the ray intersects the bounding box along the given axis, false otherwise.
+     */
     boolean intersectsOneAxis(double dir, double boxMin, double boxMax, double head, double[] minCut, double[] maxCut) {
         if (dir != 0) {
             double entryPoint = (boxMin - head) / dir;

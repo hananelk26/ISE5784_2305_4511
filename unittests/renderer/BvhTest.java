@@ -18,8 +18,15 @@ import scene.Scene;
  * @author Dan
  */
 public class BvhTest {
+
+    /**
+     * ImageWriter configuration with specified file name and resolution.
+     */
     private final ImageWriter imageWriter = new ImageWriter("teapot", 1000, 1000);
 
+    /**
+     * Camera configuration using a builder pattern.
+     */
     private final Camera.Builder camera = Camera.getBuilder()
             .setLocation(new Point(0, 0, -1000))
             .setDirection(new Vector(0, 0, 1), new Vector(0, 1, 0))
@@ -32,11 +39,24 @@ public class BvhTest {
             .setApertureSize(7)    // Aperture size for depth of field effect
             .setNumOfRays(100);
 
+    /**
+     * Scene configuration with a specified name and background color.
+     */
     private final Scene scene = new Scene("Test scene").setBackground(new Color(34,34,34));
 
+    /**
+     * Defines a static red color with RGB values and a material with diffuse and specular coefficients.
+     */
     private static final Color color = new Color(200, 0, 0);
+
+    /**
+     * Defines a static material with diffuse and specular reflection coefficients and a specified shininess value.
+     */
     private static final Material mat = new Material().setKd(0.5).setKs(0.5).setShininess(60);
 
+    /**
+     * Array of points, with the first element set to null.
+     */
     private static Point[] pnts = new Point[] { null, //
             new Point(40.6266, 28.3457, -1.10804), //
             new Point(40.0714, 30.4443, -1.10804), //

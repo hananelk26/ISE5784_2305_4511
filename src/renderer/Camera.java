@@ -239,6 +239,12 @@ public class Camera implements Cloneable {
             return this;
         }
 
+        /**
+         * Sets the usage of the Constant Background Ray (CBR) feature.
+         *
+         * @param use true to enable CBR; false to disable
+         * @return the builder instance for method chaining
+         */
         public Builder useCBR(boolean use) {
             camera.usingInCBR = use;
             return this;

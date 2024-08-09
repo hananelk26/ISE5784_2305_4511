@@ -96,6 +96,7 @@ public abstract class Intersectable {
      * Helper method to find geometric intersections of the given ray.
      * This method is meant to be implemented by subclasses.
      *
+     * @param maxDistance the distance for ray
      * @param ray the ray to find intersections with
      * @return a list of intersection points, or null if there are no intersections
      */
