@@ -292,7 +292,7 @@ public class Camera implements Cloneable {
                 throw new MissingResourceException("Missing rendering data", "Camera", "rayTracer");
 
             if (camera.threadsCount < 0)
-                throw new MissingResourceException("threads count can't be smaller than 0", "Camera","threadsCount");
+                throw new MissingResourceException("threads count can't be smaller than 0", "Camera", "threadsCount");
             try {
 
                 return (Camera) this.camera.clone();

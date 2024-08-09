@@ -83,6 +83,7 @@ public class Plane extends Geometry {
     }
 
     @Override
-    public void calcBoundingBox() {}
+    public void calcBoundingBox() {
+    }
 
 }

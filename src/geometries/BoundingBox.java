@@ -5,7 +5,6 @@ import primitives.*;
 import static java.lang.Math.*;
 
 
-
 /**
  * Class to represent a bounding box
  */
@@ -62,10 +61,10 @@ public class BoundingBox {
      * This method calculates the entry and exit points of the ray for the given axis
      * and updates the minimum and maximum intersection distances accordingly.
      *
-     * @param dir The direction component of the ray along the axis being checked.
+     * @param dir    The direction component of the ray along the axis being checked.
      * @param boxMin The minimum coordinate of the bounding box along the axis.
      * @param boxMax The maximum coordinate of the bounding box along the axis.
-     * @param head The coordinate of the ray's origin (head) along the axis.
+     * @param head   The coordinate of the ray's origin (head) along the axis.
      * @param minCut An array holding the current minimum intersection distance (updated in-place).
      * @param maxCut An array holding the current maximum intersection distance (updated in-place).
      * @return true if the ray intersects the bounding box along the given axis, false otherwise.

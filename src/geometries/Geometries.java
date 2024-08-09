@@ -82,7 +82,7 @@ public class Geometries extends Intersectable {
             boundingBox = null;
         } else {
             boundingBox = geometries.getFirst().getBoundingBox();
-            for (Intersectable body: geometries) {
+            for (Intersectable body : geometries) {
                 boundingBox = boundingBox.union(body.getBoundingBox());
             }
         }
@@ -120,7 +120,7 @@ public class Geometries extends Intersectable {
         // combine each 4 geometries into a bounding box
         while (geometries.size() >= 4)
             geometries.add(new Geometries(geometries.removeFirst(),
-                    geometries.removeFirst(), geometries.removeFirst(),geometries.removeFirst()));
+                    geometries.removeFirst(), geometries.removeFirst(), geometries.removeFirst()));
 
         geometries.addAll(infiniteGeometries); // combine the infinite geometries back
     }

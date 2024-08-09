@@ -12,6 +12,7 @@ package renderer;
 class PixelManager {
     /**
      * Immutable class for object containing allocated pixel (with its row and column numbers)
+     *
      * @param col the column number of the pixel
      * @param row the row number of the pixel
      */
@@ -45,8 +46,8 @@ class PixelManager {
     /**
      * Initialize pixel manager data for multi-threading
      *
-     * @param maxRows  the amount of pixel rows
-     * @param maxCols  the amount of pixel columns
+     * @param maxRows the amount of pixel rows
+     * @param maxCols the amount of pixel columns
      */
     PixelManager(int maxRows, int maxCols) {
         this.maxRows = maxRows;
@@ -59,7 +60,7 @@ class PixelManager {
      * is the shared data of this critical section.<br/>
      * The function provides next available pixel number each call.
      *
-     @return the next pixel to be processed, or null if all pixels have been allocated.
+     * @return the next pixel to be processed, or null if all pixels have been allocated.
      */
     Pixel nextPixel() {
         synchronized (mutexNext) {

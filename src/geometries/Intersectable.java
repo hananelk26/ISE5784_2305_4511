@@ -97,10 +97,10 @@ public abstract class Intersectable {
      * This method is meant to be implemented by subclasses.
      *
      * @param maxDistance the distance for ray
-     * @param ray the ray to find intersections with
+     * @param ray         the ray to find intersections with
      * @return a list of intersection points, or null if there are no intersections
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double maxDistance);
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
     /**
      * Get the bounding box of this intersect
