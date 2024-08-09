@@ -117,13 +117,12 @@ public class Geometries extends Intersectable {
         // sort geometries based on their bounding box centroids along an axis (e.g. x-axis)
         geometries.sort(Comparator.comparingDouble(g -> g.boundingBox.getCenter().getX()));
 
-        // combine each 3 geometries into a bounding box
-        while (geometries.size() >= 3)
+        // combine each 4 geometries into a bounding box
+        while (geometries.size() >= 4)
             geometries.add(new Geometries(geometries.removeFirst(),
-                    geometries.removeFirst(), geometries.removeFirst()));
+                    geometries.removeFirst(), geometries.removeFirst(),geometries.removeFirst()));
 
         geometries.addAll(infiniteGeometries); // combine the infinite geometries back
-        //this.calcBoundingBox(); // recalculate the bounding box because the geometries have changed
     }
 
 }
