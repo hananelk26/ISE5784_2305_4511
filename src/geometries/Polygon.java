@@ -57,8 +57,6 @@ public class Polygon extends Geometry {
         this.vertices = List.of(vertices);
         size = vertices.length;
 
-        calcBoundingBox();
-
         // Generate the plane according to the first three vertices and associate the
         // polygon with this plane.
         // The plane holds the invariant normal (orthogonal unit) vector to the polygon

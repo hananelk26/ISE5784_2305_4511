@@ -28,7 +28,6 @@ public class Sphere extends RadialGeometry {
     public Sphere(double radius, Point center) {
         super(radius);
         this.center = center;
-        calcBoundingBox();
     }
 
     @Override

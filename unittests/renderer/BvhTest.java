@@ -18,7 +18,7 @@ import scene.Scene;
  * @author Dan
  */
 public class BvhTest {
-    private final ImageWriter imageWriter = new ImageWriter("teapot", 800, 800);
+    private final ImageWriter imageWriter = new ImageWriter("teapot", 1400, 1400);
 
     private final Camera.Builder camera = Camera.getBuilder()
             .setLocation(new Point(0, 0, -1000))
@@ -26,7 +26,7 @@ public class BvhTest {
             .setVpDistance(1000).setVpSize(200, 200) //
             .setImageWriter(imageWriter)
             .useCBR(false)
-            .useBVH(false);
+            .useBVH(true);
 
 //            .setMultithreading(3)
 //            .setDebugPrint(0.1);
