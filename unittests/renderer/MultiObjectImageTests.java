@@ -26,7 +26,8 @@ public class MultiObjectImageTests {
             .setRayTracer(new SimpleRayTracer(scene))
             .setLocation(new Point(0, 0, -100))  // Move the camera further back
             .setDirection(new Vector(0, -1, 0), new Vector(0, 0, 1))
-            .setVpSize(500, 500).setVpDistance(200);
+            .setVpSize(500, 500).setVpDistance(200)
+            .setMultithreading(0);
 
     /**
      * points for scene
@@ -264,7 +265,6 @@ public class MultiObjectImageTests {
         scene.lights.add(new PointLight(new Point(-30, -200, -180), new Color(YELLOW)));
         camera.setRayTracer(new SimpleRayTracer(scene)).setImageWriter(new ImageWriter("try", 720, 850))
                 .build().renderImage().writeToImage();
-
 
     }
 }

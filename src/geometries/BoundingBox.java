@@ -41,19 +41,19 @@ public class BoundingBox {
         Point head = ray.getHead();
         Vector direction = ray.getDirection();
 
-        double[] minCut = {Double.NEGATIVE_INFINITY};
-        double[] maxCut = {Double.POSITIVE_INFINITY};
+        double[] tMin = {Double.NEGATIVE_INFINITY};
+        double[] tMax = {Double.POSITIVE_INFINITY};
 
-        boolean xIntersect = intersectsOneAxis(direction.getX(), min.getX(), max.getX(), head.getX(), minCut, maxCut);
+        boolean xIntersect = intersectsOneAxis(direction.getX(), min.getX(), max.getX(), head.getX(), tMin, tMax);
         if (!xIntersect) return false;
 
-        boolean yIntersect = intersectsOneAxis(direction.getY(), min.getY(), max.getY(), head.getY(), minCut, maxCut);
+        boolean yIntersect = intersectsOneAxis(direction.getY(), min.getY(), max.getY(), head.getY(), tMin, tMax);
         if (!yIntersect) return false;
 
-        boolean zIntersect = intersectsOneAxis(direction.getZ(), min.getZ(), max.getZ(), head.getZ(), minCut, maxCut);
+        boolean zIntersect = intersectsOneAxis(direction.getZ(), min.getZ(), max.getZ(), head.getZ(), tMin, tMax);
         if (!zIntersect) return false;
 
-        return maxCut[0] >= minCut[0];
+        return tMax[0] >= tMin[0];
     }
 
     /**
@@ -65,20 +65,19 @@ public class BoundingBox {
      * @param boxMin The minimum coordinate of the bounding box along the axis.
      * @param boxMax The maximum coordinate of the bounding box along the axis.
      * @param head   The coordinate of the ray's origin (head) along the axis.
-     * @param minCut An array holding the current minimum intersection distance (updated in-place).
-     * @param maxCut An array holding the current maximum intersection distance (updated in-place).
+     * @param tMin An array holding the current minimum intersection distance (updated in-place).
+     * @param tMax An array holding the current maximum intersection distance (updated in-place).
      * @return true if the ray intersects the bounding box along the given axis, false otherwise.
      */
-    boolean intersectsOneAxis(double dir, double boxMin, double boxMax, double head, double[] minCut, double[] maxCut) {
+    boolean intersectsOneAxis(double dir, double boxMin, double boxMax, double head, double[] tMin, double[] tMax) {
         if (dir != 0) {
-            double entryPoint = (boxMin - head) / dir;
-            double exitPoint = (boxMax - head) / dir;
-            minCut[0] = Math.max(minCut[0], Math.min(entryPoint, exitPoint));
-            maxCut[0] = Math.min(maxCut[0], Math.max(entryPoint, exitPoint));
-        } else if (head <= boxMin || head >= boxMax) {
-            return false;
+            double tEntry = (boxMin - head) / dir;
+            double tExit = (boxMax - head) / dir;
+            tMin[0] = max(tMin[0], min(tEntry, tExit));
+            tMax[0] = min(tMax[0], max(tEntry, tExit));
+            return true;
         }
-        return true;
+        return head > boxMin && head < boxMax;
     }
 
     /**

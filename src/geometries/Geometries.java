@@ -109,8 +109,8 @@ public class Geometries extends Intersectable {
      * Build the geometries as a BVH
      */
     private void buildBVH() {
-        // extract infinite geometries into a separate list
-        List<Intersectable> infiniteGeometries = geometries.stream()
+        // extract geometries without bounding boxes into a separate list
+        List<Intersectable> unboundedGeometries = geometries.stream()
                 .filter(g -> g.boundingBox == null)
                 .peek(geometries::remove).toList();
 
@@ -118,11 +118,18 @@ public class Geometries extends Intersectable {
         geometries.sort(Comparator.comparingDouble(g -> g.boundingBox.getCenter().getX()));
 
         // combine each 4 geometries into a bounding box
-        while (geometries.size() >= 4)
-            geometries.add(new Geometries(geometries.removeFirst(),
-                    geometries.removeFirst(), geometries.removeFirst(), geometries.removeFirst()));
+        while (geometries.size() >= 4) {
+            List<Intersectable> group = new LinkedList<>();
+            for (int i = 0; i < 4; i++) {
+                group.add(geometries.removeFirst());
+            }
+            geometries.add(new Geometries(group.toArray(new Intersectable[0])));
+        }
 
-        geometries.addAll(infiniteGeometries); // combine the infinite geometries back
+
+        // combine the unbounded geometries back
+        geometries.addAll(unboundedGeometries);
+
     }
 
 }
