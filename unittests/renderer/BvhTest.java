@@ -1,8 +1,8 @@
 package renderer;
 
-import static java.awt.Color.YELLOW;
-
 import geometries.Sphere;
+import lighting.DirectionalLight;
+import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import geometries.Triangle;
 import lighting.PointLight;
@@ -11,6 +11,8 @@ import primitives.Material;
 import primitives.Point;
 import primitives.Vector;
 import scene.Scene;
+
+import static java.awt.Color.*;
 
 /**
  * Test rendering an image
@@ -42,7 +44,7 @@ public class BvhTest {
     /**
      * Scene configuration with a specified name and background color.
      */
-    private final Scene scene = new Scene("Test scene").setBackground(new Color(34,34,34));
+    private final Scene scene = new Scene("Test scene").setBackground(new Color(34, 34, 34));
 
     /**
      * Defines a static red color with RGB values and a material with diffuse and specular coefficients.
@@ -57,7 +59,7 @@ public class BvhTest {
     /**
      * Array of points, with the first element set to null.
      */
-    private static Point[] pnts = new Point[] { null, //
+    private static Point[] pnts = new Point[]{null, //
             new Point(40.6266, 28.3457, -1.10804), //
             new Point(40.0714, 30.4443, -1.10804), //
             new Point(40.7155, 31.1438, -1.10804), //
@@ -1620,7 +1622,9 @@ public class BvhTest {
                         .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(100).setKT(0.8).setKR(0.2))
 
         );
-        scene.lights.add(new PointLight(new Point(100, 0, -100),new Color(500, 500, 500)).setKq(0.000001));
+        scene.lights.add(new PointLight(new Point(100, 0, -100), new Color(500, 500, 500)).setKq(0.000001));
+        scene.lights.add(new DirectionalLight(new Vector(1, 1, 0), new Color(WHITE)));
+        scene.lights.add((new SpotLight(new Vector(0, 0, 1), new Point(70, 50, -100), new Color(BLUE))).setNarrowBeam(10));
 
         camera.setRayTracer(new SimpleRayTracer(scene)).build().renderImage().writeToImage();
     }

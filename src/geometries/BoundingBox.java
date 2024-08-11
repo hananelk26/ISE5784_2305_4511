@@ -65,8 +65,8 @@ public class BoundingBox {
      * @param boxMin The minimum coordinate of the bounding box along the axis.
      * @param boxMax The maximum coordinate of the bounding box along the axis.
      * @param head   The coordinate of the ray's origin (head) along the axis.
-     * @param tMin An array holding the current minimum intersection distance (updated in-place).
-     * @param tMax An array holding the current maximum intersection distance (updated in-place).
+     * @param tMin   An array holding the current minimum intersection distance (updated in-place).
+     * @param tMax   An array holding the current maximum intersection distance (updated in-place).
      * @return true if the ray intersects the bounding box along the given axis, false otherwise.
      */
     boolean intersectsOneAxis(double dir, double boxMin, double boxMax, double head, double[] tMin, double[] tMax) {
